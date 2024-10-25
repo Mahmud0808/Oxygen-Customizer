@@ -762,6 +762,7 @@
     <string name="lockscreen_clock_custom_format_dmessage">For format documentation, search for "Java Date Format"</string>
     <string name="lockscreen_clock_custom_user">Use Custom User Name</string>
     <string name="lockscreen_clock_custom_user_title">User Name</string>
+    <string name="lockscreen_clock_custom_user_summary">Set custom user name.\nKeep blank to disable</string>
     <string name="lockscreen_clock_custom_user_image">Use Custom User Image</string>
     <string name="lockscreen_clock_custom_user_image_title">User Image</string>
     <string name="lockscreen_clock_custom_user_image_summary">Click to pick an image.</string>

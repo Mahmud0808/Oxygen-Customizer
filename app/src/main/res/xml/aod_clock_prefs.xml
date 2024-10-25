@@ -93,16 +93,16 @@
             android:title="@string/lockscreen_clock_custom_format_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
-            android:key="aod_clock_custom_user_switch"
-            android:summaryOff="@string/general_off"
-            android:summaryOn="@string/general_on"
-            android:title="@string/aod_clock_custom_user"
-            app:iconSpaceReserved="false" />
-
         <it.dhd.oxygencustomizer.ui.preferences.OplusEditTextPreference
             android:defaultValue="User"
             android:key="aod_clock_custom_user"
+            android:title="@string/aod_clock_custom_user_title"
+            app:iconSpaceReserved="false"
+            app:useSimpleSummaryProvider="true" />
+
+        <it.dhd.oxygencustomizer.ui.preferences.OplusEditTextPreference
+            android:defaultValue="User"
+            android:key="aod_clock_custom_device"
             android:title="@string/aod_clock_custom_user_title"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />

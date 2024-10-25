@@ -14,9 +14,9 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenCloc
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_COLOR_CODE_TEXT1;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_COLOR_CODE_TEXT2;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_COLOR_SWITCH;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_DEVICE_VALUE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_FONT;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_IMAGE;
-import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_USER;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_USER_IMAGE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_USER_VALUE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_DATE_FORMAT;
@@ -110,8 +110,7 @@ public class LockscreenClock extends XposedMods {
     private float clockScale;
     private int lineHeight;
     private boolean customFontEnabled;
-    private boolean useCustomName;
-    private String customName;
+    private String customName, customDeviceName;
     private boolean useCustomUserImage;
     private boolean useCustomImage;
     private String mCustomDateFormat = "";
@@ -190,8 +189,8 @@ public class LockscreenClock extends XposedMods {
         clockScale = Xprefs.getSliderFloat(LOCKSCREEN_CLOCK_TEXT_SCALING, 1.0f);
         lineHeight = Xprefs.getSliderInt(LOCKSCREEN_CLOCK_LINE_HEIGHT, 0);
         customFontEnabled = Xprefs.getBoolean(LOCKSCREEN_CLOCK_CUSTOM_FONT, false);
-        useCustomName = Xprefs.getBoolean(LOCKSCREEN_CLOCK_CUSTOM_USER, false);
-        customName = Xprefs.getString(LOCKSCREEN_CLOCK_CUSTOM_USER_VALUE, getUserName());
+        customName = Xprefs.getString(LOCKSCREEN_CLOCK_CUSTOM_USER_VALUE, "");
+        customDeviceName = Xprefs.getString(LOCKSCREEN_CLOCK_CUSTOM_DEVICE_VALUE, "");
         useCustomUserImage = Xprefs.getBoolean(LOCKSCREEN_CLOCK_CUSTOM_USER_IMAGE, false);
         useCustomImage = Xprefs.getBoolean(LOCKSCREEN_CLOCK_CUSTOM_IMAGE, false);
         mCustomDateFormat = Xprefs.getString(LOCKSCREEN_CLOCK_DATE_FORMAT, "");
@@ -467,8 +466,8 @@ public class LockscreenClock extends XposedMods {
                 mVolumeProgress = (ProgressBar) findViewWithTag(clockView, "volume_progressbar");
             }
             case 7 -> {
-                TextView usernameView = (TextView) findViewWithTag(clockView, "summary");
-                usernameView.setText(useCustomName ? customName : getUserName());
+                TextView usernameView = (TextView) findViewWithTag(clockView, "username");
+                usernameView.setText(customName.isEmpty() ? getUserName() : customName);
                 ImageView imageView = (ImageView) findViewWithTag(clockView, "user_profile_image");
                 imageView.setImageDrawable(useCustomUserImage ? getCustomUserImage() : getUserImage());
             }
@@ -480,7 +479,7 @@ public class LockscreenClock extends XposedMods {
 
                 mBatteryProgress.setProgressTintList(ColorStateList.valueOf(customColor ? accent1 : getPrimaryColor(mContext)));
 
-                ((TextView) findViewWithTag(clockView, "device_name")).setText(Build.MODEL);
+                ((TextView) findViewWithTag(clockView, "device_name")).setText(customDeviceName.isEmpty() ? Build.MODEL : customDeviceName);
             }
             case 25 -> {
                 ImageView imageView = (ImageView) findViewWithTag(clockView, "custom_image");

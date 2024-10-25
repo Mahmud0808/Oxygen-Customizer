@@ -25,7 +25,8 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_C
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_COLOR_CODE_TEXT1;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_COLOR_CODE_TEXT2;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_COLOR_SWITCH;
-import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_USER;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_DEVICE_VALUE;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_USER_VALUE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_LINE_HEIGHT;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_SWITCH;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_TEXT_SCALING;
@@ -66,6 +67,9 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.BatteryPrefs.C
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.BatteryPrefs.CUSTOM_BATTERY_WIDTH;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.Lockscreen.LOCKSCREEN_FINGERPRINT_SCALING;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_BOTTOM_MARGIN;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_DEVICE_VALUE;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_USER_IMAGE;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_USER_VALUE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_DATE_FORMAT;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_IMAGES;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_LINE_HEIGHT;
@@ -181,6 +185,14 @@ public class PreferenceHelper {
 
     private final List<Integer> QsClockDateFormat = new ArrayList<>() {{
         addAll(Arrays.asList(1, 2, 3, 4, 7));
+    }};
+
+    private final List<Integer> LsClockUserVisible = new ArrayList<>() {{
+       add(7);
+    }};
+
+    private final List<Integer> LsClockDeviceVisible = new ArrayList<>() {{
+        add(19);
     }};
 
     public static void init(ExtendedSharedPreferences prefs) {
@@ -550,12 +562,14 @@ public class PreferenceHelper {
                  "lockscreen_clock_color_code_text2" -> {
                 return instance.mPreferences.getBoolean("lockscreen_custom_color_switch", false);
             }
-            case "lockscreen_clock_custom_user_switch",
-                 "lockscreen_clock_custom_user_image" -> {
+            case LOCKSCREEN_CLOCK_CUSTOM_USER_IMAGE -> {
                 return instance.mPreferences.getInt("lockscreen_custom_clock_style", 0) == 7;
             }
-            case "lockscreen_clock_custom_user" -> {
-                return isVisible("lockscreen_clock_custom_user_switch") && instance.mPreferences.getBoolean("lockscreen_clock_custom_user_switch", false);
+            case LOCKSCREEN_CLOCK_CUSTOM_USER_VALUE -> {
+                return instance.LsClockUserVisible.contains(instance.mPreferences.getInt("lockscreen_custom_clock_style", 0));
+            }
+            case LOCKSCREEN_CLOCK_CUSTOM_DEVICE_VALUE -> {
+                return instance.LsClockDeviceVisible.contains(instance.mPreferences.getInt("lockscreen_custom_clock_style", 0));
             }
             case "lockscreen_clock_custom_user_image_picker" -> {
                 return isVisible("lockscreen_clock_custom_user_image") && instance.mPreferences.getBoolean("lockscreen_clock_custom_user_image", false);
@@ -646,15 +660,17 @@ public class PreferenceHelper {
                  AOD_CLOCK_COLOR_CODE_TEXT2 -> {
                 return instance.mPreferences.getBoolean(AOD_CLOCK_CUSTOM_COLOR_SWITCH, false);
             }
-            case AOD_CLOCK_CUSTOM_USER,
-                 "aod_clock_custom_user_image" -> {
+            case "aod_clock_custom_user_image" -> {
                 return instance.mPreferences.getInt("aod_custom_clock_style", 0) == 7;
             }
-            case "aod_clock_custom_user" -> {
-                return instance.mPreferences.getBoolean(AOD_CLOCK_CUSTOM_USER, false);
+            case AOD_CLOCK_CUSTOM_USER_VALUE -> {
+                return instance.LsClockUserVisible.contains(instance.mPreferences.getInt("aod_custom_clock_style", 0));
+            }
+            case AOD_CLOCK_CUSTOM_DEVICE_VALUE -> {
+                return instance.LsClockDeviceVisible.contains(instance.mPreferences.getInt("aod_custom_clock_style", 0));
             }
             case "aod_clock_custom_user_image_picker" -> {
-                return instance.mPreferences.getBoolean("aod_clock_custom_user_image", false);
+                return isVisible("aod_clock_custom_user_image") && instance.mPreferences.getBoolean("aod_clock_custom_user_image", false);
             }
             case "aod_clock_font_custom" -> {
                 return instance.mPreferences.getBoolean("aod_custom_font", false);

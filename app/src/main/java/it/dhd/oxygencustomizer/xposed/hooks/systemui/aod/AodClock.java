@@ -11,9 +11,9 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_C
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_COLOR_CODE_TEXT1;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_COLOR_CODE_TEXT2;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_COLOR_SWITCH;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_DEVICE_VALUE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_FONT;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_IMAGE;
-import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_USER;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_USER_IMAGE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_USER_VALUE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_DATE_FORMAT;
@@ -83,8 +83,9 @@ public class AodClock extends XposedMods {
     private Context appContext;
     private boolean mAodClockEnabled = false;
     private int accent1, accent2, accent3, text1, text2;
-    private boolean mCustomColor, mCustomFont, mCustomImage, mCustomUser, mCustomUserImage;
+    private boolean mCustomColor, mCustomFont, mCustomImage, mCustomUserImage;
     private String mCustomUserName;
+    private String mCustomDeviceName;
     private float mClockScale;
     private String mCustomDateFormat;
     private int mLineHeight;
@@ -138,7 +139,7 @@ public class AodClock extends XposedMods {
         mCustomFont = Xprefs.getBoolean(AOD_CLOCK_CUSTOM_FONT, false);
         mCustomColor = Xprefs.getBoolean(AOD_CLOCK_CUSTOM_COLOR_SWITCH, false);
         mCustomImage = Xprefs.getBoolean(AOD_CLOCK_CUSTOM_IMAGE, false);
-        mCustomUser = Xprefs.getBoolean(AOD_CLOCK_CUSTOM_USER, false);
+        mCustomDeviceName = Xprefs.getString(AOD_CLOCK_CUSTOM_DEVICE_VALUE, "");
         mCustomUserName = Xprefs.getString(AOD_CLOCK_CUSTOM_USER_VALUE, "");
         mCustomUserImage = Xprefs.getBoolean(AOD_CLOCK_CUSTOM_USER_IMAGE, false);
         mClockScale = Xprefs.getSliderFloat(AOD_CLOCK_TEXT_SCALING, 1.0f);
@@ -282,7 +283,7 @@ public class AodClock extends XposedMods {
             }
             case 7 -> {
                 TextView usernameView = (TextView) findViewWithTag(clockView, "summary");
-                usernameView.setText(mCustomUser ? mCustomUserName : getUserName());
+                usernameView.setText(mCustomUserName.isEmpty() ? getUserName() : mCustomUserName);
                 ImageView imageView = (ImageView) findViewWithTag(clockView, "user_profile_image");
                 imageView.setImageDrawable(mCustomUserImage ? getCustomUserImage() : getUserImage());
             }
@@ -294,7 +295,7 @@ public class AodClock extends XposedMods {
 
                 mBatteryProgress.setProgressTintList(ColorStateList.valueOf(mCustomColor ? accent1 : getPrimaryColor(mContext)));
 
-                ((TextView) findViewWithTag(clockView, "device_name")).setText(Build.MODEL);
+                ((TextView) findViewWithTag(clockView, "device_name")).setText(mCustomDeviceName.isEmpty() ? Build.MODEL : mCustomDeviceName);
             }
             case 25 -> {
                 ImageView imageView = (ImageView) findViewWithTag(clockView, "custom_image");

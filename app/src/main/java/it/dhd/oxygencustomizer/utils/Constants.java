@@ -426,8 +426,8 @@ public final class Constants {
             public static final String LOCKSCREEN_CLOCK_COLOR_CODE_ACCENT3 = "lockscreen_clock_color_code_accent3";
             public static final String LOCKSCREEN_CLOCK_COLOR_CODE_TEXT1 = "lockscreen_clock_color_code_text1";
             public static final String LOCKSCREEN_CLOCK_COLOR_CODE_TEXT2 = "lockscreen_clock_color_code_text2";
-            public static final String LOCKSCREEN_CLOCK_CUSTOM_USER = "lockscreen_clock_custom_user_switch";
             public static final String LOCKSCREEN_CLOCK_CUSTOM_USER_VALUE = "lockscreen_clock_custom_user";
+            public static final String LOCKSCREEN_CLOCK_CUSTOM_DEVICE_VALUE = "lockscreen_clock_custom_device";
             public static final String LOCKSCREEN_CLOCK_CUSTOM_USER_IMAGE = "lockscreen_clock_custom_user_image";
             public static final String LOCKSCREEN_CLOCK_CUSTOM_IMAGE = "lockscreen_clock_custom_image_switch";
             public static final String LOCKSCREEN_CLOCK_DATE_FORMAT = "lockscreen_clock_custom_format";
@@ -497,8 +497,8 @@ public final class Constants {
             public static final String AOD_CLOCK_COLOR_CODE_ACCENT3 = "aod_clock_color_code_accent3";
             public static final String AOD_CLOCK_COLOR_CODE_TEXT1 = "aod_clock_color_code_text1";
             public static final String AOD_CLOCK_COLOR_CODE_TEXT2 = "aod_clock_color_code_text2";
-            public static final String AOD_CLOCK_CUSTOM_USER = "aod_clock_custom_user_switch";
             public static final String AOD_CLOCK_CUSTOM_USER_VALUE = "aod_clock_custom_user";
+            public static final String AOD_CLOCK_CUSTOM_DEVICE_VALUE = "aod_clock_custom_device";
             public static final String AOD_CLOCK_CUSTOM_USER_IMAGE = "aod_clock_custom_user_image";
             public static final String AOD_CLOCK_CUSTOM_IMAGE = "aod_clock_custom_image_switch";
             public static final String AOD_CLOCK_DATE_FORMAT = "aod_clock_custom_format";
