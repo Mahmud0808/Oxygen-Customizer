@@ -94,8 +94,10 @@
     <string name="bottom">أسفل</string>
     <string name="reset">إعادة تعيين</string>
     <string name="lang_follow_system">اتبع النظام</string>
+    <string name="pick_font_title">اختر خطاً</string>
     <!-- Image Crop Strings -->
     <string name="pick_image">اختر صورة</string>
+    <string name="pick_image_summary">اضغط لاختيار صورة</string>
     <!-- Search Preference -->
     <string name="searchpreference_search">بحث…</string>
     <string name="searchpreference_clear">مسح</string>
@@ -121,6 +123,7 @@
     <string name="qs_header_title">عنوان الإعدادات السريعة</string>
     <string name="sound">الصوت</string>
     <string name="misc">متنوعات</string>
+    <string name="colors">ألوان</string>
     <string name="package_manager">مدير الحزم</string>
     <!-- General Strings -->
     <string name="general_on">تشغيل</string>
@@ -130,6 +133,9 @@
     <string name="black_color">أسود</string>
     <string name="custom_color">لون مخصص</string>
     <string name="battery_info_button_title">معلومات البطارية…</string>
+    <string name="general_enabled">مفعل</string>
+    <string name="general_disabled">معطل</string>
+    <string name="requires_reboot">يتطلب إعادة تشغيل</string>
     <!-- Statusbar Strings -->
     <string name="statusbar_options">خيارات شريط الحالة</string>
     <string name="statusbar_double_tap_sleep">نقر مزدوج للنوم</string>
@@ -659,8 +665,11 @@
     <string name="depth_wallpaper_title">خلفية بتأثير العمق</string>
     <string name="depth_wallpaper_summary">دمج ديناميكي لواجهة الخلفية مع الساعة</string>
     <string name="depth_wallpaper_mode_title">وضع خلفية العمق</string>
+    <string name="depth_wallpaper_ai_status">حالة الذكاء الاصطناعي</string>
+    <string name="depth_wallpaper_plugin_installed">تم تثبيت إضافة الذكاء الإصطناعي</string>
     <string name="depth_wallpaper_mode_ai">الذكاء الإصطناعي</string>
     <string name="depth_wallpaper_mode_custom_images">صورة مخصصة</string>
+    <string name="depth_wallpaper_mode_ai_plugin">ذكاء اصطناعي (محلي)</string>
     <string name="depth_wallpaper_opacity_title">شفافية واجهة الخلفية</string>
     <string name="depth_wallpaper_aod_title">أيضًا على \"الشاشة دائمًا قيد التشغيل\"</string>
     <string name="depth_wallpaper_pick_background_title">اختيار الخلفية</string>
@@ -716,6 +725,7 @@
     <string name="lockscreen_stock_clock_red_one_title">سلوك الرقم الأحمر واحد</string>
     <string name="lockscreen_stock_clock_red_one_disable">تعطيل الرقم الأحمر واحد</string>
     <string name="lockscreen_stock_clock_red_one_color">لون الرقم 1 في الساعة</string>
+    <string name="welcome_back">مرحباً بعودتك</string>
     <string name="default_user_name">مستخدم</string>
     <!-- Lockscreen 9 Strings -->
     <string name="lockscreen_9_time_title">الوقت هو</string>
@@ -922,6 +932,7 @@
     <string name="export_failed">فشل التصدير</string>
     <string name="import_success">تم الاستيراد بنجاح</string>
     <string name="import_failed">فشل الاستيراد</string>
+    <string name="more_logging_title">المزيد من التسجيل</string>
     <string name="settings_about_section_title">حول</string>
     <string name="github_repo_title">مستودع GitHub</string>
     <string name="support_group_title">مجموعة الدعم</string>
@@ -1064,6 +1075,7 @@
     <string name="settings_icons_customized">مخصص افتراضي</string>
     <string name="settings_icons_pui">PUI</string>
     <string name="settings_icons_pui_v2">PUI v2</string>
+    <string name="settings_icons_pui_v3">PUI v3</string>
     <string name="settings_bg_color">لون الخلفية</string>
     <string name="settings_bg_use_solid">خلفية صلبة</string>
     <string name="settings_bg_shape">شكل الخلفية</string>
@@ -1156,11 +1168,31 @@
     <!-- Caffeine -->
     <string name="caffeine">كافيين</string>
     <!-- Colors Fragment -->
+    <string name="primary_color">اللون الأساسي</string>
+    <string name="apply_color">تطبيق اللون</string>
     <!-- Pocket Studio -->
     <string name="pocket_studio">Pocket Studio</string>
     <string name="pocket_studio_title">تمكين Pocket Studio</string>
     <string name="pocket_studio_summary">تمكين Pocked Studio على جهازك يتطلب إعادة تشغيل.</string>
     <string name="pocket_studio_info">Pocket Studio يسمح بفتح أكثر من تطبيقين في نفس الوقت. ليس مضمونا أن هذه الميزة ستعمل على أجهزتك: إنها تفرض فقط على الميزة أن تكون ممكنة.</string>
     <!-- OTA Card -->
+    <string name="ota_card_category">بطاقة OTA</string>
+    <string name="ota_card_title">صورة بطاقة OTA مخصصة</string>
     <!-- MEMC Strings -->
+    <string name="pwx7_enabled">PWX7 مفعل</string>
+    <string name="memc_enabled">MEMC مفعل</string>
+    <string name="memc_mode">وضع MEMC</string>
+    <string name="force_memc_enabled">فرض تمكين MEMC</string>
+    <string name="custom_memc_config_title">إعداد تكوين MEMC مخصص</string>
+    <string name="custom_memc_configuration_title">تخصيص MEMC</string>
+    <string name="memc_refresh_rate">معدل التحديث: %s</string>
+    <string name="memc_params">إعدادات تكوين MEMC: %s</string>
+    <string name="applications">تطبيقات</string>
+    <string name="activities">أنشطة</string>
+    <string name="add_activity">إضافة نشاط</string>
+    <string name="add_app">أضف تطبيقًا</string>
+    <string name="select_app">حدد التطبيق</string>
+    <string name="memc_config_error">إعدادات تكوبن Memc فارغة!</string>
+    <string name="refresh_rate_error">تحديث المعدل فارغ!</string>
+    <string name="memc_footer">إذا لم يكن جهازك يحتوي على رقاقة Pixelwork أو لا يدعم Memc، لا تلمس تقترب من تلك الإعدادات.</string>
 </resources>

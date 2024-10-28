@@ -670,8 +670,12 @@
     <string name="depth_wallpaper_title">Обои с эффектом глубины</string>
     <string name="depth_wallpaper_summary">Динамически интегрируйте передний план обоев с часами</string>
     <string name="depth_wallpaper_mode_title">Режим обоев «Глубина»</string>
+    <string name="depth_wallpaper_ai_status">Статус ИИ</string>
+    <string name="depth_wallpaper_plugin_installed">Плагин ИИ установлен</string>
+    <string name="depth_wallpaper_plugin_not_installed">Плагин ИИ не установлен.\nНажмите, чтобы загрузить.</string>
     <string name="depth_wallpaper_mode_ai">ИИ</string>
     <string name="depth_wallpaper_mode_custom_images">Пользовательские изображения</string>
+    <string name="depth_wallpaper_mode_ai_plugin">ИИ (локальный)</string>
     <string name="depth_wallpaper_opacity_title">Непрозрачность обоев на переднем плане</string>
     <string name="depth_wallpaper_aod_title">Также в режиме «Всегда на экране»</string>
     <string name="depth_wallpaper_pick_background_title">Выбрать фон</string>
@@ -727,6 +731,7 @@
     <string name="lockscreen_stock_clock_red_one_title">Настройки стиля 1+</string>
     <string name="lockscreen_stock_clock_red_one_disable">Отключение красного цвета</string>
     <string name="lockscreen_stock_clock_red_one_color">Цвет в течение 1 часа</string>
+    <string name="welcome_back">С возвращением</string>
     <string name="default_user_name">Пользователь</string>
     <!-- Lockscreen 9 Strings -->
     <string name="lockscreen_9_time_title">Время</string>

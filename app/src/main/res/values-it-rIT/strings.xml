@@ -727,6 +727,7 @@
     <string name="lockscreen_stock_clock_red_one_title">Comportamento Uno rosso</string>
     <string name="lockscreen_stock_clock_red_one_disable">Disabilita Uno Rosso</string>
     <string name="lockscreen_stock_clock_red_one_color">Colore per 1 in Orologio</string>
+    <string name="welcome_back">Bentornato</string>
     <string name="default_user_name">Utente</string>
     <!-- Lockscreen 9 Strings -->
     <string name="lockscreen_9_time_title">Il tempo è</string>
