@@ -81,7 +81,7 @@ public class OplusSliderPreference extends OplusPreference {
         }
         if (TextUtils.isEmpty(decimalFormat) || decimalFormat.equals("null")) decimalFormat = "#.#";
         outputScale = a.getFloat(R.styleable.SliderPreference_outputScale, 1f);
-        String defaultValStr = a.getString(androidx.preference.R.styleable.Preference_defaultValue);
+        String defaultValStr = a.getString(R.styleable.Preference_defaultValue);
 
         try {
             Scanner scanner = new Scanner(defaultValStr);
@@ -91,8 +91,8 @@ public class OplusSliderPreference extends OplusPreference {
             while (scanner.hasNext()) {
                 defaultValue.add(scanner.nextFloat());
             }
-        } catch (Exception ignored) {
-            Log.e(TAG, String.format("OplusSliderPreference: Error parsing default values for key: %s", getKey()));
+        } catch (Exception ex) {
+            Log.e(TAG, String.format("OplusSliderPreference: Error parsing default values for key: %s\n" + ex.getMessage(), getKey()));
         }
 
         a.recycle();
@@ -220,8 +220,8 @@ public class OplusSliderPreference extends OplusPreference {
 
         slider.setLabelFormatter(labelFormatter);
 
+        mResetButton = (MaterialButton) holder.findViewById(R.id.reset_button);
         if (showResetButton) {
-            mResetButton = (MaterialButton) holder.findViewById(R.id.reset_button);
             mResetButton.setVisibility(View.VISIBLE);
             mResetButton.setOnClickListener(v -> {
                 handleResetButton();
@@ -305,7 +305,10 @@ public class OplusSliderPreference extends OplusPreference {
 
         if (showResetButton) {
             mResetButton.setVisibility(View.VISIBLE);
-            mResetButton.setEnabled(isEnabled() && !Objects.equals(slider.getValues().get(0), defaultValue.get(0)));
+            List<Float> sliderValues = slider.getValues();
+            if (!sliderValues.isEmpty() && !defaultValue.isEmpty()) {
+                mResetButton.setEnabled(isEnabled() && !Objects.equals(slider.getValues().get(0), defaultValue.get(0)));
+            }
         } else {
             mResetButton.setVisibility(View.GONE);
         }
