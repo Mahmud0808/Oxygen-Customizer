@@ -48,13 +48,13 @@ public class LockscreenClockFragment extends ClockPickerFragment {
     }
 
     @Override
-    public boolean shouldLoadWallpaper() {
-        return true;
+    public ControlledPreferenceFragmentCompat getPreferenceFragment() {
+        return mFragment;
     }
 
     @Override
-    public ControlledPreferenceFragmentCompat getPreferenceFragment() {
-        return mFragment;
+    public PREVIEW_TYPE getPreviewType() {
+        return PREVIEW_TYPE.LOCKSCREEN;
     }
 
 }

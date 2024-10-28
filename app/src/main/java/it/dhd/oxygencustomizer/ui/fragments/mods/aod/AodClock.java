@@ -52,4 +52,9 @@ public class AodClock extends ClockPickerFragment {
         return mFragment;
     }
 
+    @Override
+    public PREVIEW_TYPE getPreviewType() {
+        return PREVIEW_TYPE.AOD;
+    }
+
 }
