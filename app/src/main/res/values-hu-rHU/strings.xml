@@ -666,8 +666,12 @@
     <string name="depth_wallpaper_title">Mélységi effektes háttérkép</string>
     <string name="depth_wallpaper_summary">Dinamikusan előtérbe helyezi a háttér bizonyos részei az óra elé</string>
     <string name="depth_wallpaper_mode_title">Térhatású Háttérkép mód</string>
+    <string name="depth_wallpaper_ai_status">AI-állapot</string>
+    <string name="depth_wallpaper_plugin_installed">AI-plugin telepítve</string>
+    <string name="depth_wallpaper_plugin_not_installed">Az AI-plugin nincs telepítve.\nKattintson ide a letöltéshez.</string>
     <string name="depth_wallpaper_mode_ai">AI</string>
     <string name="depth_wallpaper_mode_custom_images">Egyedi képek</string>
+    <string name="depth_wallpaper_mode_ai_plugin">AI (helyi)</string>
     <string name="depth_wallpaper_opacity_title">Háttérkép előtérbeni áttetszősége</string>
     <string name="depth_wallpaper_aod_title">\'Mindig bekapcsolva\' módban is</string>
     <string name="depth_wallpaper_pick_background_title">Háttérválasztó</string>
@@ -723,6 +727,7 @@
     <string name="lockscreen_stock_clock_red_one_title">\'Red One\'-viselkedés</string>
     <string name="lockscreen_stock_clock_red_one_disable">A \'Red One\' letiltása</string>
     <string name="lockscreen_stock_clock_red_one_color">Szín az órában</string>
+    <string name="welcome_back">Örülünk, hogy visszatért!</string>
     <string name="default_user_name">Felhasználó</string>
     <!-- Lockscreen 9 Strings -->
     <string name="lockscreen_9_time_title">Az idő</string>
