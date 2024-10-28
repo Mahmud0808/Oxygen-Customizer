@@ -13,7 +13,7 @@
         android:singleLine="true"
         android:tag="text1|clock"
         android:textColor="?android:textColorPrimary"
-        android:textSize="32dp" />
+        android:textSize="32sp" />
 
     <TextClock
         android:layout_width="wrap_content"
@@ -29,5 +29,5 @@
         android:textAlignment="viewStart"
         android:textAllCaps="true"
         android:textColor="?android:textColorPrimary"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 </LinearLayout>

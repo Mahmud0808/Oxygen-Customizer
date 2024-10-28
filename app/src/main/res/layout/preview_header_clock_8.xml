@@ -21,7 +21,7 @@
             android:tag="text1|date"
             android:textAllCaps="true"
             android:textColor="?android:textColorPrimary"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <TextClock
             android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="?android:textColorPrimary"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextClock
@@ -50,6 +50,6 @@
             android:tag="text1|clock"
             android:textAllCaps="true"
             android:textColor="?android:textColorPrimary"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

@@ -30,7 +30,7 @@
             android:tag="accent1"
             android:text="Hello there! "
             android:textColor="@android:color/system_accent1_300"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:textStyle="italic" />
 
         <LinearLayout
@@ -46,7 +46,7 @@
                 android:tag="text1"
                 android:text="It's"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -64,7 +64,7 @@
                     android:tag="text1"
                     android:textAlignment="viewStart"
                     android:textColor="?android:textColorPrimary"
-                    android:textSize="14dp" />
+                    android:textSize="14sp" />
 
                 <View
                     android:layout_width="match_parent"
