@@ -171,6 +171,18 @@ public class HeaderImage extends XposedMods {
                 }
             });
 
+            hookAllMethods(OplusQSContainerImpl, "onConfigurationChanged", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    Configuration config = (Configuration) param.args[0];
+                    if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && !qshiLandscapeEnabled) {
+                        mQsHeaderLayout.post(() -> mQsHeaderLayout.setVisibility(View.GONE));
+                    } else {
+                        mQsHeaderLayout.post(() -> mQsHeaderLayout.setVisibility(View.VISIBLE));
+                    }
+                }
+            });
+
             hookAllMethods(OplusQSContainerImpl, "updateResources", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {

@@ -30,6 +30,7 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenCloc
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_STOCK_CLOCK_RED_ONE_COLOR;
 import static it.dhd.oxygencustomizer.xposed.XPrefs.Xprefs;
 import static it.dhd.oxygencustomizer.xposed.hooks.systemui.OpUtils.getPrimaryColor;
+import static it.dhd.oxygencustomizer.xposed.utils.ViewHelper.dp2px;
 import static it.dhd.oxygencustomizer.xposed.utils.ViewHelper.findViewWithTag;
 import static it.dhd.oxygencustomizer.xposed.utils.ViewHelper.loadLottieAnimationView;
 import static it.dhd.oxygencustomizer.xposed.utils.ViewHelper.setMargins;
@@ -43,12 +44,14 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimatedImageDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.media.AudioManager;
 import android.os.BatteryManager;
 import android.os.Build;
@@ -72,14 +75,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.Transformation;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.BaseRequestOptions;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Calendar;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import it.dhd.oxygencustomizer.BuildConfig;
 import it.dhd.oxygencustomizer.R;
@@ -87,6 +98,7 @@ import it.dhd.oxygencustomizer.utils.Constants;
 import it.dhd.oxygencustomizer.xposed.ResourceManager;
 import it.dhd.oxygencustomizer.xposed.XposedMods;
 import it.dhd.oxygencustomizer.xposed.utils.ArcProgressWidget;
+import it.dhd.oxygencustomizer.xposed.utils.DrawableConverter;
 import it.dhd.oxygencustomizer.xposed.utils.TimeUtils;
 import it.dhd.oxygencustomizer.xposed.utils.ViewHelper;
 
@@ -150,6 +162,11 @@ public class LockscreenClock extends XposedMods {
             initSoundManager();
         }
     };
+
+    private enum ImageType {
+        USER_IMAGE,
+        CUSTOM_IMAGE
+    }
 
     public LockscreenClock(Context context) {
         super(context);
@@ -451,6 +468,26 @@ public class LockscreenClock extends XposedMods {
             }
         }
 
+        TextView deviceName = (TextView) findViewWithTag(clockView, "device_name");
+        if (deviceName != null) {
+            deviceName.setText(customDeviceName.isEmpty() ? Build.MODEL : customDeviceName);
+        }
+
+        TextView username = (TextView) findViewWithTag(clockView, "username");
+        if (username != null) {
+            username.setText(customName.isEmpty() ? getUserName() : customName);
+        }
+
+        ImageView profilePicture = (ImageView) findViewWithTag(clockView, "profile_picture");
+        if (useCustomUserImage && profilePicture != null) {
+            profilePicture.post(() -> profilePicture.setImageDrawable(getCustomUserImage()));
+        }
+
+        ImageView customImage = (ImageView) findViewWithTag(clockView, "custom_image");
+        if (useCustomImage && customImage != null) {
+            customImage.post(() -> customImage.setImageDrawable(getCustomImage()));
+        }
+
         switch (lockscreenClockStyle) {
             case 2 -> {
                 TextClock tickIndicator = (TextClock) findViewWithTag(clockView, "tickIndicator");
@@ -466,10 +503,9 @@ public class LockscreenClock extends XposedMods {
                 mVolumeProgress = (ProgressBar) findViewWithTag(clockView, "volume_progressbar");
             }
             case 7 -> {
-                TextView usernameView = (TextView) findViewWithTag(clockView, "username");
-                usernameView.setText(customName.isEmpty() ? getUserName() : customName);
                 ImageView imageView = (ImageView) findViewWithTag(clockView, "user_profile_image");
-                imageView.setImageDrawable(useCustomUserImage ? getCustomUserImage() : getUserImage());
+                imageView.post(() ->
+                        imageView.setImageDrawable(useCustomUserImage ? getCustomUserImage() : getUserImage()));
             }
             case 19 -> {
                 mBatteryLevelView = (TextView) findViewWithTag(clockView, "battery_percentage");
@@ -478,14 +514,6 @@ public class LockscreenClock extends XposedMods {
                 mRamUsageArcProgress = (ImageView) findViewWithTag(clockView, "ram_usage_info");
 
                 mBatteryProgress.setProgressTintList(ColorStateList.valueOf(customColor ? accent1 : getPrimaryColor(mContext)));
-
-                ((TextView) findViewWithTag(clockView, "device_name")).setText(customDeviceName.isEmpty() ? Build.MODEL : customDeviceName);
-            }
-            case 25 -> {
-                ImageView imageView = (ImageView) findViewWithTag(clockView, "custom_image");
-                if (useCustomImage) {
-                    imageView.setImageDrawable(getCustomImage());
-                }
             }
             case 27 -> {
                 TextView hourView = (TextView) findViewWithTag(clockView, "textHour");
@@ -623,9 +651,9 @@ public class LockscreenClock extends XposedMods {
         }
     }
 
-    private Drawable getCustomUserImage() {
+    private Drawable getImageFromFile(String fileName, @DrawableRes int defaultImage) {
         try {
-            ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.oxygen_customizer/lockscreen_user_image.png"));
+            ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.oxygen_customizer/" + fileName));
 
             Drawable drawable = ImageDecoder.decodeDrawable(source);
 
@@ -635,26 +663,18 @@ public class LockscreenClock extends XposedMods {
             }
 
             return drawable;
-        } catch (Throwable ignored) {
-            return ResourcesCompat.getDrawable(appContext.getResources(), R.drawable.default_avatar, appContext.getTheme());
+        } catch (Throwable t) {
+            log(t);
+            return ResourcesCompat.getDrawable(appContext.getResources(), defaultImage, appContext.getTheme());
         }
     }
 
+    private Drawable getCustomUserImage() {
+        return getImageFromFile("lockscreen_user_image.png", R.drawable.default_avatar);
+    }
+
     private Drawable getCustomImage() {
-        try {
-            ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.oxygen_customizer/lockscreen_custom_image.png"));
-
-            Drawable drawable = ImageDecoder.decodeDrawable(source);
-
-            if (drawable instanceof AnimatedImageDrawable) {
-                ((AnimatedImageDrawable) drawable).setRepeatCount(AnimatedImageDrawable.REPEAT_INFINITE);
-                ((AnimatedImageDrawable) drawable).start();
-            }
-
-            return drawable;
-        } catch (Throwable ignored) {
-            return ResourcesCompat.getDrawable(appContext.getResources(), R.drawable.relax, appContext.getTheme());
-        }
+        return getImageFromFile("lockscreen_custom_image.png", R.drawable.relax);
     }
 
     private void updateStockClock() {

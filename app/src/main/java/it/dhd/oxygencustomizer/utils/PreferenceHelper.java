@@ -71,7 +71,6 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenCloc
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_USER_IMAGE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_USER_VALUE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_DATE_FORMAT;
-import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_IMAGES;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_LINE_HEIGHT;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_SWITCH;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_TEXT_SCALING;
@@ -187,12 +186,20 @@ public class PreferenceHelper {
         addAll(Arrays.asList(1, 2, 3, 4, 7));
     }};
 
+    private final List<Integer> LsClockUserImageVisible = new ArrayList<>() {{
+        addAll(Arrays.asList(7, 29, 30, 32, 35, 36, 37, 56, 57, 58, 59));
+    }};
+
+    private final List<Integer> LsClockCustomImageVisible = new ArrayList<>() {{
+       addAll(Arrays.asList(25, 39, 40));
+    }};
+
     private final List<Integer> LsClockUserVisible = new ArrayList<>() {{
-       add(7);
+        addAll(Arrays.asList(7, 32, 35, 42, 48, 50, 53, 58, 59));
     }};
 
     private final List<Integer> LsClockDeviceVisible = new ArrayList<>() {{
-        add(19);
+        addAll(Arrays.asList(19, 32, 47));
     }};
 
     public static void init(ExtendedSharedPreferences prefs) {
@@ -563,7 +570,7 @@ public class PreferenceHelper {
                 return instance.mPreferences.getBoolean("lockscreen_custom_color_switch", false);
             }
             case LOCKSCREEN_CLOCK_CUSTOM_USER_IMAGE -> {
-                return instance.mPreferences.getInt("lockscreen_custom_clock_style", 0) == 7;
+                return instance.LsClockUserImageVisible.contains(instance.mPreferences.getInt("lockscreen_custom_clock_style", 0));
             }
             case LOCKSCREEN_CLOCK_CUSTOM_USER_VALUE -> {
                 return instance.LsClockUserVisible.contains(instance.mPreferences.getInt("lockscreen_custom_clock_style", 0));
@@ -575,7 +582,7 @@ public class PreferenceHelper {
                 return isVisible("lockscreen_clock_custom_user_image") && instance.mPreferences.getBoolean("lockscreen_clock_custom_user_image", false);
             }
             case "lockscreen_clock_custom_image_switch" -> {
-                return LOCKSCREEN_CLOCK_IMAGES.contains(instance.mPreferences.getInt("lockscreen_custom_clock_style", 0));
+                return instance.LsClockCustomImageVisible.contains(instance.mPreferences.getInt("lockscreen_custom_clock_style", 0));
             }
             case "lockscreen_clock_custom_image_picker" -> {
                 return isVisible("lockscreen_clock_custom_image_switch") &&
@@ -584,7 +591,8 @@ public class PreferenceHelper {
             case "lockscreen_clock_custom_image" -> {
                 return instance.mPreferences.getBoolean("lockscreen_clock_custom_image_switch", false);
             }
-            case "lockscreen_clock_stock_prefs" -> {
+            case "lockscreen_clock_stock_prefs",
+                 "lockscreen_stock_clock_red_one_mode" -> {
                 return !instance.mPreferences.getBoolean(LOCKSCREEN_CLOCK_SWITCH, false);
             }
             case "lockscreen_stock_clock_red_one_color" -> {
@@ -661,7 +669,7 @@ public class PreferenceHelper {
                 return instance.mPreferences.getBoolean(AOD_CLOCK_CUSTOM_COLOR_SWITCH, false);
             }
             case "aod_clock_custom_user_image" -> {
-                return instance.mPreferences.getInt("aod_custom_clock_style", 0) == 7;
+                return instance.LsClockUserImageVisible.contains(instance.mPreferences.getInt("aod_custom_clock_style", 0));
             }
             case AOD_CLOCK_CUSTOM_USER_VALUE -> {
                 return instance.LsClockUserVisible.contains(instance.mPreferences.getInt("aod_custom_clock_style", 0));

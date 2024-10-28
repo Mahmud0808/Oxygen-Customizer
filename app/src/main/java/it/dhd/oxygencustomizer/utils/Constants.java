@@ -406,10 +406,7 @@ public final class Constants {
             public static final String LOCKSCREEN_HIDE_CAPSULE = "lockscreen_hide_capsule";
             public static final String LOCKSCREEN_CARRIER_REPLACEMENT = "lockscreen_carrier_replacement";
         }
-        public static class LockscreenClock
-        {
-
-            public static final List<Integer> LOCKSCREEN_CLOCK_IMAGES = List.of(25);
+        public static class LockscreenClock {
             public static final String LOCKSCREEN_CLOCK_SWITCH = "lockscreen_custom_clock_switch";
             public static final String LOCKSCREEN_CLOCK_STYLE = "lockscreen_custom_clock_style";
             public static final String LOCKSCREEN_CLOCK_CUSTOM_COLOR_SWITCH = "lockscreen_custom_color_switch";

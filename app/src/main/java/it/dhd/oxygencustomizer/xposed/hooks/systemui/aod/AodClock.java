@@ -57,6 +57,7 @@ import android.widget.ProgressBar;
 import android.widget.TextClock;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -267,6 +268,26 @@ public class AodClock extends XposedMods {
             }
         }
 
+        TextView deviceName = (TextView) findViewWithTag(clockView, "device_name");
+        if (deviceName != null) {
+            deviceName.setText(mCustomDeviceName.isEmpty() ? Build.MODEL : mCustomDeviceName);
+        }
+
+        TextView username = (TextView) findViewWithTag(clockView, "username");
+        if (username != null) {
+            username.setText(mCustomUserName.isEmpty() ? getUserName() : mCustomUserName);
+        }
+
+        ImageView profilePicture = (ImageView) findViewWithTag(clockView, "profile_picture");
+        if (mCustomUserImage && profilePicture != null) {
+            profilePicture.post(() -> profilePicture.setImageDrawable(getCustomUserImage()));
+        }
+
+        ImageView customImage = (ImageView) findViewWithTag(clockView, "custom_image");
+        if (mCustomImage && customImage != null) {
+            customImage.post(() -> customImage.setImageDrawable(getCustomImage()));
+        }
+
         switch (mAodClockStyle) {
             case 2 -> {
                 TextClock tickIndicator = (TextClock) findViewWithTag(clockView, "tickIndicator");
@@ -282,10 +303,9 @@ public class AodClock extends XposedMods {
                 mVolumeProgress = (ProgressBar) findViewWithTag(clockView, "volume_progressbar");
             }
             case 7 -> {
-                TextView usernameView = (TextView) findViewWithTag(clockView, "summary");
-                usernameView.setText(mCustomUserName.isEmpty() ? getUserName() : mCustomUserName);
                 ImageView imageView = (ImageView) findViewWithTag(clockView, "user_profile_image");
-                imageView.setImageDrawable(mCustomUserImage ? getCustomUserImage() : getUserImage());
+                imageView.post(() ->
+                        imageView.setImageDrawable(mCustomUserImage ? getCustomUserImage() : getUserImage()));
             }
             case 19 -> {
                 mBatteryLevelView = (TextView) findViewWithTag(clockView, "battery_percentage");
@@ -294,8 +314,6 @@ public class AodClock extends XposedMods {
                 mRamUsageArcProgress = (ImageView) findViewWithTag(clockView, "ram_usage_info");
 
                 mBatteryProgress.setProgressTintList(ColorStateList.valueOf(mCustomColor ? accent1 : getPrimaryColor(mContext)));
-
-                ((TextView) findViewWithTag(clockView, "device_name")).setText(mCustomDeviceName.isEmpty() ? Build.MODEL : mCustomDeviceName);
             }
             case 25 -> {
                 ImageView imageView = (ImageView) findViewWithTag(clockView, "custom_image");
@@ -474,9 +492,9 @@ public class AodClock extends XposedMods {
         }
     }
 
-    private Drawable getCustomUserImage() {
+    private Drawable getImageFromFile(String fileName, @DrawableRes int defaultImage) {
         try {
-            ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.oxygen_customizer/aod_user_image.png"));
+            ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.oxygen_customizer/" + fileName));
 
             Drawable drawable = ImageDecoder.decodeDrawable(source);
 
@@ -486,26 +504,18 @@ public class AodClock extends XposedMods {
             }
 
             return drawable;
-        } catch (Throwable ignored) {
-            return ResourcesCompat.getDrawable(appContext.getResources(), R.drawable.default_avatar, appContext.getTheme());
+        } catch (Throwable t) {
+            log(t);
+            return ResourcesCompat.getDrawable(appContext.getResources(), defaultImage, appContext.getTheme());
         }
     }
 
+    private Drawable getCustomUserImage() {
+        return getImageFromFile("aod_user_image.png", R.drawable.default_avatar);
+    }
+
     private Drawable getCustomImage() {
-        try {
-            ImageDecoder.Source source = ImageDecoder.createSource(new File(Environment.getExternalStorageDirectory() + "/.oxygen_customizer/aod_custom_image.png"));
-
-            Drawable drawable = ImageDecoder.decodeDrawable(source);
-
-            if (drawable instanceof AnimatedImageDrawable) {
-                ((AnimatedImageDrawable) drawable).setRepeatCount(AnimatedImageDrawable.REPEAT_INFINITE);
-                ((AnimatedImageDrawable) drawable).start();
-            }
-
-            return drawable;
-        } catch (Throwable ignored) {
-            return ResourcesCompat.getDrawable(appContext.getResources(), R.drawable.relax, appContext.getTheme());
-        }
+        return getImageFromFile("aod_custom_image.png", R.drawable.relax);
     }
 
     private void initResources(Context context) {
