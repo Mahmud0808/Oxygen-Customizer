@@ -253,16 +253,19 @@ public class YandexProvider extends AbstractWeatherProvider {
     }
 
     /*
+
     clear — Clear.
     partly-cloudy — Partly cloudy.
-    cloudy — Cloudy.- overcast — Overcast.
+    cloudy — Cloudy.
+    overcast — Overcast.
     drizzle — Drizzle.
     light-rain — Light rain.
     rain — Rain.
     moderate-rain — Moderate rain.
     heavy-rain — Heavy rain.
     continuous-heavy-rain — Continuous heavy rain.
-    showers — Showers.- wet-snow — Sleet.
+    showers — Showers.
+    wet-snow — Sleet.
     light-snow — Light snow.
     snow — Snow.
     snow-showers — Snowfall.
@@ -270,6 +273,7 @@ public class YandexProvider extends AbstractWeatherProvider {
     thunderstorm — Thunderstorm.
     thunderstorm-with-rain — Rain, thunderstorm.
     thunderstorm-with-hail — Thunderstorm, hail.
+
      */
     private static final HashMap<String, String> CONDITION_MAPPING = new HashMap<>();
     static {
@@ -277,6 +281,21 @@ public class YandexProvider extends AbstractWeatherProvider {
         CONDITION_MAPPING.put("partly-cloudy", "Partly clouds");
         CONDITION_MAPPING.put("cloudy", "Clouds");
         CONDITION_MAPPING.put("overcast", "Clouds");
+        CONDITION_MAPPING.put("drizzle", "Rain");
+        CONDITION_MAPPING.put("light-rain", "Light rain");
+        CONDITION_MAPPING.put("rain", "Rain");
+        CONDITION_MAPPING.put("moderate-rain", "Moderate rain");
+        CONDITION_MAPPING.put("heavy-rain", "Heavy rain");
+        CONDITION_MAPPING.put("continuous-heavy-rain", "Continuous heavy rain");
+        CONDITION_MAPPING.put("showers", "Rain");
+        CONDITION_MAPPING.put("wet-snow", "Snow");
+        CONDITION_MAPPING.put("light-snow", "Light snow");
+        CONDITION_MAPPING.put("snow", "Snow");
+        CONDITION_MAPPING.put("snow-showers", "Snow");
+        CONDITION_MAPPING.put("hail", "Rain");
+        CONDITION_MAPPING.put("thunderstorm", "Thunderstorm");
+        CONDITION_MAPPING.put("thunderstorm-with-rain", "Thunderstorm");
+        CONDITION_MAPPING.put("thunderstorm-with-hail", "Thunderstorm");
         CONDITION_MAPPING.put("partly-cloudy-and-light-rain", "partly_clouds_and_light_rain");
         CONDITION_MAPPING.put("partly-cloudy-and-rain", "partly_cloudy_and_rain");
         CONDITION_MAPPING.put("overcast-and-rain", "Light intensity drizzle rain");
