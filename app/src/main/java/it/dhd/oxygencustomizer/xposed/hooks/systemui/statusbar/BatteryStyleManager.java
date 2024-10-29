@@ -55,6 +55,7 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.BatteryPrefs.C
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.BatteryPrefs.CUSTOM_BATTERY_CHARGING_ICON_STYLE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.BatteryPrefs.CUSTOM_BATTERY_CHARGING_ICON_SWITCH;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.BatteryPrefs.CUSTOM_BATTERY_CHARGING_ICON_WIDTH_HEIGHT;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.BatteryPrefs.CUSTOM_BATTERY_FAST_CHARGING_COLOR;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.BatteryPrefs.CUSTOM_BATTERY_FILL_ALPHA;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.BatteryPrefs.CUSTOM_BATTERY_FILL_COLOR;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.BatteryPrefs.CUSTOM_BATTERY_FILL_GRAD_COLOR;
@@ -180,7 +181,7 @@ public class BatteryStyleManager extends XposedMods {
     private int mCustomFillGradColor = Color.BLACK;
     private int mCustomPowerSaveColor = Color.BLACK;
     private int mCustomPowerSaveFillColor = Color.BLACK;
-    private final int mCustomFastChargingColor = Color.BLACK;
+    private int mCustomFastChargingColor = Color.BLACK;
     private boolean mSwapPercentage = false;
     private int mChargingIconStyle = 0;
     private int mChargingIconML = 1;
@@ -245,6 +246,7 @@ public class BatteryStyleManager extends XposedMods {
         mCustomFillColor = Xprefs.getInt(CUSTOM_BATTERY_FILL_COLOR, Color.BLACK);
         mCustomFillGradColor = Xprefs.getInt(CUSTOM_BATTERY_FILL_GRAD_COLOR, Color.BLACK);
         mCustomPowerSaveColor = Xprefs.getInt(CUSTOM_BATTERY_POWERSAVE_INDICATOR_COLOR, Color.BLACK);
+        mCustomFastChargingColor = Xprefs.getInt(CUSTOM_BATTERY_FAST_CHARGING_COLOR, Color.BLACK);
         mCustomPowerSaveFillColor = Xprefs.getInt(CUSTOM_BATTERY_POWERSAVE_FILL_COLOR, Color.BLACK);
         mSwapPercentage = Xprefs.getBoolean(CUSTOM_BATTERY_SWAP_PERCENTAGE, false);
         mChargingIconSwitch = Xprefs.getBoolean(CUSTOM_BATTERY_CHARGING_ICON_SWITCH, false);

@@ -86,8 +86,15 @@ open class LandscapeBattery(private val context: Context, frameColor: Int) :
             postInvalidate()
         }
 
+    var fastCharging = false
+        set(value) {
+            field = value
+            postInvalidate()
+        }
+
     override fun setChargingEnabled(charging: Boolean, isFast: Boolean) {
         this.charging = charging
+        this.fastCharging = isFast
         postInvalidate()
     }
 

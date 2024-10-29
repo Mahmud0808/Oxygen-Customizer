@@ -32,10 +32,12 @@ open class CircleFilledBattery(private val mContext: Context, frameColor: Int) :
     private var mShowPercentage = false
     private var powerSaveEnabled = false
     private var charging = false
+    private var fastCharging = false
     private var batteryLevel = 0
     private var batteryColors: IntArray? = null
     private var batteryLevels: List<Int>? = null
     private var mChargingColor = -0xcb38a7
+    private var mFastChargingColor = -0xcb38a7
     private var mPowerSaveColor = -0x5b00
     private var mShadeColors: IntArray? = null
     private var mShadeLevels: FloatArray? = null
@@ -106,7 +108,10 @@ open class CircleFilledBattery(private val mContext: Context, frameColor: Int) :
         var singleColor = mFGColor
 
         paint.setShader(null)
-        if (charging && batteryLevel < 100) {
+        if (fastCharging && batteryLevel < 100) {
+            paint.color = mFastChargingColor
+            return
+        } else if (charging && batteryLevel < 100) {
             paint.color = chargingColor
             return
         } else if (powerSaveEnabled) {
@@ -199,6 +204,12 @@ open class CircleFilledBattery(private val mContext: Context, frameColor: Int) :
             -0xcb38a7
         }
 
+        mFastChargingColor = if (customBlendColor && fastChargingColor != Color.BLACK) {
+            fastChargingColor
+        } else {
+            -0xcb38a7
+        }
+
         mPowerSaveColor = if (customBlendColor && powerSaveFillColor != Color.BLACK) {
             powerSaveFillColor
         } else {
@@ -265,6 +276,7 @@ open class CircleFilledBattery(private val mContext: Context, frameColor: Int) :
 
     override fun setChargingEnabled(charging: Boolean, isFast: Boolean) {
         this.charging = charging
+        this.fastCharging = isFast
         postInvalidate()
     }
 

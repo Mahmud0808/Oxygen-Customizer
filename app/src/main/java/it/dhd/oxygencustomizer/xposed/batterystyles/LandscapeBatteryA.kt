@@ -89,8 +89,15 @@ open class LandscapeBatteryA(private val context: Context, frameColor: Int) :
             postInvalidate()
         }
 
+    var fastCharging = false
+        set(value) {
+            field = value
+            postInvalidate()
+        }
+
     override fun setChargingEnabled(charging: Boolean, isFast: Boolean) {
         this.charging = charging
+        this.fastCharging = true
         postInvalidate()
     }
 
@@ -161,6 +168,10 @@ open class LandscapeBatteryA(private val context: Context, frameColor: Int) :
     }
 
     private val chargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
+    private val fastChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
     }
 
@@ -303,7 +314,9 @@ open class LandscapeBatteryA(private val context: Context, frameColor: Int) :
             // Non dual-tone means we draw the perimeter (with the level fill), and potentially
             // draw the fill again with a critical color
             if (customBlendColor) {
-                if (charging) {
+                if (fastCharging) {
+
+                } else if (charging) {
                     fillPaint.color = fillColor
                     c.drawPath(unifiedPath, fillPaint)
                     fillPaint.color = levelColor
@@ -344,6 +357,7 @@ open class LandscapeBatteryA(private val context: Context, frameColor: Int) :
         }
 
         if (customBlendColor) {
+            fastChargingPaint.color = if (fastChargingColor == black) Color.TRANSPARENT else fastChargingColor
             chargingPaint.color = if (chargingColor == black) Color.TRANSPARENT else chargingColor
 
             powerSavePaint.color =
@@ -355,23 +369,24 @@ open class LandscapeBatteryA(private val context: Context, frameColor: Int) :
             powerSaveFillPaint.color =
                 if (powerSaveFillColor == black) Color.TRANSPARENT else powerSaveFillColor
         } else {
+            fastChargingPaint.color = Color.TRANSPARENT
             chargingPaint.color = Color.TRANSPARENT
             powerSavePaint.color =
                 getColorAttrDefaultColor(context, android.R.attr.colorError)
             powerSaveFillPaint.color = Color.TRANSPARENT
         }
 
-        if (charging) {
+        if (charging || fastCharging) {
             if (!customChargingIcon) {
                 c.clipOutPath(scaledBolt)
-                c.drawPath(levelPath, chargingPaint)
+                c.drawPath(levelPath, if (fastCharging) fastChargingPaint else chargingPaint)
                 if (invertFillIcon) {
                     c.drawPath(scaledBolt, fillColorStrokePaint)
                 } else {
                     c.drawPath(scaledBolt, fillColorStrokeProtection)
                 }
             } else {
-                c.drawPath(levelPath, chargingPaint)
+                c.drawPath(levelPath, if (fastCharging) fastChargingPaint else chargingPaint)
             }
         } else if (powerSaveEnabled) {
             // If power save is enabled draw the perimeter path with colorError

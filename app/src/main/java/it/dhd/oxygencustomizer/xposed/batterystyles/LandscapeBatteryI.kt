@@ -131,8 +131,15 @@ open class LandscapeBatteryI(private val context: Context, frameColor: Int) :
             postInvalidate()
         }
 
+    var fastCharging = false
+        set(value) {
+            field = value
+            postInvalidate()
+        }
+
     override fun setChargingEnabled(charging: Boolean, isFast: Boolean) {
         this.charging = charging
+        this.fastCharging = isFast
         postInvalidate()
     }
 
@@ -673,10 +680,10 @@ open class LandscapeBatteryI(private val context: Context, frameColor: Int) :
                 if (charging) {
                     c.drawPath(scaledPerimeter, scaledPerimeterPaint)
                     c.clipOutPath(scaledfillOutline)
-                    chargingPaint.color = chargingColor
+                    chargingPaint.color = if (fastCharging) fastChargingColor else chargingColor
                     c.drawPath(
                         levelPath,
-                        if (customBlendColor && chargingColor != black) chargingPaint else defaultFillPaint
+                        if (customBlendColor && (fastChargingColor != black || chargingColor != black)) chargingPaint else defaultFillPaint
                     )
                     c.drawPath(scaledBolt, fillPaint)
                     c.clipPath(scaledFill)

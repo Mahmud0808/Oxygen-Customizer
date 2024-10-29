@@ -105,8 +105,15 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
             postInvalidate()
         }
 
+    var fastCharging = false
+        set(value) {
+            field = value
+            postInvalidate()
+        }
+
     override fun setChargingEnabled(charging: Boolean, isFast: Boolean) {
         this.charging = charging
+        this.fastCharging = isFast
         postInvalidate()
     }
 
@@ -184,6 +191,14 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
     }
 
     private val chargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
+    private val fastChargingAlphaPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
+    private val fastChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
     }
 
@@ -280,8 +295,12 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
         val powerSaveParseColor = 0xFFFDD015.toInt()
         chargingAlphaPaint.color =
             if (customBlendColor && chargingColor != black) chargingColor else chargingParseColor
+        fastChargingAlphaPaint.color =
+            if (customBlendColor && fastChargingColor != black) fastChargingColor else chargingParseColor
         chargingPaint.color =
             if (customBlendColor && chargingColor != black) chargingColor else chargingParseColor
+        fastChargingPaint.color =
+            if (customBlendColor && fastChargingColor != black) fastChargingColor else chargingParseColor
         powerSavePaint.color =
             if (customBlendColor && powerSaveColor != black) powerSaveColor else powerSaveParseColor
         powerSaveFillPaint.color =
@@ -289,10 +308,13 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
 
         customFillAlphaPaint.alpha = 85
         chargingAlphaPaint.alpha = 85
+        fastChargingAlphaPaint.alpha = 85
         powerSavePaint.alpha = 85
 
         // The perimeter should never change
-        if (charging) {
+        if (fastCharging) {
+            c.drawPath(scaledPerimeter, fastChargingAlphaPaint)
+        } else if (charging) {
             c.drawPath(scaledPerimeter, chargingAlphaPaint)
         } else if (powerSaveEnabled) {
             c.drawPath(scaledPerimeter, powerSavePaint)
@@ -336,7 +358,12 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
         } else {
             // Non dual-tone means we draw the perimeter (with the level fill), and potentially
             // draw the fill again with a critical color
-            if (charging) {
+            if (fastCharging) {
+                fillPaint.color = fillColor
+                c.clipOutPath(scaledfillOutline)
+                c.drawPath(unifiedPath, fastChargingPaint)
+                fillPaint.color = levelColor
+            } else if (charging) {
                 fillPaint.color = fillColor
                 c.clipOutPath(scaledfillOutline)
                 c.drawPath(unifiedPath, chargingPaint)
@@ -436,7 +463,7 @@ open class LandscapeBatteryL(private val context: Context, frameColor: Int) :
 
     private fun batteryColorForLevel(level: Int): Int {
         return when {
-            charging || powerSaveEnabled -> fillColor
+            charging || fastCharging || powerSaveEnabled -> fillColor
             else -> getColorForLevel(level)
         }
     }

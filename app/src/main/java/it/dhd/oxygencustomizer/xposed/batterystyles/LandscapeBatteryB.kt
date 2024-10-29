@@ -87,8 +87,15 @@ open class LandscapeBatteryB(private val context: Context, frameColor: Int) :
             postInvalidate()
         }
 
+    var fastCharging = false
+        set(value) {
+            field = value
+            postInvalidate()
+        }
+
     override fun setChargingEnabled(charging: Boolean, isFast: Boolean) {
         this.charging = charging
+        this.fastCharging = isFast
         postInvalidate()
     }
 
@@ -152,6 +159,10 @@ open class LandscapeBatteryB(private val context: Context, frameColor: Int) :
     }
 
     private val chargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
+        p.color = frameColor
+    }
+
+    private val fastChargingPaint = Paint(Paint.ANTI_ALIAS_FLAG).also { p ->
         p.color = frameColor
     }
 
@@ -311,6 +322,8 @@ open class LandscapeBatteryB(private val context: Context, frameColor: Int) :
         if (customBlendColor) {
             chargingPaint.color =
                 if (customBlendColor && chargingColor != black) chargingColor else Color.TRANSPARENT
+            fastChargingPaint.color =
+                if (customBlendColor && fastChargingColor != black) fastChargingColor else Color.TRANSPARENT
 
             powerSavePaint.color =
                 if (powerSaveColor == black) getColorAttrDefaultColor(
@@ -322,6 +335,7 @@ open class LandscapeBatteryB(private val context: Context, frameColor: Int) :
                 if (powerSaveFillColor == black) Color.TRANSPARENT else powerSaveFillColor
         } else {
             chargingPaint.color = Color.TRANSPARENT
+            fastChargingPaint.color = Color.TRANSPARENT
             powerSavePaint.color =
                 getColorAttrDefaultColor(context, android.R.attr.colorError)
             powerSaveFillPaint.color = Color.TRANSPARENT
@@ -330,14 +344,14 @@ open class LandscapeBatteryB(private val context: Context, frameColor: Int) :
         if (charging) {
             if (!customChargingIcon) {
                 c.clipOutPath(scaledBolt)
-                c.drawPath(levelPath, chargingPaint)
+                c.drawPath(levelPath, if (fastCharging) fastChargingPaint else chargingPaint)
                 if (invertFillIcon) {
                     c.drawPath(scaledBolt, fillColorStrokePaint)
                 } else {
                     c.drawPath(scaledBolt, fillColorStrokeProtection)
                 }
             } else {
-                c.drawPath(levelPath, chargingPaint)
+                c.drawPath(levelPath, if (fastCharging) fastChargingPaint else chargingPaint)
             }
         } else if (powerSaveEnabled) {
             // If power save is enabled draw the perimeter path with colorError

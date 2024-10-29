@@ -31,6 +31,7 @@ import it.dhd.oxygencustomizer.xposed.utils.AlphaRefreshedPaint
 @Suppress("UNUSED_PARAMETER")
 open class CircleBattery(private val mContext: Context, frameColor: Int) : BatteryDrawable() {
 
+    private var mFastChargingColor = -0xcb38a7
     private var mChargingColor = -0xcb38a7
     private var mPowerSaveColor = -0x5b00
     private var mShowPercentage = false
@@ -49,6 +50,7 @@ open class CircleBattery(private val mContext: Context, frameColor: Int) : Batte
     private var mAlphaPct = 0f
     private var powerSaveEnabled = false
     private var charging = false
+    private var fastCharging = false
     private var batteryLevel = 0
     private var batteryColors: IntArray? = null
     private var batteryLevels: List<Int>? = null
@@ -60,6 +62,7 @@ open class CircleBattery(private val mContext: Context, frameColor: Int) : Batte
 
     override fun setChargingEnabled(charging: Boolean, isFast: Boolean) {
         this.charging = charging
+        this.fastCharging = isFast
         postInvalidate()
     }
 
@@ -101,6 +104,12 @@ open class CircleBattery(private val mContext: Context, frameColor: Int) : Batte
 
         mChargingColor = if (customBlendColor && chargingColor != Color.BLACK) {
             chargingColor
+        } else {
+            -0xcb38a7
+        }
+
+        mFastChargingColor = if (customBlendColor && fastChargingColor != Color.BLACK) {
+            fastChargingColor
         } else {
             -0xcb38a7
         }
@@ -199,11 +208,14 @@ open class CircleBattery(private val mContext: Context, frameColor: Int) : Batte
     private fun setLevelBasedColors(paint: Paint, centerX: Float, centerY: Float) {
         paint.setShader(null)
 
-        if (powerSaveEnabled) {
-            paint.setColor(mPowerSaveColor)
+        if (fastCharging) {
+            paint.setColor(mFastChargingColor)
             return
         } else if (charging) {
             paint.setColor(mChargingColor)
+            return
+        } else if (powerSaveEnabled) {
+            paint.setColor(mPowerSaveColor)
             return
         }
 
