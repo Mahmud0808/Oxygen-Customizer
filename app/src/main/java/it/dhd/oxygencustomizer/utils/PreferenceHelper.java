@@ -26,6 +26,7 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_C
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_COLOR_CODE_TEXT2;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_COLOR_SWITCH;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_DEVICE_VALUE;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_IMAGE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_CUSTOM_USER_VALUE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_LINE_HEIGHT;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.AodClock.AOD_CLOCK_SWITCH;
@@ -187,7 +188,7 @@ public class PreferenceHelper {
     }};
 
     private final List<Integer> LsClockUserImageVisible = new ArrayList<>() {{
-        addAll(Arrays.asList(7, 29, 30, 32, 35, 36, 37, 56, 57, 58, 59));
+        addAll(Arrays.asList(7, 29, 30, 32, 35, 36, 37, 42, 56, 57, 58, 59));
     }};
 
     private final List<Integer> LsClockCustomImageVisible = new ArrayList<>() {{
@@ -683,7 +684,9 @@ public class PreferenceHelper {
             case "aod_clock_font_custom" -> {
                 return instance.mPreferences.getBoolean("aod_custom_font", false);
             }
-
+            case AOD_CLOCK_CUSTOM_IMAGE -> {
+                return instance.LsClockCustomImageVisible.contains(instance.mPreferences.getInt("aod_custom_clock_style", 0));
+            }
             case "aod_clock_custom_image_picker" -> {
                 return isVisible("aod_clock_custom_image_switch") &&
                         instance.mPreferences.getBoolean("aod_clock_custom_image_switch", false);

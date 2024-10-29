@@ -64,6 +64,7 @@
                 android:layout_gravity="end|center"
                 android:importantForAccessibility="no"
                 android:orientation="horizontal"
+                android:tag="profile_picture"
                 android:scaleType="fitXY"
                 android:src="@drawable/lockscreen_clock_42_logo" />
 
