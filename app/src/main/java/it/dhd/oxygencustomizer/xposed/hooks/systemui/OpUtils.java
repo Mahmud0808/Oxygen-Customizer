@@ -20,7 +20,6 @@ public class OpUtils extends XposedMods {
     public static Class<?> QsColorUtil = null;
     private static Class<?> OpUtils = null;
     private static Class<?> QSFragmentHelper = null;
-    private static Class<?> OplusChargingStrategy = null;
 
     public OpUtils(Context context) {
         super(context);
@@ -37,15 +36,6 @@ public class OpUtils extends XposedMods {
             color = colorIfNull;
         }
         return color;
-    }
-
-    public static int getChargingColor(int defaultColor) {
-        if (OplusChargingStrategy == null) return defaultColor;
-        try {
-            return (int) callMethod(OplusChargingStrategy, "getTechnologyChargingColor", defaultColor);
-        } catch (Throwable t) {
-            return defaultColor;
-        }
     }
 
     public static boolean isMediaIconNeedUseLightColor(Context context) {
@@ -88,12 +78,6 @@ public class OpUtils extends XposedMods {
             OpUtils = findClass("com.oplusos.systemui.util.OpUtils", lpparam.classLoader);
         } catch (Throwable t) {
             OpUtils = null;
-        }
-
-        try {
-            OplusChargingStrategy = findClass("com.oplus.systemui.statusbar.pipeline.battery.ui.strategy.OplusChargingColorStrategy", lpparam.classLoader);
-        } catch (Throwable t) {
-            OplusChargingStrategy = null;
         }
 
         try {
