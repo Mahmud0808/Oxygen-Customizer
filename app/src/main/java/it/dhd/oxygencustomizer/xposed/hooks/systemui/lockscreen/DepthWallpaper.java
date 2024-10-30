@@ -154,9 +154,9 @@ public class DepthWallpaper extends XposedMods {
 
         Class<?> QSImplClass = null;
         try {
-            QSImplClass = findClass("com.android.systemui.qs.QSFragment", lpParam.classLoader);
+            QSImplClass = findClass("com.android.systemui.qs.QSFragment", lpParam.classLoader); // OOS14
         } catch (Throwable ignored) {
-            log("QSFragment not found");
+            QSImplClass = findClass("com.android.systemui.qs.QSImpl", lpParam.classLoader); // OOS15
         }
 
         Class<?> SuperPowerSaveSettingsObserver;
