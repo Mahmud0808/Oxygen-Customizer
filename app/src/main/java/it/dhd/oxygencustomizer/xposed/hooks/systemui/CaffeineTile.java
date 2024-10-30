@@ -13,6 +13,7 @@ import static de.robv.android.xposed.XposedHelpers.setObjectField;
 import static it.dhd.oxygencustomizer.utils.Constants.ACTION_TILE_REMOVED;
 import static it.dhd.oxygencustomizer.utils.Constants.Packages.SYSTEM_UI;
 import static it.dhd.oxygencustomizer.xposed.ResourceManager.modRes;
+import static it.dhd.oxygencustomizer.xposed.utils.ReflectionTools.findClassInArray;
 
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
@@ -103,12 +104,10 @@ public class CaffeineTile extends XposedMods {
             }
         });
 
-        Class<?> QSTileViewImplClass;
-        try {
-            QSTileViewImplClass = findClass("com.oplus.systemui.qs.qstileimpl.OplusQSTileBaseView", lpparam.classLoader);
-        } catch (Throwable t) {
-            QSTileViewImplClass = findClass("com.oplusos.systemui.qs.qstileimpl.OplusQSTileBaseView", lpparam.classLoader); // OOS 13
-        }
+        Class<?> QSTileViewImplClass = findClassInArray(lpparam,
+                "com.oplus.systemui.qs.base.tile.OplusQSTileBaseView", /* OOS15 */
+                "com.oplus.systemui.qs.qstileimpl.OplusQSTileBaseView", /* OOS14 */
+                "com.oplusos.systemui.qs.qstileimpl.OplusQSTileBaseView" /* OOS13 */);
         hookAllMethods(QSTileViewImplClass, "handleStateChanged", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) {

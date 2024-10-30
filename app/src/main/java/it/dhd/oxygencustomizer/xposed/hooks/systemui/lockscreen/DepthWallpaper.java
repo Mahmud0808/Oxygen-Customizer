@@ -152,7 +152,12 @@ public class DepthWallpaper extends XposedMods {
             mPluginBroadcastRegistered = true;
         }
 
-        Class<?> QSImplClass = findClass("com.android.systemui.qs.QSFragment", lpParam.classLoader);
+        Class<?> QSImplClass = null;
+        try {
+            QSImplClass = findClass("com.android.systemui.qs.QSFragment", lpParam.classLoader);
+        } catch (Throwable ignored) {
+            log("QSFragment not found");
+        }
 
         Class<?> SuperPowerSaveSettingsObserver;
         try {
@@ -298,7 +303,7 @@ public class DepthWallpaper extends XposedMods {
                             if (!cacheIsValid) {
                                 XPLauncher.enqueueProxyCommand(proxy -> {
                                     if (DWMode == 0) {
-                                        proxy.extractSubject(finalScaledWallpaperBitmap, Constants.getLockScreenSubjectCachePath());
+                                        proxy.extractSubject(finalScaledWallpaperBitmap, getLockScreenSubjectCachePath());
                                     } else if (DWMode == 2) {
                                         try {
                                             Intent intent = new Intent(ACTION_EXTRACT_SUBJECT);
@@ -364,7 +369,7 @@ public class DepthWallpaper extends XposedMods {
 
         boolean cacheIsValid = false;
         try {
-            File wallpaperCacheFile = new File(Constants.getLockScreenBitmapCachePath());
+            File wallpaperCacheFile = new File(getLockScreenBitmapCachePath());
             log("Checking cache: " + wallpaperCacheFile.getAbsolutePath());
             ByteArrayOutputStream compressedBitmap = new ByteArrayOutputStream();
             wallpaperBitmap.compress(Bitmap.CompressFormat.JPEG, 100, compressedBitmap);
@@ -439,10 +444,10 @@ public class DepthWallpaper extends XposedMods {
         log("Setting Depth Wallpaper ScrimState: " + state + " showSubject: " + showSubject + " lockScreenSubjectCacheValid: " + lockScreenSubjectCacheValid);
 
         if (showSubject) {
-           log("Show Subject lockScreenSubjectCacheValid " + lockScreenSubjectCacheValid + " cacheFile exists " + new File(Constants.getLockScreenSubjectCachePath()).exists());
-            if (!lockScreenSubjectCacheValid && new File(Constants.getLockScreenSubjectCachePath()).exists()) {
+           log("Show Subject lockScreenSubjectCacheValid " + lockScreenSubjectCacheValid + " cacheFile exists " + new File(getLockScreenSubjectCachePath()).exists());
+            if (!lockScreenSubjectCacheValid && new File(getLockScreenSubjectCachePath()).exists()) {
                 log("lockScreenSubjectCacheValid false");
-                try (FileInputStream inputStream = new FileInputStream(Constants.getLockScreenSubjectCachePath())) {
+                try (FileInputStream inputStream = new FileInputStream(getLockScreenSubjectCachePath())) {
                     log("Loading Lock Screen Subject Cache file exists");
                     Drawable bitmapDrawable = BitmapDrawable.createFromStream(inputStream, "");
                     bitmapDrawable.setAlpha(255);

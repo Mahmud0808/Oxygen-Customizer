@@ -22,6 +22,7 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.Lockscreen.LOC
 import static it.dhd.oxygencustomizer.xposed.ResourceManager.resparams;
 import static it.dhd.oxygencustomizer.xposed.XPrefs.Xprefs;
 import static it.dhd.oxygencustomizer.xposed.utils.DrawableConverter.scaleDrawable;
+import static it.dhd.oxygencustomizer.xposed.utils.ReflectionTools.findClassInArray;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -59,7 +60,6 @@ public class Lockscreen extends XposedMods {
     final StringFormatter carrierStringFormatter = new StringFormatter();
     private final String TAG = "Oxygen Customizer - Lockscreen: ";
     private final Class<?> KeyguardHelper = null;
-    private Object OSF = null;
     private boolean removeSOS;
     private boolean hideFingerprint = false, customFingerprint = false;
     private int fingerprintStyle = 0;
@@ -150,18 +150,11 @@ public class Lockscreen extends XposedMods {
             log(t);
         }
 
-        Class<?> OnScreenFingerprint;
-        try {
-            OnScreenFingerprint = findClass("com.oplus.systemui.biometrics.finger.udfps.OnScreenFingerprintUiMach", lpparam.classLoader);
-        } catch (Throwable t) {
-            OnScreenFingerprint = findClass("com.oplus.systemui.keyguard.finger.onscreenfingerprint.OnScreenFingerprintUiMech", lpparam.classLoader); // OOS 13
-        }
-        hookAllMethods(OnScreenFingerprint, "initFpIconWin", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                OSF = param.thisObject;
-            }
-        });
+        Class<?> OnScreenFingerprint = findClassInArray(lpparam,
+                "com.oplus.systemui.biometrics.finger.udfps.OnScreenFingerprintUiMech", /* OOS15 */
+                "com.oplus.systemui.biometrics.finger.udfps.OnScreenFingerprintUiMach", /* OOS14 */
+                "com.oplus.systemui.keyguard.finger.onscreenfingerprint.OnScreenFingerprintUiMech" /* OOS13 */);
+
         try {
             hookAllMethods(OnScreenFingerprint, "loadAnimDrawables", new XC_MethodHook() {
                 @Override
@@ -199,7 +192,7 @@ public class Lockscreen extends XposedMods {
             }
         }
 
-        if (Build.VERSION.SDK_INT == 34) {
+        if (Build.VERSION.SDK_INT >= 34) {
             try {
                 findAndHookMethod(OnScreenFingerprint, "updateFpColor", int.class, new XC_MethodHook() {
                     @Override
@@ -293,7 +286,7 @@ public class Lockscreen extends XposedMods {
     }
 
     private void hookAffordance(XC_LoadPackage.LoadPackageParam lpparam) {
-        if (Build.VERSION.SDK_INT == 34) {
+        if (Build.VERSION.SDK_INT >= 34) {
             Class<?> KeyguardBottomAreaView = findClass("com.android.systemui.keyguard.ui.binder.KeyguardBottomAreaViewBinder", lpparam.classLoader);
             hookAllMethods(KeyguardBottomAreaView, "updateButton", new XC_MethodHook() {
                 @Override
