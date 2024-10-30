@@ -20,6 +20,8 @@ import java.util.regex.Pattern;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 /** @noinspection unused, RedundantThrows */
 public class ReflectionTools {
@@ -270,6 +272,36 @@ public class ReflectionTools {
 		catch (Throwable ignored){}
 
 		log(str+ "id " + name + " type " + v.getClass().getName());
+	}
+
+	public static boolean isMethodAvailable(
+			Object target,
+			String methodName,
+			Class<?>... parameterTypes
+	) {
+		if (target == null) return false;
+
+		try {
+			target.getClass().getMethod(methodName, parameterTypes);
+			return true;
+		} catch (NoSuchMethodException e) {
+			return false;
+		}
+	}
+
+	public static Class<?> findClassInArray(
+			XC_LoadPackage.LoadPackageParam lpparam,
+			String...classes
+	) {
+		for(String clazz : classes) {
+			try {
+				Class<?> mClazz = findClass(clazz, lpparam.classLoader);
+				if (mClazz != null) {
+					return mClazz;
+				}
+			} catch (Throwable ignored) {}
+		}
+		return null;
 	}
 
 }
