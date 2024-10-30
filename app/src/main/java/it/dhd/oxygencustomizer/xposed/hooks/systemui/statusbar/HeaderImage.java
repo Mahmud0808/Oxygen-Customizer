@@ -145,8 +145,6 @@ public class HeaderImage extends XposedMods {
             OplusQSContainerImpl = findClass("com.oplusos.systemui.qs.OplusQSContainerImpl", lpparam.classLoader); // OOS 13
         }
 
-        ReflectionTools.dumpClass(OplusQSContainerImpl);
-
         try {
             log("Hooking");
             hookAllMethods(OplusQSContainerImpl, "onFinishInflate", new XC_MethodHook() {
@@ -179,7 +177,6 @@ public class HeaderImage extends XposedMods {
             hookAllMethods(OplusQSContainerImpl, "onConfigurationChanged", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    XposedBridge.log("OplusQSContainerImpl onConfigurationChanged");
                     Configuration config = (Configuration) param.args[0];
                     isLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
                 }
@@ -188,7 +185,6 @@ public class HeaderImage extends XposedMods {
             hookAllMethods(OplusQSContainerImpl, "updateResources", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    XposedBridge.log("OplusQSContainerImpl updateResources");
                     updateQSHeaderImage();
                 }
             });
