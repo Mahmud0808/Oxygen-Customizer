@@ -51,12 +51,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import it.dhd.oxygencustomizer.BuildConfig;
 import it.dhd.oxygencustomizer.utils.Constants;
 import it.dhd.oxygencustomizer.xposed.ResourceManager;
 import it.dhd.oxygencustomizer.xposed.XposedMods;
 import it.dhd.oxygencustomizer.xposed.hooks.systemui.SettingsLibUtilsProvider;
+import it.dhd.oxygencustomizer.xposed.utils.ReflectionTools;
 
 public class HeaderImage extends XposedMods {
 
@@ -89,6 +91,7 @@ public class HeaderImage extends XposedMods {
     private boolean isFirstExpansionIgnored = true;
     private boolean isResetNeeded = false;
     private final boolean ignore = true;
+    private boolean isLandscape = false;
 
     public HeaderImage(Context context) {
         super(context);
@@ -142,6 +145,8 @@ public class HeaderImage extends XposedMods {
             OplusQSContainerImpl = findClass("com.oplusos.systemui.qs.OplusQSContainerImpl", lpparam.classLoader); // OOS 13
         }
 
+        ReflectionTools.dumpClass(OplusQSContainerImpl);
+
         try {
             log("Hooking");
             hookAllMethods(OplusQSContainerImpl, "onFinishInflate", new XC_MethodHook() {
@@ -174,18 +179,16 @@ public class HeaderImage extends XposedMods {
             hookAllMethods(OplusQSContainerImpl, "onConfigurationChanged", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
+                    XposedBridge.log("OplusQSContainerImpl onConfigurationChanged");
                     Configuration config = (Configuration) param.args[0];
-                    if (config.orientation == Configuration.ORIENTATION_LANDSCAPE && !qshiLandscapeEnabled) {
-                        mQsHeaderLayout.post(() -> mQsHeaderLayout.setVisibility(View.GONE));
-                    } else {
-                        mQsHeaderLayout.post(() -> mQsHeaderLayout.setVisibility(View.VISIBLE));
-                    }
+                    isLandscape = config.orientation == Configuration.ORIENTATION_LANDSCAPE;
                 }
             });
 
             hookAllMethods(OplusQSContainerImpl, "updateResources", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
+                    XposedBridge.log("OplusQSContainerImpl updateResources");
                     updateQSHeaderImage();
                 }
             });
@@ -230,6 +233,7 @@ public class HeaderImage extends XposedMods {
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 if (!qshiEnabled || mQsHeaderLayout == null) return;
+                                if (isLandscape && !qshiLandscapeEnabled) return;
                                 if (param.args[0] instanceof Float) {
                                     float expansion = (float) param.args[0];
                                     //log("canScaleFadePanelAtExpandFraction: " + expansion);
