@@ -717,7 +717,9 @@
     <string name="depth_wallpaper_mode_custom_images">Custom Images</string>
     <string name="depth_wallpaper_mode_ai_plugin">AI (Local)</string>
     <string name="depth_wallpaper_opacity_title">Wallpaper foreground opacity</string>
-    <string name="depth_wallpaper_aod_title">Also on \"always on display\"</string>
+    <string name="depth_wallpaper_aod_title">Also on AOD</string>
+    <string name="depth_wallpaper_aod_summary">Show subject on Always On Display</string>
+    <string name="depth_wallpaper_aod_opacity_title">AOD Subject opacity</string>
     <string name="depth_wallpaper_pick_background_title">Pick Background</string>
     <string name="depth_wallpaper_pick_background_summary">Pick your background image</string>
     <string name="depth_wallpaper_pick_subject_title">Pick Foreground</string>

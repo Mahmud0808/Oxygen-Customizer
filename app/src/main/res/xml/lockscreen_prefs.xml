@@ -137,6 +137,24 @@
             app:valueCount="1"
             app:valueFormat="dp" />
 
+        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+            android:defaultValue="false"
+            android:key="DWShowOnAod"
+            android:summary="@string/depth_wallpaper_aod_summary"
+            android:title="@string/depth_wallpaper_aod_title"
+            app:iconSpaceReserved="false" />
+
+        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+            android:key="DWAodOpacity"
+            android:title="@string/depth_wallpaper_aod_opacity_title"
+            app:defaultValue="192"
+            app:iconSpaceReserved="false"
+            app:maxVal="255"
+            app:minVal="25"
+            app:tickInterval="1"
+            app:valueCount="1"
+            app:valueFormat="dp" />
+
         <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
             android:key="DWBackground"
             android:summary="@string/depth_wallpaper_pick_background_summary"
