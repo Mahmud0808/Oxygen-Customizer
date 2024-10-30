@@ -17,6 +17,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -188,10 +189,12 @@ public class AdvancedReboot extends XposedMods {
         buttonPaint.setColor(mContext.getColor(mContext.getResources().getIdentifier("oplus_road_color", "color", listenPackage)));
         buttonPaint.setStyle(Paint.Style.FILL);
 
+        int density = Resources.getSystem().getConfiguration().densityDpi;
+
         textPaint = new Paint();
-        textPaint.setColor(Color.WHITE);
-        textPaint.setTextSize(50);
+        textPaint.setColor(Color.GRAY);
         textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setTextSize((float) density / 13);
 
         int viewWidth = (int) callMethod(param, "getWidth");
 
@@ -204,15 +207,18 @@ public class AdvancedReboot extends XposedMods {
         canvas.drawCircle(centerX, centerY, radius, buttonPaint);
 
         if (mAdvancedRebootDrawable != null) {
-            int iconWidth = mAdvancedRebootDrawable.getIntrinsicWidth();
-            int iconHeight = mAdvancedRebootDrawable.getIntrinsicHeight();
-            Rect iconBounds = new Rect(centerX - iconWidth / 2, centerY - iconHeight / 2, centerX + iconWidth / 2, centerY + iconHeight / 2);
+
+            Rect iconBounds = new Rect(
+                    centerX - radius / 2,
+                    centerY - radius / 2,
+                    centerX + radius / 2,
+                    centerY + radius / 2);
             mAdvancedRebootDrawable.setBounds(iconBounds);
             mAdvancedRebootDrawable.draw(canvas);
         }
 
         float textX = (float) viewWidth / 2;
-        float textY = centerY + radius + dp2px(mContext, 15);
+        float textY = centerY + radius + dp2px(mContext, 20);
         String buttonText = modRes.getString(R.string.advanced_reboot_title);
         canvas.drawText(buttonText, textX, textY, textPaint);
     }
