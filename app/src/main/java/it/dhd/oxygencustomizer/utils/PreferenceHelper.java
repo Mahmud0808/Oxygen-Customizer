@@ -546,6 +546,14 @@ public class PreferenceHelper {
                 return Build.VERSION.SDK_INT >= 34 && instance.mPreferences.getBoolean("DWallpaperEnabled", false) &&
                         instance.mPreferences.getString("DWMode", "0").equals("1");
             }
+            case "DWShowOnAod" -> {
+                return isVisible("DWallpaperEnabled") &&
+                        instance.mPreferences.getBoolean("DWallpaperEnabled", false);
+            }
+            case "DWAodOpacity" -> {
+                return isVisible("DWShowOnAod") &&
+                        instance.mPreferences.getBoolean("DWShowOnAod", false);
+            }
             case "lockscreen_album_art_category" -> {
                 return Build.VERSION.SDK_INT >= 34;
             }

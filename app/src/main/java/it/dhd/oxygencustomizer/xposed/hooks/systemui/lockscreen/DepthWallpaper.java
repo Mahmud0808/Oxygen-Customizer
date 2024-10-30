@@ -11,6 +11,7 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getFloatField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static it.dhd.oxygencustomizer.utils.Constants.ACTIONS_AOD_INVALIDATE_DEPTH;
 import static it.dhd.oxygencustomizer.utils.Constants.ACTION_DEPTH_BACKGROUND_CHANGED;
 import static it.dhd.oxygencustomizer.utils.Constants.ACTION_DEPTH_SUBJECT_CHANGED;
 import static it.dhd.oxygencustomizer.utils.Constants.ACTION_EXTRACT_FAILURE;
@@ -86,7 +87,10 @@ public class DepthWallpaper extends XposedMods {
             if (intent != null && intent.getAction() != null) {
                 switch (intent.getAction()) {
                     case ACTION_DEPTH_BACKGROUND_CHANGED -> setDepthBackground();
-                    case ACTION_DEPTH_SUBJECT_CHANGED -> lockScreenSubjectCacheValid = false;
+                    case ACTION_DEPTH_SUBJECT_CHANGED -> {
+                        lockScreenSubjectCacheValid = false;
+                        sendAodIntent();
+                    }
                 }
             }
         }
@@ -96,7 +100,10 @@ public class DepthWallpaper extends XposedMods {
         public void onReceive(Context context, Intent intent) {
             if (intent != null && intent.getAction() != null) {
                 switch (intent.getAction()) {
-                    case ACTION_EXTRACT_SUCCESS -> lockScreenSubjectCacheValid = false;
+                    case ACTION_EXTRACT_SUCCESS -> {
+                        lockScreenSubjectCacheValid = false;
+                        sendAodIntent();
+                    }
                     case ACTION_EXTRACT_FAILURE -> {
                         lockScreenSubjectCacheValid = false;
                         String error = intent.getStringExtra("error");
@@ -546,6 +553,13 @@ public class DepthWallpaper extends XposedMods {
                 }
             }, 0, 5, TimeUnit.SECONDS);
         }
+    }
+
+    private void sendAodIntent() {
+        Intent intent = new Intent(ACTIONS_AOD_INVALIDATE_DEPTH);
+        intent.setPackage(mContext.getPackageName());
+        intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
+        mContext.sendBroadcast(intent);
     }
 
     @Override

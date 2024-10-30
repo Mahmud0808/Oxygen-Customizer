@@ -1,26 +1,23 @@
 package it.dhd.oxygencustomizer.xposed.hooks.systemui.aod;
 
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
-import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.findClass;
-import static de.robv.android.xposed.XposedHelpers.getBooleanField;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static it.dhd.oxygencustomizer.utils.Constants.ACTIONS_AOD_INVALIDATE_DEPTH;
 import static it.dhd.oxygencustomizer.utils.Constants.Packages.SYSTEM_UI;
 import static it.dhd.oxygencustomizer.xposed.XPrefs.Xprefs;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
-
-import androidx.annotation.NonNull;
 
 import java.io.FileInputStream;
 
@@ -38,7 +35,17 @@ public class AodDepthSubject extends XposedMods {
 
     private FrameLayout mAodRootLayout = null;
     private FrameLayout mLockScreenSubject;
-    private Drawable mSubjectDimmingOverlay;
+    private boolean mLayersCreated = false;
+    private boolean mSubjectCacheValid = false;
+    private boolean mReceiverRegistered = false;
+
+    private BroadcastReceiver mInvalidateCacheReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mSubjectCacheValid = false;
+            loadDepth();
+        }
+    };
 
     public AodDepthSubject(Context context) {
         super(context);
@@ -46,13 +53,23 @@ public class AodDepthSubject extends XposedMods {
 
     @Override
     public void updatePrefs(String... Key) {
-        mDepthWallpaper = Xprefs.getBoolean("aod_depth_wallpaper", false);
+        mDepthWallpaper = Xprefs.getBoolean("DWShowOnAod", false);
+        mDepthSubjectAlpha = Xprefs.getSliderInt("DWAodOpacity", 192);
+
+        if (mLayersCreated) {
+            mLockScreenSubject.setVisibility(mDepthWallpaper ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 
-        Class<?> CentralSurfacesImpl = findClass("com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpparam.classLoader);
+        if (!mReceiverRegistered) {
+            IntentFilter filter = new IntentFilter();
+            filter.addAction(ACTIONS_AOD_INVALIDATE_DEPTH);
+            mContext.registerReceiver(mInvalidateCacheReceiver, filter, Context.RECEIVER_EXPORTED);
+            mReceiverRegistered = true;
+        }
 
         Class<?> AodRootLayout;
         try {
@@ -64,43 +81,28 @@ public class AodDepthSubject extends XposedMods {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 mAodRootLayout = (FrameLayout) param.thisObject;
-                mAodRootLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-                    @Override
-                    public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                        if (v.getVisibility() == View.VISIBLE) {
-                            Animation fadeIn = new AlphaAnimation(0, 1);
-                            fadeIn.setInterpolator(new DecelerateInterpolator());
-                            fadeIn.setDuration(1000);
-                            mLockScreenSubject.startAnimation(fadeIn);
-                        } else {
-                            Animation fadeOut = new AlphaAnimation(1, 0);
-                            fadeOut.setInterpolator(new DecelerateInterpolator());
-                            fadeOut.setDuration(1000);
-                            mLockScreenSubject.startAnimation(fadeOut);
+                mAodRootLayout.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                    if (!mDepthWallpaper) return;
+                    else {
+                        if (mLockScreenSubject.getVisibility() != View.VISIBLE) {
+                            mLockScreenSubject.setVisibility(View.VISIBLE);
                         }
+                    }
+                    if (v.getVisibility() == View.VISIBLE) {
+                        Animation fadeIn = new AlphaAnimation(0, 1);
+                        fadeIn.setInterpolator(new DecelerateInterpolator());
+                        fadeIn.setDuration(1000);
+                        mLockScreenSubject.startAnimation(fadeIn);
+                    } else {
+                        Animation fadeOut = new AlphaAnimation(1, 0);
+                        fadeOut.setInterpolator(new DecelerateInterpolator());
+                        fadeOut.setDuration(1000);
+                        mLockScreenSubject.startAnimation(fadeOut);
                     }
                 });
                 placeSubject();
             }
         });
-
-//        // Stole Dozing State
-//        hookAllMethods(CentralSurfacesImpl, "updateDozingState", new XC_MethodHook() {
-//            @Override
-//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                boolean mDozing = getBooleanField(param.thisObject, "mDozing");
-//                mLockScreenSubject.setVisibility(mDozing ? View.VISIBLE : View.GONE);
-//            }
-//        });
-//
-//
-//        hookAllMethods(CentralSurfacesImpl, "inflateStatusBarWindow", new XC_MethodHook() {
-//            @Override
-//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                mAodRootLayout = (FrameLayout) getObjectField(param.thisObject, "mNotificationShadeWindowView");
-//                placeSubject();
-//            }
-//        });
 
     }
 
@@ -109,7 +111,7 @@ public class AodDepthSubject extends XposedMods {
             return;
         }
         createLayers();
-        loadDepth();
+        if (!mSubjectCacheValid) loadDepth();
         try {
             ViewGroup v = (ViewGroup) mLockScreenSubject.getParent();
             v.removeView(mLockScreenSubject);
@@ -120,23 +122,22 @@ public class AodDepthSubject extends XposedMods {
     }
 
     private void createLayers() {
+        if (mLayersCreated) return;
         mLockScreenSubject = new FrameLayout(mContext);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(-1, -1);
         mLockScreenSubject.setLayoutParams(lp);
+        mLayersCreated = true;
     }
 
     private void loadDepth() {
         try (FileInputStream inputStream = new FileInputStream(Constants.getLockScreenSubjectCachePath())) {
-            log("Loading Lock Screen Subject Cache file exists");
+            log("Loading Depth Cache");
             Drawable bitmapDrawable = BitmapDrawable.createFromStream(inputStream, "");
             bitmapDrawable.setAlpha(255);
 
-            mSubjectDimmingOverlay = bitmapDrawable.getConstantState().newDrawable().mutate();
-            mSubjectDimmingOverlay.setTint(Color.BLACK);
-
             mLockScreenSubject.setBackground(bitmapDrawable);
-            mLockScreenSubject.getBackground().setAlpha(192);
-//            mSubjectDimmingOverlay.setAlpha(255 /*Math.round(192 * (DWOpacity / 255f))*/);
+            mLockScreenSubject.getBackground().setAlpha(mDepthSubjectAlpha);
+            mSubjectCacheValid = true;
         } catch (Throwable t) {
             log(t);
         }

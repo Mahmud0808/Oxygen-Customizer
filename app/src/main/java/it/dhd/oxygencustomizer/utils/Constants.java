@@ -678,6 +678,7 @@ public final class Constants {
     public static final String ACTION_DEPTH_SUBJECT_CHANGED = BuildConfig.APPLICATION_ID + ".ACTIONS_DEPTH_SUBJECT_CHANGED_OC";
     public static final String ACTIONS_MEMC_FEATURE_GET = BuildConfig.APPLICATION_ID + ".ACTIONS_MEMC_FEATURE_GET_OC";
     public static final String ACTIONS_MEMC_FEATURE_RECEIVED = BuildConfig.APPLICATION_ID + ".ACTIONS_MEMC_FEATURE_RECEIVED_OC";
+    public static final String ACTIONS_AOD_INVALIDATE_DEPTH = BuildConfig.APPLICATION_ID + ".ACTIONS_AOD_INVALIDATE_DEPTH";
 
     // AI Plugin
     public static final String ACTION_EXTRACT_SUBJECT = "it.dhd.oxygencustomizer.aiplugin.ACTION_EXTRACT_SUBJECT";
