@@ -105,7 +105,7 @@ public class ModPacks {
                     // AOD
                     modPacks.add(AodClock.class);
                     modPacks.add(AodWeather.class);
-//                    modPacks.add(AodDepthSubject.class);
+                    modPacks.add(AodDepthSubject.class);
 
                     // Statusbar
                     modPacks.add(StatusbarMods.class);
