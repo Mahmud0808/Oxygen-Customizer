@@ -685,9 +685,9 @@ public class HeaderClock extends XposedMods {
             mOplusClock.setTypeface(typeface);
             mOplusDate.setTypeface(typeface);
         } else {
-            if (mStockClockTypeface != null)
+            if (mStockClockTypeface != null && mOplusClock != null)
                 mOplusClock.setTypeface(mStockClockTypeface);
-            if (mStockDateTypeface != null)
+            if (mStockDateTypeface != null && mOplusDate != null)
                 mOplusDate.setTypeface(mStockDateTypeface);
         }
 
