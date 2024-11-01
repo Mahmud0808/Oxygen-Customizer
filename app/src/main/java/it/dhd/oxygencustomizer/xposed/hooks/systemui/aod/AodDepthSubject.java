@@ -1,9 +1,6 @@
 package it.dhd.oxygencustomizer.xposed.hooks.systemui.aod;
 
-import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
-import static de.robv.android.xposed.XposedHelpers.findClass;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static it.dhd.oxygencustomizer.utils.Constants.ACTIONS_AOD_INVALIDATE_DEPTH;
 import static it.dhd.oxygencustomizer.utils.Constants.Packages.SYSTEM_UI;
 import static it.dhd.oxygencustomizer.xposed.XPrefs.Xprefs;
@@ -22,25 +19,27 @@ import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 
+import java.io.File;
 import java.io.FileInputStream;
 
 import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import it.dhd.oxygencustomizer.utils.Constants;
 import it.dhd.oxygencustomizer.xposed.XposedMods;
 
+/**
+ * @noinspection RedundantThrows
+ */
 public class AodDepthSubject extends XposedMods {
 
     private final static String listenPackage = SYSTEM_UI;
 
     private boolean mDepthWallpaper = false;
+    private boolean mDepthOnAod = false;
     private int mDepthSubjectAlpha = 0;
-
     private FrameLayout mAodRootLayout = null;
     private FrameLayout mLockScreenSubject;
     private boolean mLayersCreated = false;
@@ -51,7 +50,7 @@ public class AodDepthSubject extends XposedMods {
     private static final int MOVE_DISTANCE = 2;
     private static final long DELAY_MILLIS = 60000; // 1 minute
 
-    private BroadcastReceiver mInvalidateCacheReceiver = new BroadcastReceiver() {
+    private final BroadcastReceiver mInvalidateCacheReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             mSubjectCacheValid = false;
@@ -77,27 +76,24 @@ public class AodDepthSubject extends XposedMods {
     }
 
     private void moveFrameLayout() {
-        // Get the current position
         int x = (int) mLockScreenSubject.getX();
         int y = (int) mLockScreenSubject.getY();
 
-        // Update position based on direction
         switch (direction) {
-            case 0: // Move right
+            case 0:
                 mLockScreenSubject.setX(x + MOVE_DISTANCE);
                 break;
-            case 1: // Move up
+            case 1:
                 mLockScreenSubject.setY(y - MOVE_DISTANCE);
                 break;
-            case 2: // Move left
+            case 2:
                 mLockScreenSubject.setX(x - MOVE_DISTANCE);
                 break;
-            case 3: // Move down
+            case 3:
                 mLockScreenSubject.setY(y + MOVE_DISTANCE);
                 break;
         }
 
-        // Change direction for the next move
         direction = (direction + 1) % 4;
     }
 
@@ -107,11 +103,12 @@ public class AodDepthSubject extends XposedMods {
 
     @Override
     public void updatePrefs(String... Key) {
-        mDepthWallpaper = Xprefs.getBoolean("DWShowOnAod", false);
+        mDepthWallpaper = Xprefs.getBoolean("DWallpaperEnabled", false);
+        mDepthOnAod = Xprefs.getBoolean("DWShowOnAod", false);
         mDepthSubjectAlpha = Xprefs.getSliderInt("DWAodOpacity", 192);
 
         if (mLayersCreated) {
-            mLockScreenSubject.setVisibility(mDepthWallpaper ? View.VISIBLE : View.GONE);
+            mLockScreenSubject.setVisibility(mDepthWallpaper && mDepthOnAod ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -139,7 +136,11 @@ public class AodDepthSubject extends XposedMods {
         hookAllMethods(AodRecord, "onDreamingStarted", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (!mDepthWallpaper || !mLayersCreated) return;
+                if ((!mLayersCreated) ||
+                        (mDepthWallpaper && !mDepthOnAod) ||
+                        (!mDepthWallpaper && mDepthOnAod)) {
+                    return;
+                }
                 log("onDreamingStarted");
                 animateView(true);
                 startMoving();
@@ -149,7 +150,11 @@ public class AodDepthSubject extends XposedMods {
         hookAllMethods(AodRecord, "onDreamingStopped", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (!mDepthWallpaper || !mLayersCreated) return;
+                if ((!mLayersCreated) ||
+                        (mDepthWallpaper && !mDepthOnAod) ||
+                        (!mDepthWallpaper && mDepthOnAod)) {
+                    return;
+                }
                 log("onDreamingStopped");
                 animateView(false);
                 stopMoving();
@@ -212,6 +217,9 @@ public class AodDepthSubject extends XposedMods {
     }
 
     private void loadDepth() {
+        if (!(new File(Constants.getLockScreenSubjectCachePath()).exists())) {
+            return;
+        }
         try (FileInputStream inputStream = new FileInputStream(Constants.getLockScreenSubjectCachePath())) {
             log("Loading Depth Cache");
             Drawable bitmapDrawable = BitmapDrawable.createFromStream(inputStream, "");

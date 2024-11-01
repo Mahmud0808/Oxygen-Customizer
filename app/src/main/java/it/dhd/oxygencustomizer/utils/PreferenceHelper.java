@@ -1046,6 +1046,7 @@ public class PreferenceHelper {
             case LOCKSCREEN_FINGERPRINT_SCALING ->
                     instance.mPreferences.getSliderFloat(LOCKSCREEN_FINGERPRINT_SCALING, 1.0f) + "%";
             case "DWOpacity" -> instance.mPreferences.getSliderInt("DWOpacity", 192) + "dp";
+            case "DWAodOpacity" -> instance.mPreferences.getSliderInt("DWAodOpacity", 192) + "dp";
             case "lockscreen_media_blur" ->
                     instance.mPreferences.getSliderInt("lockscreen_media_blur", 35) + "%";
 
