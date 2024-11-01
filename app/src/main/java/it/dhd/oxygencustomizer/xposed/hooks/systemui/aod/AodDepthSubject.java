@@ -1,17 +1,24 @@
 package it.dhd.oxygencustomizer.xposed.hooks.systemui.aod;
 
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
+import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static it.dhd.oxygencustomizer.utils.Constants.ACTIONS_AOD_INVALIDATE_DEPTH;
 import static it.dhd.oxygencustomizer.utils.Constants.Packages.SYSTEM_UI;
 import static it.dhd.oxygencustomizer.xposed.XPrefs.Xprefs;
+import static it.dhd.oxygencustomizer.xposed.utils.ReflectionTools.findClassInArray;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -22,6 +29,7 @@ import android.widget.FrameLayout;
 import java.io.FileInputStream;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import it.dhd.oxygencustomizer.utils.Constants;
 import it.dhd.oxygencustomizer.xposed.XposedMods;
@@ -38,6 +46,10 @@ public class AodDepthSubject extends XposedMods {
     private boolean mLayersCreated = false;
     private boolean mSubjectCacheValid = false;
     private boolean mReceiverRegistered = false;
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private int direction = 0; // 0: right, 1: up, 2: left, 3: down
+    private static final int MOVE_DISTANCE = 2;
+    private static final long DELAY_MILLIS = 60000; // 1 minute
 
     private BroadcastReceiver mInvalidateCacheReceiver = new BroadcastReceiver() {
         @Override
@@ -46,6 +58,48 @@ public class AodDepthSubject extends XposedMods {
             loadDepth();
         }
     };
+
+    private final Runnable mBurnInProtection = new Runnable() {
+        @Override
+        public void run() {
+            if (!mDepthWallpaper || !mLayersCreated) return;
+            moveFrameLayout();
+            mHandler.postDelayed(this, DELAY_MILLIS);
+        }
+    };
+
+    public void startMoving() {
+        mHandler.postDelayed(mBurnInProtection, DELAY_MILLIS);
+    }
+
+    public void stopMoving() {
+        mHandler.removeCallbacks(mBurnInProtection);
+    }
+
+    private void moveFrameLayout() {
+        // Get the current position
+        int x = (int) mLockScreenSubject.getX();
+        int y = (int) mLockScreenSubject.getY();
+
+        // Update position based on direction
+        switch (direction) {
+            case 0: // Move right
+                mLockScreenSubject.setX(x + MOVE_DISTANCE);
+                break;
+            case 1: // Move up
+                mLockScreenSubject.setY(y - MOVE_DISTANCE);
+                break;
+            case 2: // Move left
+                mLockScreenSubject.setX(x - MOVE_DISTANCE);
+                break;
+            case 3: // Move down
+                mLockScreenSubject.setY(y + MOVE_DISTANCE);
+                break;
+        }
+
+        // Change direction for the next move
+        direction = (direction + 1) % 4;
+    }
 
     public AodDepthSubject(Context context) {
         super(context);
@@ -71,39 +125,66 @@ public class AodDepthSubject extends XposedMods {
             mReceiverRegistered = true;
         }
 
-        Class<?> AodRootLayout;
-        try {
-            AodRootLayout = findClass("com.oplus.systemui.aod.aodclock.off.AodRootLayout", lpparam.classLoader);
-        } catch (Throwable t) {
-            AodRootLayout = findClass("com.oplusos.systemui.aod.aodclock.off.AodRootLayout", lpparam.classLoader);
-        }
-        hookAllConstructors(AodRootLayout, new XC_MethodHook() {
+        Class<?> AodRecord = findClassInArray(lpparam,
+                "com.oplus.systemui.aod.AodRecord",
+                "com.oplusos.systemui.aod.AodRecord");
+        hookAllMethods(AodRecord, "createAndInitRootView", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                mAodRootLayout = (FrameLayout) param.thisObject;
-                mAodRootLayout.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                    if (!mDepthWallpaper) return;
-                    else {
-                        if (mLockScreenSubject.getVisibility() != View.VISIBLE) {
-                            mLockScreenSubject.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    if (v.getVisibility() == View.VISIBLE) {
-                        Animation fadeIn = new AlphaAnimation(0, 1);
-                        fadeIn.setInterpolator(new DecelerateInterpolator());
-                        fadeIn.setDuration(1000);
-                        mLockScreenSubject.startAnimation(fadeIn);
-                    } else {
-                        Animation fadeOut = new AlphaAnimation(1, 0);
-                        fadeOut.setInterpolator(new DecelerateInterpolator());
-                        fadeOut.setDuration(1000);
-                        mLockScreenSubject.startAnimation(fadeOut);
-                    }
-                });
+                mAodRootLayout = (FrameLayout) param.getResult();
                 placeSubject();
             }
         });
 
+        hookAllMethods(AodRecord, "onDreamingStarted", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (!mDepthWallpaper || !mLayersCreated) return;
+                log("onDreamingStarted");
+                animateView(true);
+                startMoving();
+            }
+        });
+
+        hookAllMethods(AodRecord, "onDreamingStopped", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                if (!mDepthWallpaper || !mLayersCreated) return;
+                log("onDreamingStopped");
+                animateView(false);
+                stopMoving();
+            }
+        });
+
+    }
+
+    public void animateView(boolean show) {
+        ObjectAnimator scaleX;
+        ObjectAnimator scaleY;
+        if (show) {
+             scaleX = ObjectAnimator.ofFloat(mLockScreenSubject, "scaleX", 0.8f, 1f);
+             scaleY = ObjectAnimator.ofFloat(mLockScreenSubject, "scaleY", 0.8f, 1f);
+        } else {
+            scaleX = ObjectAnimator.ofFloat(mLockScreenSubject, "scaleX", 1f, 0.8f);
+            scaleY = ObjectAnimator.ofFloat(mLockScreenSubject, "scaleY", 1f, 0.8f);
+        }
+        scaleX.setDuration(1000);
+        scaleY.setDuration(1000);
+
+        AlphaAnimation fade;
+        if (show) {
+            fade = new AlphaAnimation(0f, 1f);
+        } else {
+            fade = new AlphaAnimation(1f, 0f);
+        }
+        fade.setInterpolator(new DecelerateInterpolator());
+        fade.setDuration(1500);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.play(scaleX).with(scaleY);
+        animatorSet.start();
+
+        mLockScreenSubject.startAnimation(fade);
     }
 
     private void placeSubject() {
@@ -126,6 +207,7 @@ public class AodDepthSubject extends XposedMods {
         mLockScreenSubject = new FrameLayout(mContext);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(-1, -1);
         mLockScreenSubject.setLayoutParams(lp);
+        mLockScreenSubject.setVisibility(View.GONE);
         mLayersCreated = true;
     }
 
