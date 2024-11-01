@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+    <it.dhd.oneplusui.preference.OplusSwitchPreference
         android:defaultValue="false"
         android:key="BBarEnabled"
         android:summaryOff="@string/general_off"
@@ -13,7 +13,7 @@
 
     <PreferenceCategory>
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="BBOnlyWhileCharging"
             android:summaryOff="@string/general_off"
@@ -21,7 +21,7 @@
             android:title="@string/BB_onlycharging_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="BBOnBottom"
             android:summaryOff="@string/general_off"
@@ -29,7 +29,7 @@
             android:title="@string/BB_move_SB_bottom_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:key="BBOpacity"
             android:title="@string/BB_Opacity_title"
             app:defaultValue="100"
@@ -37,7 +37,7 @@
             app:updatesContinuously="true"
             app:valueFormat="%" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:key="BBarHeight"
             android:title="@string/BB_Thickness_title"
             app:defaultValue="50"
@@ -45,7 +45,7 @@
             app:updatesContinuously="true"
             app:valueFormat="dp" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="BBSetCentered"
             android:summaryOff="@string/general_off"
@@ -56,7 +56,7 @@
 
     <PreferenceCategory>
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="BBarColorful"
             android:summaryOff="@string/general_off"
@@ -64,7 +64,7 @@
             android:title="@string/BB_colorful_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="true"
             android:key="BBAnimateCharging"
             android:summaryOff="@string/general_off"
@@ -72,7 +72,7 @@
             android:title="@string/BB_animate_charging"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="indicateCharging"
             android:summaryOff="@string/general_off"
@@ -86,7 +86,7 @@
             android:title="@string/BB_batteryChargingColor"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="indicateFastCharging"
             android:summaryOff="@string/general_off"
@@ -100,7 +100,7 @@
             android:title="@string/BB_batteryFastChargingColor"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="indicatePowerSave"
             android:summaryOff="@string/general_off"
@@ -117,7 +117,7 @@
 
     <PreferenceCategory>
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:key="batteryWarningRange"
             android:summary="@string/BB_warning_tip"
             android:title="@string/BB_warning_level"
@@ -129,7 +129,7 @@
             app:valueCount="2"
             app:valueFormat="%" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="BBarTransitColors"
             android:summaryOff="@string/general_off"

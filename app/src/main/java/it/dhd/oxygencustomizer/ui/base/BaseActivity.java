@@ -19,16 +19,16 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.color.DynamicColors;
 import com.google.android.material.shape.MaterialShapeDrawable;
 
+import it.dhd.oneplusui.appcompat.app.OplusActivity;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.utils.Constants;
 import it.dhd.oxygencustomizer.utils.LocaleHelper;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends OplusActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setDarkTheme();
         DynamicColors.applyToActivityIfAvailable(this);
         setupEdgeToEdge();
     }
@@ -60,27 +60,6 @@ public class BaseActivity extends AppCompatActivity {
                 return windowInsets;
             });
         }
-    }
-
-    private void setDarkTheme() {
-        if (isNightMode()) {
-            int darkStyle = Settings.System.getInt(getContentResolver(), "DarkMode_style_key", Constants.DEFAULT_DARK_MODE_STYLE);
-            switch (darkStyle) {
-                case 0:
-                    setTheme(R.style.Theme_OxygenCustomizer_DarkHard);
-                    break;
-                case 1:
-                    setTheme(R.style.Theme_OxygenCustomizer_DarkMedium);
-                    break;
-                case 2:
-                    setTheme(R.style.Theme_OxygenCustomizer_DarkSoft);
-                    break;
-            }
-        }
-    }
-
-    private boolean isNightMode() {
-        return (getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
     }
 
     public static void setHeader(Context context, int title) {

@@ -4,7 +4,7 @@
 
     <PreferenceCategory>
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusMenuPreference
+        <it.dhd.oneplusui.preference.OplusMenuPreference
             android:defaultValue="2"
             android:entries="@array/update_interval_entries"
             android:entryValues="@array/update_interval_values"
@@ -13,12 +13,12 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusPreference
+        <it.dhd.oneplusui.preference.OplusPreference
             android:key="update_status"
             android:title="@string/last_update_time"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusMenuPreference
+        <it.dhd.oneplusui.preference.OplusMenuPreference
             android:defaultValue="2"
             android:entries="@array/provider_entries"
             android:entryValues="@array/provider_values"
@@ -27,7 +27,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusEditTextPreference
+        <it.dhd.oneplusui.preference.OplusEditTextPreference
             android:dialogTitle="@string/owm_key"
             android:inputType="textNoSuggestions"
             android:key="owm_key"
@@ -36,7 +36,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusEditTextPreference
+        <it.dhd.oneplusui.preference.OplusEditTextPreference
             android:dialogTitle="@string/yandex_key"
             android:inputType="textNoSuggestions"
             android:key="yandex_key"
@@ -45,7 +45,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusMenuPreference
+        <it.dhd.oneplusui.preference.OplusMenuPreference
             android:defaultValue="0"
             android:entries="@array/units_entries"
             android:entryValues="@array/units_values"
@@ -56,21 +56,21 @@
 
     </PreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory android:title="@string/weather_custom_location_title">
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory android:title="@string/weather_custom_location_title">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="weather_custom_location_switch"
             android:title="@string/custom_location_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:dependency="weather_custom_location_switch"
             android:key="weather_custom_location_picker"
             android:title="@string/weather_custom_location_title"
             app:iconSpaceReserved="false" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
     <PreferenceCategory>
 

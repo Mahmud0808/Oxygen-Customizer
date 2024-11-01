@@ -17,7 +17,6 @@
     <color name="colorBackgroundSoft">#303030</color>
     <color name="colorBackgroundMedium">#171717</color>
     <color name="colorBackgroundHard">#000000</color>
-    <color name="colorDivider">#33ffffff</color>
     <color name="colorPressBackground">#26ffffff</color>
     <color name="cardview_background">@color/cardview_dark_background</color>
 

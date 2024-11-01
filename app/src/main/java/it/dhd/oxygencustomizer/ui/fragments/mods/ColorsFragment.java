@@ -21,11 +21,11 @@ import com.topjohnwu.superuser.Shell;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import it.dhd.oneplusui.preference.OplusPreference;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.ui.base.ControlledPreferenceFragmentCompat;
 import it.dhd.oxygencustomizer.ui.dialogs.LoadingDialog;
 import it.dhd.oxygencustomizer.ui.preferences.OplusColorPreference;
-import it.dhd.oxygencustomizer.ui.preferences.OplusPreference;
 import it.dhd.oxygencustomizer.utils.ColorUtils;
 
 public class ColorsFragment extends ControlledPreferenceFragmentCompat {

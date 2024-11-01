@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.OplusRecyclerView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -67,21 +69,21 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull AppAdapter.ViewHolder holder, int position) {
         AppModel model = filteredApps.get(holder.getBindingAdapterPosition());
+        boolean shouldDrawDivider = getItemCount() > 1 && position < getItemCount() - 1;
+        holder.setDrawDivider(shouldDrawDivider);
+        holder.binding.appSlider.setVisibility(hasSlider && model.isEnabled() ? View.VISIBLE : View.GONE);
+        holder.binding.appSlider.forcePosition("middle");
+        if (position == 0) {
+            holder.binding.appSwitch.forcePosition(filteredApps.size() == 1 ? "full" : "top");
+        } else if (position == filteredApps.size() - 1) {
+            holder.binding.appSwitch.forcePosition("middle");
+            holder.binding.appSlider.forcePosition("bottom");
+        } else {
+            holder.binding.appSwitch.forcePosition("middle");
+        }
         holder.binding.appSwitch.setTitle(model.getAppName());
         holder.binding.appSwitch.setSummary(model.getPackageName());
         holder.binding.appSwitch.setIcon(model.getAppIcon());
-        if (!hasSlider) {
-            holder.binding.appSwitch.forcePosition("full");
-        } else {
-            if (model.isEnabled()) {
-                holder.binding.appSlider.setVisibility(View.VISIBLE);
-                holder.binding.appSwitch.forcePosition("top");
-                holder.binding.appSlider.forcePosition("bottom");
-            } else {
-                holder.binding.appSlider.setVisibility(View.GONE);
-                holder.binding.appSwitch.forcePosition("full");
-            }
-        }
 
         holder.binding.appSwitch.setSwitchChangeListener((buttonView, isChecked) -> {
             if (hasSlider) {
@@ -141,14 +143,46 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.ViewHolder> {
         checkChange();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements OplusRecyclerView.IOplusDividerDecorationInterface {
 
         private final AppItemBinding binding;
+        private boolean drawDivider;
+        private final int mDividerDefaultHorizontalPadding = getAppContext().getResources().getDimensionPixelSize(R.dimen.preference_divider_default_horizontal_padding);
 
         public ViewHolder(@NonNull AppItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
+
+        public void setDrawDivider(boolean drawDivider) {
+            this.drawDivider = drawDivider;
+        }
+
+        @Override
+        public boolean drawDivider() {
+            return drawDivider;
+        }
+
+        @Override
+        public View getDividerEndAlignView() {
+            return null;
+        }
+
+        @Override
+        public int getDividerEndInset() {
+            return this.mDividerDefaultHorizontalPadding;
+        }
+
+        @Override
+        public View getDividerStartAlignView() {
+            return this.binding.appSwitch.getTitleView();
+        }
+
+        @Override
+        public int getDividerStartInset() {
+            return this.mDividerDefaultHorizontalPadding;
+        }
+
     }
 
 }

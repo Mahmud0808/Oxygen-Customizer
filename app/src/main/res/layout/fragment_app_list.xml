@@ -45,6 +45,7 @@
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:dividerColor="@color/colorDivider"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp" />
 

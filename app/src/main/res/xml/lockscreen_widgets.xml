@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+    <it.dhd.oneplusui.preference.OplusSwitchPreference
         android:defaultValue="false"
         android:key="lockscreen_widgets_enabled"
         android:summary="@string/lockscreen_widgets_enabled_summary"
@@ -10,11 +10,11 @@
         app:forcePosition="full"
         app:iconSpaceReserved="false" />
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/lockscreen_display_widgets_title"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:dependency="lockscreen_widgets_enabled"
             android:key="lockscreen_device_widget"
@@ -22,7 +22,7 @@
             android:title="@string/lockscreen_display_widgets_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="lockscreen_device_widget_custom_color"
             android:summaryOff="@string/general_off"
@@ -51,19 +51,19 @@
             app:cpv_showAlphaSlider="true"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusEditTextPreference
+        <it.dhd.oneplusui.preference.OplusEditTextPreference
             android:key="lockscreen_device_widget_device_name"
             android:summary="@string/custom_device_name_summary"
             android:title="@string/custom_device_name"
             app:iconSpaceReserved="false" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/large_widgets_category_title"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusListPreference
+        <it.dhd.oneplusui.preference.OplusListPreference
             android:dependency="lockscreen_widgets_enabled"
             android:entries="@array/widget_entries"
             android:entryValues="@array/widget_values"
@@ -72,7 +72,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusListPreference
+        <it.dhd.oneplusui.preference.OplusListPreference
             android:dependency="lockscreen_widgets_enabled"
             android:entries="@array/widget_entries"
             android:entryValues="@array/widget_values"
@@ -81,13 +81,13 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/mini_widgets_category_title"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusListPreference
+        <it.dhd.oneplusui.preference.OplusListPreference
             android:dependency="lockscreen_widgets_enabled"
             android:entries="@array/widget_entries"
             android:entryValues="@array/widget_values"
@@ -96,7 +96,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusListPreference
+        <it.dhd.oneplusui.preference.OplusListPreference
             android:dependency="lockscreen_widgets_enabled"
             android:entries="@array/widget_entries"
             android:entryValues="@array/widget_values"
@@ -105,7 +105,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusListPreference
+        <it.dhd.oneplusui.preference.OplusListPreference
             android:dependency="lockscreen_widgets_enabled"
             android:entries="@array/widget_entries"
             android:entryValues="@array/widget_values"
@@ -114,7 +114,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusListPreference
+        <it.dhd.oneplusui.preference.OplusListPreference
             android:dependency="lockscreen_widgets_enabled"
             android:entries="@array/widget_entries"
             android:entryValues="@array/widget_values"
@@ -123,13 +123,13 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/widgets_custom_color"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="lockscreen_widgets_custom_color"
             android:title="@string/widgets_custom_color_title"
@@ -199,19 +199,19 @@
             app:cpv_showAlphaSlider="true"
             app:iconSpaceReserved="false" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/misc_category"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.mods.WeatherSettings"
             android:key="weather_settings"
             android:title="@string/weather_settings"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:dependency="lockscreen_widgets_enabled"
             android:key="widget_scale"
             android:title="@string/widgets_scale"
@@ -224,6 +224,6 @@
             app:tickInterval="0.05"
             app:valueFormat="%" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
 </PreferenceScreen>

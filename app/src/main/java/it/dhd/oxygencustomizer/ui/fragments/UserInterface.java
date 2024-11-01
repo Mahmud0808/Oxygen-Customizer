@@ -14,10 +14,10 @@ import android.os.Looper;
 
 import androidx.preference.Preference;
 
+import it.dhd.oneplusui.preference.OplusJumpPreference;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.ui.base.ControlledPreferenceFragmentCompat;
 import it.dhd.oxygencustomizer.ui.dialogs.LoadingDialog;
-import it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference;
 import it.dhd.oxygencustomizer.utils.ModuleUtil;
 
 public class UserInterface extends ControlledPreferenceFragmentCompat {

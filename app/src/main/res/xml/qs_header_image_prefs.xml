@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="qs_header_image_enabled"
             android:summary="@string/qs_header_image_enabled_summary"
@@ -21,7 +21,7 @@
             android:title="@string/qs_header_image_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:dependency="qs_header_image_enabled"
             android:key="qs_header_image_file"
             android:persistent="false"
@@ -33,7 +33,7 @@
 
     <PreferenceCategory>
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusMenuPreference
+        <it.dhd.oneplusui.preference.OplusMenuPreference
             android:defaultValue="0"
             android:dependency="qs_header_image_enabled"
             android:entries="@array/qs_header_image_tint_entries"
@@ -43,7 +43,7 @@
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:dependency="qs_header_image_enabled"
             android:key="qs_header_image_tint_intensity"
             android:title="@string/qs_header_image_tint_intensity_title"
@@ -60,7 +60,7 @@
             android:title="@string/qs_header_image_tint_custom_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:dependency="qs_header_image_enabled"
             android:key="qs_header_image_alpha"
             android:title="@string/qs_header_image_alpha_title"
@@ -69,7 +69,7 @@
             app:minVal="0"
             app:valueFormat="dp" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:dependency="qs_header_image_enabled"
             android:key="qs_header_image_bottom_fade"
             android:title="@string/qs_header_image_bottom_fade_title"
@@ -78,7 +78,7 @@
             app:minVal="0"
             app:valueFormat="dp" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:dependency="qs_header_image_enabled"
             android:key="qs_header_image_height_portrait"
             android:title="@string/qs_header_image_height_portrait_title"
@@ -87,7 +87,7 @@
             app:minVal="50"
             app:valueFormat="dp" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:dependency="qs_header_image_enabled"
             android:key="qs_header_image_landscape_enabled"
@@ -99,7 +99,7 @@
 
     <PreferenceCategory>
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:dependency="qs_header_image_enabled"
             android:key="qs_header_image_padding_side"
             android:title="@string/qs_header_image_padding_side_title"
@@ -108,7 +108,7 @@
             app:minVal="-100"
             app:valueFormat="dp" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:dependency="qs_header_image_enabled"
             android:key="qs_header_image_padding_top"
             android:title="@string/qs_header_image_padding_top_title"
@@ -117,7 +117,7 @@
             app:minVal="-100"
             app:valueFormat="dp" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="qs_header_image_zoom_to_fit"
             android:summary="@string/qs_header_image_zoomtofit_summary"

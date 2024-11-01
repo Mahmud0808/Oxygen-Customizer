@@ -31,6 +31,8 @@ import com.canhub.cropper.CropImageOptions;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.topjohnwu.superuser.Shell;
 
+import it.dhd.oneplusui.preference.OplusJumpPreference;
+import it.dhd.oneplusui.preference.OplusSwitchPreference;
 import it.dhd.oxygencustomizer.OxygenCustomizer;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.ui.base.ClockPickerFragment;
@@ -40,8 +42,6 @@ import it.dhd.oxygencustomizer.ui.fragments.mods.misc.DarkMode;
 import it.dhd.oxygencustomizer.ui.fragments.mods.misc.LagFixAppChooser;
 import it.dhd.oxygencustomizer.ui.fragments.mods.sound.FluidSettings;
 import it.dhd.oxygencustomizer.ui.models.SearchPreferenceItem;
-import it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference;
-import it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference;
 import it.dhd.oxygencustomizer.ui.preferences.preferencesearch.SearchConfiguration;
 import it.dhd.oxygencustomizer.ui.preferences.preferencesearch.SearchPreference;
 import it.dhd.oxygencustomizer.ui.preferences.preferencesearch.SearchPreferenceResult;

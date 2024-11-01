@@ -6,7 +6,7 @@
         android:key="sb_illustration"
         app:lottie_rawRes="@raw/nav_illustration" />
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+    <it.dhd.oneplusui.preference.OplusJumpPreference
         android:key="gesturenav_header"
         android:title="@string/gesture_navigation_title"
         app:forcePosition="full"

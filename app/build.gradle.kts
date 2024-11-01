@@ -173,7 +173,7 @@ dependencies {
     implementation("com.github.topjohnwu.libsu:nio:${libsuVersion}")
 
     // Constraint
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.constraintlayout:constraintlayout:2.2.0")
 
     implementation("org.greenrobot:eventbus:3.3.1")
 
@@ -209,6 +209,9 @@ dependencies {
 
     // Image Cropper
     implementation("com.vanniktech:android-image-cropper:4.6.0")
+
+    // Oneplus UI
+    implementation("com.github.DHD2280:Oneplus-UI:1.2.2")
 }
 
 tasks.register("printVersionName") {

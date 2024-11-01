@@ -5,9 +5,11 @@ import static it.dhd.oxygencustomizer.OxygenCustomizer.getAppContext;
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.OplusRecyclerView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -63,6 +65,15 @@ public class MemcAppAdapter extends RecyclerView.Adapter<MemcAppAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         MemcAppModel model = filteredApps.get(holder.getBindingAdapterPosition());
+        boolean shouldDrawDivider = getItemCount() > 1 && position < getItemCount() - 1;
+        holder.setDrawDivider(shouldDrawDivider);
+        if (position == 0) {
+            holder.binding.memcItem.setBackgroundResource(filteredApps.size() == 1 ? R.drawable.preference_background_center : R.drawable.preference_background_top);
+        } else if (position == filteredApps.size() - 1) {
+            holder.binding.memcItem.setBackgroundResource(R.drawable.preference_background_bottom);
+        } else {
+            holder.binding.memcItem.setBackgroundResource(R.drawable.preference_background_middle);
+        }
         holder.binding.appName.setText(model.getAppName());
         holder.binding.appPackage.setText(model.isActivity() ? model.getPackageName() + "\n" + model.getActivityName() : model.getPackageName());
         if (!model.isActivity()) {
@@ -106,14 +117,46 @@ public class MemcAppAdapter extends RecyclerView.Adapter<MemcAppAdapter.ViewHold
         checkChange();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements OplusRecyclerView.IOplusDividerDecorationInterface {
 
         private final ViewListOptionMemcItemBinding binding;
+        private boolean drawDivider;
+        private final int mDividerDefaultHorizontalPadding = getAppContext().getResources().getDimensionPixelSize(R.dimen.preference_divider_default_horizontal_padding);
 
         public ViewHolder(@NonNull ViewListOptionMemcItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
+
+        public void setDrawDivider(boolean drawDivider) {
+            this.drawDivider = drawDivider;
+        }
+
+        @Override
+        public boolean drawDivider() {
+            return drawDivider;
+        }
+
+        @Override
+        public View getDividerEndAlignView() {
+            return null;
+        }
+
+        @Override
+        public int getDividerEndInset() {
+            return this.mDividerDefaultHorizontalPadding;
+        }
+
+        @Override
+        public View getDividerStartAlignView() {
+            return this.binding.appName;
+        }
+
+        @Override
+        public int getDividerStartInset() {
+            return this.mDividerDefaultHorizontalPadding;
+        }
+
     }
 
     public interface OnItemClick {

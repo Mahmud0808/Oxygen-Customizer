@@ -6,16 +6,16 @@ import android.provider.Settings;
 import android.view.WindowManager;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.color.DynamicColors;
 
+import it.dhd.oneplusui.appcompat.app.OplusActivity;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.databinding.ActivityOnboardingBinding;
 import it.dhd.oxygencustomizer.ui.views.OnboardingView;
 import it.dhd.oxygencustomizer.utils.Constants;
 
-public class OnboardingActivity extends AppCompatActivity {
+public class OnboardingActivity extends OplusActivity {
 
     ActivityOnboardingBinding binding;
 
@@ -23,7 +23,6 @@ public class OnboardingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setDarkTheme();
         DynamicColors.applyToActivityIfAvailable(this);
         DynamicColors.applyToActivitiesIfAvailable(getApplication());
 

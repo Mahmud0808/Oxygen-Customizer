@@ -168,8 +168,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import it.dhd.oneplusui.preference.OplusSliderPreference;
 import it.dhd.oxygencustomizer.R;
-import it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference;
 import it.dhd.oxygencustomizer.xposed.utils.ExtendedSharedPreferences;
 
 public class PreferenceHelper {

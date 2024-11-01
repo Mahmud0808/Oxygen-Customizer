@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="Theme.OxygenCustomizer" parent="Theme.Material3.Dark.NoActionBar">
+    <style name="Theme.OxygenCustomizer" parent="Theme.Oneplus.Dark.NoActionBar">
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
@@ -34,43 +34,12 @@
         <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
 
-        <!-- Background color. -->
-        <item name="android:windowBackground">@color/colorBackground</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
-
-        <!-- Preference title -->
-        <item name="android:textAppearanceListItem">?textAppearanceSubtitle1</item>
-        <!-- Preference category title -->
-        <item name="android:colorAccent">?colorPrimary</item>
-        <!-- Preference switch -->
-        <item name="android:colorControlActivated">?colorPrimary</item>
-
         <!-- Fragment Animations -->
         <item name="enterAnim">@anim/fragment_enter</item>
         <item name="exitAnim">@anim/fragment_exit</item>
         <item name="popEnterAnim">@anim/fragment_enter_pop</item>
         <item name="popExitAnim">@anim/fragment_exit_pop</item>
 
-        <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
-        <item name="materialAlertDialogTheme">@style/AppTheme.Dialog</item>
-        <item name="preferenceBackgroundColorPressed">@color/preference_background_color_pressed</item>
-
-        <item name="popupMenuBackground">@drawable/custom_popup_background</item>
-        <item name="bottomSheetDialogTheme">@style/ThemeOverlay.App.BottomSheetDialog</item>
-
-        <item name="homeAsUpIndicator">@drawable/ic_home_up</item>
-
-        <!-- Switch Theme -->
-        <item name="materialSwitchStyle">@style/Widget.App.Switch</item>
-
-        <item name="radioButtonStyle">@style/Widget.CompoundButton.RadioButton</item>
-        <item name="android:listChoiceIndicatorSingle">@drawable/custom_radio_selector</item>
-
-        <!-- Slider -->
-        <item name="sliderStyle">@style/Widget.App.Slider</item>
-
-        <!-- Toolbar -->
-        <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
     </style>
 
     <style name="Theme.OxygenCustomizer.DarkSoft" parent="Theme.OxygenCustomizer">

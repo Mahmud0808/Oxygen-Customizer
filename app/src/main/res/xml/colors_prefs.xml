@@ -15,7 +15,7 @@
 
     <PreferenceCategory/>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreference
+    <it.dhd.oneplusui.preference.OplusPreference
         android:key="apply_colors"
         android:title="@string/apply_color"
         app:centerTitle="true"

@@ -6,16 +6,16 @@
         android:key="sb_illustration"
         app:lottie_rawRes="@raw/ui_illustration" />
 
-    <Preference
+    <it.dhd.oneplusui.preference.OplusPreference
         android:key="reboot_pref"
         android:layout="@layout/view_reboot"
         app:iconSpaceReserved="false" />
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/style_category"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.uistyle.UiStyle"
             android:icon="@drawable/ic_ui_styles"
             android:key="android.theme.customization.style"
@@ -23,7 +23,7 @@
             android:title="@string/theme_customization_ui_style_title" />
 
         <!-- Notification Style -->
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.uistyle.NotificationStyle"
             android:icon="@drawable/ic_notification_style"
             android:key="android.theme.customization.notifications"
@@ -31,7 +31,7 @@
             android:title="@string/notification_styles" />
 
         <!-- Notification Roundness -->
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.uistyle.NotificationRoundness"
             android:icon="@drawable/ic_notification_style"
             android:key="android.theme.customization.notifications_roundness"
@@ -39,7 +39,7 @@
             android:title="@string/notification_corner_radius_title" />
 
         <!-- USB Dialog
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreferencerence
+        <it.dhd.oneplusui.preference.OplusJumpPreferencerence
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.uistyle.UsbDialog"
             android:icon="@drawable/ic_usb"
             android:key="android.theme.customization.usb_dialog"
@@ -47,7 +47,7 @@
             android:title="@string/theme_customization_usb_dialog_title" />  -->
 
         <!-- Navbar Style -->
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.uistyle.NavbarStyle"
             android:icon="@drawable/ic_navbar"
             android:key="android.theme.customization.navbar"
@@ -55,21 +55,21 @@
             android:title="@string/theme_customization_navbar_title" />
 
         <!-- Toast Frame -->
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.uistyle.ToastFrame"
             android:icon="@drawable/ic_toast_frame"
             android:key="android.theme.customization.toast_frame"
             android:summary="@string/theme_customization_toast_frame_summary"
             android:title="@string/theme_customization_toast_frame_title" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/icon_theme_category"
         app:iconSpaceReserved="false">
 
         <!-- Icon pack -->
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.uistyle.IconPacks"
             android:icon="@drawable/ic_drawing"
             android:key="android.theme.customization.icon_pack"
@@ -77,7 +77,7 @@
             android:title="@string/theme_customization_icon_pack_title" />
 
         <!-- Settings Icons -->
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.uistyle.SettingsIcons"
             android:icon="@drawable/ic_settings_accent"
             android:key="android.theme.customization.settings_icons"
@@ -85,7 +85,7 @@
             android:title="@string/theme_customization_settings_icons_title" />
 
         <!-- Signal icon style -->
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.uistyle.SignalIcons"
             android:icon="@drawable/ic_signal"
             android:key="android.theme.customization.signal_icon"
@@ -93,13 +93,13 @@
             android:title="@string/theme_customization_signal_icon_title" />
 
         <!-- Wifi icon style -->
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.uistyle.WifiIcons"
             android:icon="@drawable/ic_wifi"
             android:key="android.theme.customization.wifi_icon"
             android:summary="@string/theme_customization_wifi_icon_summary"
             android:title="@string/theme_customization_wifi_icon_title" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
 </PreferenceScreen>

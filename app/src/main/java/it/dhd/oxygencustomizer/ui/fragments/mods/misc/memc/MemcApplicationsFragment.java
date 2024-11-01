@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OplusRecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -68,7 +69,7 @@ public class MemcApplicationsFragment extends Fragment {
         }).start();
 
         mMemcDialog = new MemcDialog(requireActivity());
-        mMemcDialog.setTitle("MEMC Configuration");
+        mMemcDialog.setTitle(R.string.custom_memc_config_title);
 
     }
 
@@ -90,7 +91,6 @@ public class MemcApplicationsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Set<String> enabledApps = mPreferences.getStringSet("custom_memc_applications", new ArraySet<>());
-        Log.w("MemcApplicationsFragment", "onViewCreated enabledApps: " + enabledApps);
         mEnabledApps = new ArrayMap<>();
         for (String item : enabledApps) {
             if (item.contains("|")) {
@@ -114,6 +114,7 @@ public class MemcApplicationsFragment extends Fragment {
             binding.searchViewLayout.setEnabled(false);
             binding.progress.setVisibility(View.VISIBLE);
         }, appList -> {
+            binding.recyclerView.addItemDecoration(new OplusRecyclerView.OplusRecyclerViewItemDecoration(requireContext()));
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(getAppContext()));
             binding.recyclerView.setAdapter(new MemcAppAdapter(appList,
                     this::onItemClick));

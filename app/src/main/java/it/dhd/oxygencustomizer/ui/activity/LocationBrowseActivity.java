@@ -40,6 +40,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OplusRecyclerView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.MaterialToolbar;
@@ -54,12 +55,12 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import it.dhd.oneplusui.appcompat.app.OplusActivity;
 import it.dhd.oxygencustomizer.R;
-import it.dhd.oxygencustomizer.ui.base.BaseActivity;
 import it.dhd.oxygencustomizer.ui.drawables.TintedDrawableSpan;
 import it.dhd.oxygencustomizer.utils.NetworkUtils;
 
-public class LocationBrowseActivity extends BaseActivity {
+public class LocationBrowseActivity extends OplusActivity {
     private static final String TAG = "LocationBrowseActivity";
 
     public static final String DATA_LOCATION_NAME = "location_name";
@@ -202,6 +203,7 @@ public class LocationBrowseActivity extends BaseActivity {
 
         mAdapter = new LocationListAdapter();
         RecyclerView queryList = findViewById(R.id.query_result);
+        queryList.addItemDecoration(new OplusRecyclerView.OplusRecyclerViewItemDecoration(this));
         queryList.setAdapter(mAdapter);
         queryList.setLayoutManager(new LinearLayoutManager(this));
     }

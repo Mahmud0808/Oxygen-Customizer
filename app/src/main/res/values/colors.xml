@@ -105,7 +105,6 @@
     <color name="colorBackgroundSoft">@color/colorBackground</color>
     <color name="colorBackgroundMedium">@color/colorBackground</color>
     <color name="colorBackgroundHard">@color/colorBackground</color>
-    <color name="colorDivider">#1f000000</color>
     <color name="colorPressBackground">#14000000</color>
     <color name="cardview_background">@color/cardview_light_background</color>
 

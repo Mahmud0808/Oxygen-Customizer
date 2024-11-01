@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.MenuHost;
 import androidx.core.view.MenuProvider;
 import androidx.lifecycle.Lifecycle;
+import androidx.recyclerview.widget.OplusRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,7 @@ public abstract class AppFragmentBase extends BaseFragment {
             Bundle savedInstanceState) {
 
         binding = FragmentAppListBinding.inflate(inflater, container, false);
+        binding.recyclerView.addItemDecoration(new OplusRecyclerView.OplusRecyclerViewItemDecoration(requireContext()));
 
         mPreferences = getModulePrefs();
 

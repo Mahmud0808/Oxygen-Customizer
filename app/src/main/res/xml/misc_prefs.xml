@@ -6,7 +6,7 @@
         android:key="sb_illustration"
         app:lottie_rawRes="@raw/misc_illustration" />
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+    <it.dhd.oneplusui.preference.OplusSwitchPreference
         android:defaultValue="false"
         android:key="misc_remove_rotate_floating"
         android:summaryOff="@string/general_off"
@@ -15,7 +15,7 @@
         app:forcePosition="top"
         app:iconSpaceReserved="false" />
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+    <it.dhd.oneplusui.preference.OplusSwitchPreference
         android:defaultValue="false"
         android:key="remove_usb_dialog"
         android:summary="@string/remove_usb_dialog_summary"
@@ -24,37 +24,37 @@
         app:iconSpaceReserved="false" />
 
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/misc_power_menu"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="power_menu_hide_sos"
             android:summaryOff="@string/general_off"
             android:summaryOn="@string/general_on"
             android:title="@string/misc_power_menu_hide_sos"
             app:iconSpaceReserved="false" />
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="show_advanced_reboot"
             android:summary="@string/show_advanced_reboot_summary"
             android:title="@string/show_advanced_reboot_title"
             app:iconSpaceReserved="false" />
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="advanced_reboot_auth"
             android:summary="@string/use_auth_for_advanced_reboot_summary"
             android:title="@string/use_auth_for_advanced_reboot_title"
             app:iconSpaceReserved="false" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/app_name"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="true"
             android:key="show_entry_settings"
             android:summaryOff="@string/general_off"
@@ -62,51 +62,51 @@
             android:title="@string/show_entry_settings_title"
             app:iconSpaceReserved="false" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/dark_mode"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:key="dark_mode_prefs"
             android:title="@string/dark_mode_pref"
             app:iconSpaceReserved="false" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:key="lag_fix_cat"
         android:title="@string/misc_category"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="fix_lag_switch"
             android:summary="@string/fix_lag_summary"
             android:title="@string/fix_lag_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="fix_lag_force_all_apps"
             android:summary="@string/fix_lag_force_all_apps_summary"
             android:title="@string/fix_lag_force_all_apps_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:key="fix_lag_app_chooser"
             android:summary="@string/fix_lag_apps_summary"
             android:title="@string/fix_lag_apps_title"
             app:iconSpaceReserved="false" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/ota_card_category"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="custom_ota_card"
             android:summaryOff="@string/general_off"
@@ -114,31 +114,31 @@
             android:title="@string/ota_card_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:key="ota_card_picker"
             android:summary="@string/pick_image_summary"
             android:title="@string/pick_image" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:title="@string/memc_page_title"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:key="memc_prefs"
             android:title="@string/memc_page_title"
             android:fragment="it.dhd.oxygencustomizer.ui.fragments.mods.misc.MemcFragment"
             app:iconSpaceReserved="false" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:key="pocket_studio_cat"
         android:title="@string/pocket_studio"
         app:iconSpaceReserved="false">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="enable_pocket_studio"
             android:summary="@string/pocket_studio_summary"
@@ -151,6 +151,6 @@
             android:selectable="false"
             android:title="@string/pocket_studio_info" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
 </PreferenceScreen>

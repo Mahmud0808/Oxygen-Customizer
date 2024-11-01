@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import it.dhd.oneplusui.preference.OplusPreference;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.ui.adapters.SnapOnScrollListener;
 import it.dhd.oxygencustomizer.utils.CarouselLayoutManager;
@@ -60,7 +61,7 @@ public class OplusRecyclerPreference extends OplusPreference {
 
         // Create a new LayoutManager instance for each RecyclerView
         CarouselLayoutManager layoutManager = new CarouselLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
-        layoutManager.setMinifyDistance(0.8f);
+//        layoutManager.setMinifyDistance(0.8f);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
         //mRecyclerView.setHasFixedSize(true);

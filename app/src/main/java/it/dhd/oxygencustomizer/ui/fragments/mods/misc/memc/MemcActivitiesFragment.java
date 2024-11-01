@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OplusRecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -70,7 +71,7 @@ public class MemcActivitiesFragment extends Fragment {
         }).start();
 
         mMemcDialog = new MemcDialog(requireActivity());
-        mMemcDialog.setTitle("MEMC Configuration");
+        mMemcDialog.setTitle(R.string.custom_memc_config_title);
 
     }
 
@@ -92,16 +93,13 @@ public class MemcActivitiesFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Set<String> enabledApps = mPreferences.getStringSet("custom_memc_activities", new ArraySet<>());
-        Log.w("MemcActivitiesFragment", "onViewCreated enabledApps: " + enabledApps);
         mEnabledApps = new ArrayMap<>();
         for (String item : enabledApps) {
-            Log.w("MemcActivitiesFragment", "onViewCreated: item " + item);
             if (item.contains("|")) {
                 List<String> arr = new ArrayList<>(Arrays.asList(item.split("\\|")));
                 if (arr.size() < 2 || arr.get(1).isBlank()) {
                     arr.set(1, "258-40-0-0");
                 }
-                Log.w("MEMC", "onViewCreated: get[0]" +  arr.get(0) + " get[1] " + arr.get(1));
                 mEnabledApps.put(arr.get(0), arr.get(1));
             } else {
                 mEnabledApps.put(item, "258-40-0-0");
@@ -114,6 +112,7 @@ public class MemcActivitiesFragment extends Fragment {
             binding.searchViewLayout.setEnabled(false);
             binding.progress.setVisibility(View.VISIBLE);
         }, appList -> {
+            binding.recyclerView.addItemDecoration(new OplusRecyclerView.OplusRecyclerViewItemDecoration(requireContext()));
             binding.recyclerView.setLayoutManager(new LinearLayoutManager(getAppContext()));
             binding.recyclerView.setAdapter(new MemcAppAdapter(appList,
                     this::onItemClick));
@@ -166,7 +165,7 @@ public class MemcActivitiesFragment extends Fragment {
                         },
                         null
                 );
-                    });
+            });
             activityDialog.setTitle(info.title);
             activityDialog.show();
 
@@ -198,7 +197,6 @@ public class MemcActivitiesFragment extends Fragment {
         Set<String> enabledApps = new HashSet<>();
         for (Map.Entry<String, String> entry : mEnabledApps.entrySet()) {
             enabledApps.add(entry.getKey() + "|" + entry.getValue());
-            Log.w("MEMC", "SavePrefs--> Key: " + entry.getKey() + " Value: " + entry.getValue());
         }
         mPreferences.edit().putStringSet("custom_memc_activities", enabledApps).apply();
 

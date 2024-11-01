@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:search="http://schemas.android.com/apk/it.dhd.oxygencustomizer.ui.preferences.preferencesearch">
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:key="aod_clock_font_prefs"
         android:title="@string/lockscreen_clock_font_prefs_title"
         app:iconSpaceReserved="false"
         search:ignore="true">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:defaultValue="false"
             android:key="aod_custom_font"
             android:summaryOff="@string/general_off"
@@ -17,20 +17,20 @@
             android:title="@string/lockscreen_clock_font_custom_enabled"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusJumpPreference
+        <it.dhd.oneplusui.preference.OplusJumpPreference
             android:key="aod_clock_font_custom"
             android:summary="@string/pick_font_summary"
             android:title="@string/pick_font_title"
             app:iconSpaceReserved="false" />
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
-    <it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory
+    <it.dhd.oneplusui.preference.OplusPreferenceCategory
         android:key="aod_clock_prefs"
         android:title="@string/aod_clock_prefs"
         app:iconSpaceReserved="false"
         search:ignore="true">
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:key="aod_custom_color_switch"
             android:summaryOff="@string/general_off"
             android:summaryOn="@string/general_on"
@@ -67,7 +67,7 @@
             android:title="@string/general_color_text2"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:key="aod_clock_line_height"
             android:title="@string/aod_font_line_height_title"
             app:defaultValue="0"
@@ -75,7 +75,7 @@
             app:minVal="-120"
             app:valueFormat="dp" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSliderPreference
+        <it.dhd.oneplusui.preference.OplusSliderPreference
             android:key="aod_text_scaling"
             android:title="@string/aod_clock_text_scaling"
             app:decimalFormat="#.#"
@@ -86,54 +86,54 @@
             app:minVal="0.5"
             app:tickInterval=".1" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusEditTextPreference
+        <it.dhd.oneplusui.preference.OplusEditTextPreference
             android:dialogMessage="@string/lockscreen_clock_custom_format_dmessage"
             android:key="aod_clock_custom_format"
             android:summary="@string/lockscreen_clock_custom_format_summary"
             android:title="@string/lockscreen_clock_custom_format_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusEditTextPreference
+        <it.dhd.oneplusui.preference.OplusEditTextPreference
             android:defaultValue="User"
             android:key="aod_clock_custom_user"
             android:title="@string/aod_clock_custom_user_title"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusEditTextPreference
+        <it.dhd.oneplusui.preference.OplusEditTextPreference
             android:defaultValue="User"
             android:key="aod_clock_custom_device"
             android:title="@string/aod_clock_custom_user_title"
             app:iconSpaceReserved="false"
             app:useSimpleSummaryProvider="true" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:key="aod_clock_custom_user_image"
             android:summaryOff="@string/general_off"
             android:summaryOn="@string/general_on"
             android:title="@string/aod_clock_custom_user_image"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusPreference
+        <it.dhd.oneplusui.preference.OplusPreference
             android:key="aod_clock_custom_user_image_picker"
             android:summary="@string/pick_image_summary"
             android:title="@string/aod_clock_custom_user_image_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusSwitchPreference
+        <it.dhd.oneplusui.preference.OplusSwitchPreference
             android:key="aod_clock_custom_image_switch"
             android:summaryOff="@string/general_off"
             android:summaryOn="@string/general_on"
             android:title="@string/lockscreen_clock_custom_image_title"
             app:iconSpaceReserved="false" />
 
-        <it.dhd.oxygencustomizer.ui.preferences.OplusPreference
+        <it.dhd.oneplusui.preference.OplusPreference
             android:key="aod_clock_custom_image_picker"
             android:summary="@string/lockscreen_clock_custom_user_image_summary"
             android:title="@string/lockscreen_clock_custom_image_picker_title"
             app:iconSpaceReserved="false" />
 
-    </it.dhd.oxygencustomizer.ui.preferences.OplusPreferenceCategory>
+    </it.dhd.oneplusui.preference.OplusPreferenceCategory>
 
 
 </PreferenceScreen>

@@ -29,6 +29,7 @@ public class SwitchWidget extends RelativeLayout {
     private BeforeSwitchChangeListener beforeSwitchChangeListener;
     private int iconWidth, iconHeight;
     private String mForcePosition = null;
+    private boolean mDrawBackground;
 
     public SwitchWidget(Context context) {
         super(context);
@@ -59,6 +60,7 @@ public class SwitchWidget extends RelativeLayout {
         if (typedArray.hasValue(R.styleable.SwitchWidget_forcePosition)) {
             mForcePosition = typedArray.getString(R.styleable.SwitchWidget_forcePosition);
         }
+        mDrawBackground = typedArray.getBoolean(R.styleable.SwitchWidget_drawBackground, true);
         int icon = typedArray.getResourceId(R.styleable.SwitchWidget_icon, 0);
         boolean iconSpaceReserved = typedArray.getBoolean(R.styleable.SwitchWidget_iconSpaceReserved, false);
         typedArray.recycle();
@@ -153,6 +155,10 @@ public class SwitchWidget extends RelativeLayout {
 
     private void setPosition() {
         if (TextUtils.isEmpty(mForcePosition) || container == null) return;
+        if (!mDrawBackground) {
+            container.setBackgroundResource(0);
+            return;
+        }
 
         int bgRes = switch(mForcePosition) {
             case "top" -> R.drawable.preference_background_top;
@@ -216,6 +222,10 @@ public class SwitchWidget extends RelativeLayout {
         layoutParams.addRule(RelativeLayout.START_OF, materialSwitch.getId());
         layoutParams.addRule(RelativeLayout.END_OF, iconImageView.getId());
         findViewById(R.id.text_container).setLayoutParams(layoutParams);
+    }
+
+    public View getTitleView() {
+        return this.titleTextView;
     }
 
     public interface BeforeSwitchChangeListener {

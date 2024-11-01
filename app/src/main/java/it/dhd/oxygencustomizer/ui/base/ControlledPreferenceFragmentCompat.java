@@ -23,6 +23,7 @@ import androidx.core.view.MenuHost;
 import androidx.core.view.MenuProvider;
 import androidx.core.view.WindowCompat;
 import androidx.lifecycle.Lifecycle;
+import androidx.preference.OplusPreferenceFragment;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceScreen;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,7 +35,7 @@ import it.dhd.oxygencustomizer.utils.LocaleHelper;
 import it.dhd.oxygencustomizer.utils.PreferenceHelper;
 import it.dhd.oxygencustomizer.xposed.utils.ExtendedSharedPreferences;
 
-public abstract class ControlledPreferenceFragmentCompat extends PreferenceFragmentCompat {
+public abstract class ControlledPreferenceFragmentCompat extends OplusPreferenceFragment {
     public ExtendedSharedPreferences mPreferences;
     private final SharedPreferences.OnSharedPreferenceChangeListener changeListener = (sharedPreferences, key) -> updateScreen(key);
 
@@ -131,15 +132,6 @@ public abstract class ControlledPreferenceFragmentCompat extends PreferenceFragm
 
     public void updateScreen(String key) {
         PreferenceHelper.setupAllPreferences(this.getPreferenceScreen());
-    }
-    @Override
-    public void setDivider(Drawable divider) {
-        super.setDivider(new ColorDrawable(Color.TRANSPARENT));
-    }
-
-    @Override
-    public void setDividerHeight(int height) {
-        super.setDividerHeight(0);
     }
 
 }

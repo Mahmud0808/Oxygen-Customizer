@@ -16,6 +16,7 @@ import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.jaredrummler.android.colorpicker.ColorShape;
 
+import it.dhd.oneplusui.preference.OplusPreference;
 import it.dhd.oxygencustomizer.R;
 
 public class OplusColorPreference extends OplusPreference implements ColorPickerDialogListener {

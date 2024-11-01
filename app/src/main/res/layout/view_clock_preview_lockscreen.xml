@@ -12,7 +12,7 @@
     android:focusable="false"
     android:orientation="vertical">
 
-    <FrameLayout
+    <it.dhd.oxygencustomizer.ui.widgets.FixedWidthDisplayRatioFrameLayout
         android:layout_width="match_parent"
         android:layout_height="320dp"
         android:layout_marginHorizontal="12dp"
@@ -40,7 +40,7 @@
                 android:layout_gravity="center" />
 
         </LinearLayout>
-    </FrameLayout>
+    </it.dhd.oxygencustomizer.ui.widgets.FixedWidthDisplayRatioFrameLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
