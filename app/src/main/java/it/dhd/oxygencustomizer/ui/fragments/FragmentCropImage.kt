@@ -1,5 +1,6 @@
 package it.dhd.oxygencustomizer.ui.fragments
 
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
@@ -109,7 +110,7 @@ class FragmentCropImage :
 
             override fun onMenuItemSelected(menuItem: MenuItem) = when (menuItem.itemId) {
                 R.id.main_action_crop -> {
-                    binding.cropImageView.croppedImageAsync()
+                    binding.cropImageView.croppedImageAsync(saveCompressFormat = Bitmap.CompressFormat.PNG)
                     true
                 }
                 R.id.main_action_rotate -> {
