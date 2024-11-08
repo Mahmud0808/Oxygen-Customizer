@@ -24,6 +24,7 @@ import com.topjohnwu.superuser.Shell;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.dhd.oneplusui.appcompat.dialog.adapter.SummaryAdapter;
 import it.dhd.oxygencustomizer.BuildConfig;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.xposed.utils.BootLoopProtector;
@@ -42,18 +43,29 @@ public class AppUtils {
     }
 
     public static void restartScopes(Context context, String[] scopes) {
-        String[] list = new String[]{
+        CharSequence[] list = new String[]{
                 context.getString(R.string.restart_module),
                 context.getString(R.string.restart_page_scope)
         };
+        SummaryAdapter mAdapter = new SummaryAdapter(context, false, true, list, null, null);
 
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
-        builder.setItems(list, (dialog, which) -> {
+        builder.setAdapter(mAdapter, (dialog, which) -> {
             switch (which) {
-                case 0 -> restartAllScope(context);
-                case 1 -> restartAllScope(scopes);
+                case 0:
+                    restartAllScope(context);
+                    break;
+                case 1:
+                    restartAllScope(scopes);
+                    break;
             }
         });
+//        builder.setItems(list, (dialog, which) -> {
+//            switch (which) {
+//                case 0 -> restartAllScope(context);
+//                case 1 -> restartAllScope(scopes);
+//            }
+//        });
         builder.show();
     }
 
