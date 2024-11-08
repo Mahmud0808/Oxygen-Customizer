@@ -211,7 +211,7 @@ dependencies {
     implementation("com.vanniktech:android-image-cropper:4.6.0")
 
     // Oneplus UI
-    implementation("com.github.DHD2280:Oneplus-UI:1.2.2")
+    implementation("com.github.DHD2280:Oneplus-UI:1.2.3")
 }
 
 tasks.register("printVersionName") {
