@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.view.ViewGroup;
 import android.view.Window;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -28,38 +29,9 @@ public class BaseActivity extends OplusActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         DynamicColors.applyToActivityIfAvailable(this);
-        setupEdgeToEdge();
-    }
-
-    private void setupEdgeToEdge() {
-        try {
-            ((AppBarLayout) findViewById(R.id.appbarLayout)).setStatusBarForeground(MaterialShapeDrawable.createWithElevationOverlay(getApplicationContext()));
-        } catch (Exception ignored) {
-        }
-
-        Window window = getWindow();
-        WindowCompat.setDecorFitsSystemWindows(window, false);
-
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            ViewGroup viewGroup = getWindow().getDecorView().findViewById(android.R.id.content);
-            ViewCompat.setOnApplyWindowInsetsListener(viewGroup, (v, windowInsets) -> {
-                Insets insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars());
-
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) v.getLayoutParams();
-                v.setPadding(
-                        params.leftMargin + insets.left,
-                        0,
-                        params.rightMargin + insets.right,
-                        0
-                );
-                params.bottomMargin = 0;
-                v.setLayoutParams(params);
-
-                return windowInsets;
-            });
-        }
     }
 
     public static void setHeader(Context context, int title) {
