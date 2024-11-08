@@ -1,14 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Xposed Description -->
+    <string name="xposeddescription">Tùy chỉnh Oxygen OS </string>
     <!-- Preferences Strings -->
+    <string name="default_value">Mặc định</string>
+    <string name="settingslib_learn_more_text">Tìm hiểu thêm</string>
+    <string name="settings_label">Cài đặt</string>
+    <string name="toast_rename_file">Đổi tên tập tin thành một cái gì đó đơn giản hơn</string>
+    <string name="toast_applied">Đã áp dụng</string>
+    <string name="toast_disabled">Vô hiệu hoá</string>
+    <string name="toast_error">Có gì đó không ổn</string>
+    <string name="opt_selected1">Đã chọn: %s</string>
+    <string name="opt_selected2">Đã chọn: %s%s</string>
+    <string name="requires_sysui_restart">Phần này yêu cầu khởi động lại SystemUI\nNhấn vào menu để khởi động lại.</string>
     <!-- Onboarding -->
+    <string name="init_module_installation">Đang khởi tạo thiết lập</string>
+    <string name="step">Bước</string>
+    <string name="module_installation_step1">Tạo mô-đun shell</string>
+    <string name="module_installation_step2">Giải nén các tập tin cần thiết</string>
+    <string name="module_installation_step3">Tạo lớp phủ</string>
+    <string name="module_installation_step4">Căn chỉnh lớp phủ</string>
+    <string name="module_installation_step5">Ký lớp phủ</string>
+    <string name="module_installation_step6">Dọn dẹp thư mục</string>
+    <string name="onboarding_title_1">Bạn có chán giao diện Stock không?</string>
+    <string name="onboarding_subtitle_1">Hãy tùy chỉnh mọi thứ theo sở thích của chúng ta.</string>
+    <string name="onboarding_desc_1">Bỏ đi sự đơn điệu của giao diện người dùng – cá nhân hóa mọi chi tiết công nghệ để phù hợp với phong cách và sở thích của bạn.</string>
+    <string name="onboarding_title_2">Thiết bị của tôi có được hỗ trợ không?</string>
     <!-- Buttons -->
+    <string name="btn_enable">Cho phép</string>
     <!-- Dialogs -->
     <!-- Main Activity -->
     <!-- App kill Alert -->
     <!-- Reboot alert -->
     <!-- General Strings -->
+    <string name="gradient_top_bottom">Trên xuống dưới</string>
     <!-- Image Crop Strings -->
     <!-- Search Preference -->
     <!-- Menu Strings -->
@@ -16,10 +41,22 @@
     <!-- Mods Strings -->
     <!-- General Strings -->
     <!-- Statusbar Strings -->
+    <string name="statusbar_double_tap_sleep">Chạm hai lần để tắt màn hình</string>
+    <string name="status_bar_toggle_brightness_title">Điều khiển độ sáng</string>
+    <string name="statusbar_battery_icon_options">Biểu tượng pin</string>
+    <string name="statusbar_icons">Biểu tượng thanh trạng thái</string>
     <!-- Statusbar notification strings -->
+    <string name="statusbar_notifications">Thông báo</string>
     <!-- Text to use when the number in a notification info is too large -->
+    <string name="statusbar_notifications_cat">Thông báo trên thanh trạng thái</string>
+    <string name="statusbar_use_app_icon">Sử dụng biểu tượng ứng dụng để nhận thông báo</string>
+    <string name="statusbar_notifications_transparency">Thông báo trong suốt</string>
+    <string name="statusbar_notification_transparency">Thông báo trong suốt</string>
+    <string name="statusbar_notification_transparency_value">Độ trong suốt</string>
+    <string name="statusbar_notification_count">Hiển thị số lượng thông báo</string>
     <!-- Statusbar Clock Strings -->
     <!-- Status bar - Clock -->
+    <string name="status_bar_date_style">Kiểu ngày</string>
     <!-- Status bar padding -->
     <!-- Battery Bar Strings -->
     <!-- Battery Icon Strings -->

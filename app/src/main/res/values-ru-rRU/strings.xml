@@ -677,7 +677,6 @@
     <string name="depth_wallpaper_mode_custom_images">Пользовательские изображения</string>
     <string name="depth_wallpaper_mode_ai_plugin">ИИ (локальный)</string>
     <string name="depth_wallpaper_opacity_title">Непрозрачность обоев на переднем плане</string>
-    <string name="depth_wallpaper_aod_title">Также в режиме «Всегда на экране»</string>
     <string name="depth_wallpaper_pick_background_title">Выбрать фон</string>
     <string name="depth_wallpaper_pick_background_summary">Выбрать фоновое изображение</string>
     <string name="depth_wallpaper_pick_subject_title">Выбрать передний план</string>
@@ -1055,7 +1054,7 @@
     <string name="weather_condition_rain">Дождливый</string>
     <string name="weather_condition_clear">Солнечный</string>
     <string name="weather_condition_storm">Штормовой</string>
-    <string name="weather_condition_snow">Snowy</string>
+    <string name="weather_condition_snow">Снег</string>
     <string name="weather_condition_wind">Ветреный</string>
     <string name="weather_condition_mist">Туманный</string>
     <!-- UI Strings -->
