@@ -673,7 +673,9 @@
     <string name="depth_wallpaper_mode_custom_images">Immagini personalizzate</string>
     <string name="depth_wallpaper_mode_ai_plugin">IA (locale)</string>
     <string name="depth_wallpaper_opacity_title">Opacità dello sfondo in primo piano</string>
-    <string name="depth_wallpaper_aod_title">Anche su \"always on display\"</string>
+    <string name="depth_wallpaper_aod_title">Anche su AOD</string>
+    <string name="depth_wallpaper_aod_summary">Mostra l\'oggetto su Always On Display</string>
+    <string name="depth_wallpaper_aod_opacity_title">Opacità del soggetto AOD</string>
     <string name="depth_wallpaper_pick_background_title">Scegli sfondo</string>
     <string name="depth_wallpaper_pick_background_summary">Scegli la tua immagine di sfondo</string>
     <string name="depth_wallpaper_pick_subject_title">Scegli immagine primo piano</string>
@@ -714,6 +716,7 @@
     <string name="lockscreen_clock_custom_format_dmessage">Per la documentazione sul formato, cerca \"Formato data Java\"</string>
     <string name="lockscreen_clock_custom_user">Usa Nome Utente Personalizzato</string>
     <string name="lockscreen_clock_custom_user_title">Nome Utente</string>
+    <string name="lockscreen_clock_custom_user_summary">Imposta un nome utente personalizzato.\nLascia vuoto per disabilitare</string>
     <string name="lockscreen_clock_custom_user_image">Usa Immagine Utente Personalizzata</string>
     <string name="lockscreen_clock_custom_user_image_title">Immagine Utente</string>
     <string name="lockscreen_clock_custom_user_image_summary">Fai clic per selezionare un\'immagine.</string>
