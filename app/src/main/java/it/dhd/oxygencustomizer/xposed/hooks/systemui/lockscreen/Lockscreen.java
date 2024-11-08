@@ -222,7 +222,12 @@ public class Lockscreen extends XposedMods {
     }
 
     private void updateFingerprintIcon(XC_MethodHook.MethodHookParam param, boolean isStartMethod) {
-        Object mFpIcon = getObjectField(param.thisObject, "mFpIcon");
+        Object mFpIcon;
+        try {
+            mFpIcon = getObjectField(param.thisObject, "fpIcon");
+        } catch (Throwable t) {
+            mFpIcon = getObjectField(param.thisObject, "mFpIcon");
+        }
 
         log("updateFingerprintIcon");
 
