@@ -47,6 +47,7 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.QsWidgetsPrefs
 import static it.dhd.oxygencustomizer.xposed.XPrefs.Xprefs;
 import static it.dhd.oxygencustomizer.xposed.hooks.systemui.AudioDataProvider.getArt;
 import static it.dhd.oxygencustomizer.xposed.hooks.systemui.OpUtils.getPrimaryColor;
+import static it.dhd.oxygencustomizer.xposed.utils.ReflectionTools.findClassInArray;
 import static it.dhd.oxygencustomizer.xposed.utils.ViewHelper.dp2px;
 
 import android.animation.ObjectAnimator;
@@ -253,11 +254,12 @@ public class QsTileCustomization extends XposedMods {
         } catch (Throwable ignored) {
         }
 
-        Class<?> OplusQSTileBaseView;
-        try {
-            OplusQSTileBaseView = findClass("com.oplus.systemui.qs.qstileimpl.OplusQSTileBaseView", lpparam.classLoader);
-        } catch (Throwable ignored) {
-            OplusQSTileBaseView = findClass("com.oplusos.systemui.qs.qstileimpl.OplusQSTileBaseView", lpparam.classLoader);
+        Class<?> OplusQSTileBaseView = findClassInArray(lpparam,
+                "com.oplus.systemui.qs.base.tile.OplusQSTileBaseView" /* OOS15 */,
+                "com.oplus.systemui.qs.qstileimpl.OplusQSTileBaseView" /* OOS14 */,
+                "com.oplusos.systemui.qs.qstileimpl.OplusQSTileBaseView" /* OOS13 */);
+        if (OplusQSTileBaseView == null) {
+            log(new Throwable("OplusQSTileBaseView not found"));
         }
 
         /*if (QsColorUtil != null) {
@@ -314,11 +316,12 @@ public class QsTileCustomization extends XposedMods {
 
         hookAllMethods(OplusQSTileBaseView, "performClick", animationHook);
 
-        Class<?> OplusQSHighlightTileView;
-        try {
-            OplusQSHighlightTileView = findClass("com.oplus.systemui.qs.qstileimpl.OplusQSHighlightTileView", lpparam.classLoader);
-        } catch (Throwable ignored) {
-            OplusQSHighlightTileView = findClass("com.oplusos.systemui.qs.qstileimpl.OplusQSHighlightTileView", lpparam.classLoader);
+        Class<?> OplusQSHighlightTileView = findClassInArray(lpparam,
+                "com.oplus.systemui.qs.base.tile.OplusQSHighlightTileView" /* OOS15 */,
+                "com.oplus.systemui.qs.qstileimpl.OplusQSHighlightTileView" /* OOS14 */,
+                "com.oplusos.systemui.qs.qstileimpl.OplusQSHighlightTileView" /* OOS13 */);
+        if (OplusQSHighlightTileView == null) {
+            log(new Throwable("OplusQSHighlightTileView not found"));
         }
         hookAllMethods(OplusQSHighlightTileView, "generateDrawable", getColorHook(true));
         hookAllMethods(OplusQSHighlightTileView, "performClick", animationHook);
@@ -354,11 +357,12 @@ public class QsTileCustomization extends XposedMods {
             }
         });
 
-        Class<?> OplusQSTileView;
-        try {
-            OplusQSTileView = findClass("com.oplus.systemui.qs.qstileimpl.OplusQSTileView", lpparam.classLoader);
-        } catch (Throwable ignored) {
-            OplusQSTileView = findClass("com.oplusos.systemui.qs.qstileimpl.OplusQSTileView", lpparam.classLoader); // OOS 13
+        Class<?> OplusQSTileView = findClassInArray(lpparam,
+                "com.oplus.systemui.plugins.qs.tile.OplusQSTileView" /* OOS15 */,
+                "com.oplus.systemui.qs.qstileimpl.OplusQSTileView" /* OOS14 */,
+                "com.oplusos.systemui.qs.qstileimpl.OplusQSTileView" /* OOS13 */);
+        if (OplusQSTileView == null) {
+            log(new Throwable("OplusQSTileView not found"));
         }
         hookAllMethods(OplusQSTileView, "createLabel", new XC_MethodHook() {
             @Override
