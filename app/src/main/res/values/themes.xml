@@ -37,6 +37,8 @@
         <item name="exitAnim">@anim/fragment_exit</item>
         <item name="popEnterAnim">@anim/fragment_enter_pop</item>
         <item name="popExitAnim">@anim/fragment_exit_pop</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
 
     </style>
 

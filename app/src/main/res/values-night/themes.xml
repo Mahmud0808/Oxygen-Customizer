@@ -33,6 +33,8 @@
         <item name="android:navigationBarColor">@color/transparent</item>
         <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
 
         <!-- Fragment Animations -->
         <item name="enterAnim">@anim/fragment_enter</item>
