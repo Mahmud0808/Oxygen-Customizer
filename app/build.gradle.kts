@@ -4,18 +4,18 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.kapt)
 }
 
 android {
 
     namespace = "it.dhd.oxygencustomizer"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "it.dhd.oxygencustomizer"
         minSdk = 33
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 201
         versionName = "beta-201"
         setProperty("archivesBaseName", "OxygenCustomizer.apk")
@@ -69,7 +69,6 @@ android {
             .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
             .forEach { output ->
                 val outputFileName = "OxygenCustomizer.apk"
-                println("OutputFileName: $outputFileName")
                 output.outputFileName = outputFileName
             }
     }
@@ -82,11 +81,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
     packaging {
         jniLibs.excludes += setOf(
@@ -149,6 +148,7 @@ dependencies {
 
     // Preference
     implementation(libs.preference)
+    implementation(libs.apache.commons.text)
 
     // SwipeRefreshLayout
     implementation(libs.swiperefreshlayout)
@@ -161,7 +161,7 @@ dependencies {
 
     // Glide
     implementation(libs.glide)
-    ksp(libs.glide.compiler)
+    kapt(libs.glide.compiler)
 
     // Fading Edge Layout
     implementation(libs.fadingedgelayout)
