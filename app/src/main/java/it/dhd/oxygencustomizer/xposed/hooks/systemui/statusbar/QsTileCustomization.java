@@ -62,6 +62,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.graphics.drawable.shapes.RoundRectShape;
 import android.graphics.drawable.shapes.Shape;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -128,9 +129,10 @@ public class QsTileCustomization extends XposedMods {
     private int qsBrightnessSliderColorMode, qsBrightnessSliderColor, qsBrightnessBackgroundColor;
 
     // QS Media Tile
+    private ImageView mCoverImg = null;
     private View mOplusQsMediaView = null;
     private Drawable mOplusQsMediaDefaultBackground = null;
-    private final Drawable mOplusQsMediaDrawable = null;
+    private Drawable mOplusQsMediaDrawable = null;
     private ViewGroup mLabelContainer = null;
     private TextView mTitle = null, mSubtitle = null;
     private ImageView mExpandIndicator = null;
@@ -334,11 +336,19 @@ public class QsTileCustomization extends XposedMods {
                 mOplusQsMediaView = (View) param.thisObject;
                 if (mQsWidgetsEnabled) return;
                 mOplusQsMediaDefaultBackground = mOplusQsMediaView.getBackground();
+                if (mOplusQsMediaDefaultBackground != null) {
+                    mOplusQsMediaDrawable = mOplusQsMediaDefaultBackground.getConstantState().newDrawable().mutate();
+                }
                 if (qsInactiveColorEnabled) {
                     mOplusQsMediaDrawable.setTint(qsInactiveColor);
                     mOplusQsMediaDrawable.invalidateSelf();
                     mOplusQsMediaView.setBackground(mOplusQsMediaDrawable);
                 } else mOplusQsMediaView.setBackground(mOplusQsMediaDefaultBackground);
+
+                // Get OOS15 cover
+                if (Build.VERSION.SDK_INT >= 35) {
+                    mCoverImg = (ImageView) getObjectField(param.thisObject, "mCoverImg");
+                }
 
                 // Listen for default tip change
                 View mDefaultTip = (View) getObjectField(param.thisObject, "mDefaultTip");
@@ -543,6 +553,7 @@ public class QsTileCustomization extends XposedMods {
     private void updateMediaQsBackground() {
         if (!showMediaArtMediaQs || mOplusQsMediaView == null) return;
         if (mQsWidgetsEnabled) return;
+        mCoverImg.setVisibility(View.GONE);
         Bitmap oldArt = mArt;
         Bitmap tempArt = getArt();
         if (tempArt == null) {
