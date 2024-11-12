@@ -241,12 +241,6 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
-        <item name="thumbTint">@color/white</item>
-        <item name="trackDecorationTint">@color/transparent</item>
-        <item name="trackTint">@drawable/switch_track</item>
-    </style>
-
     <style name="Widget.CompoundButton.RadioButton" parent="@style/Widget.AppCompat.CompoundButton.RadioButton">
         <item name="android:button">@drawable/custom_radio_selector</item>
     </style>
