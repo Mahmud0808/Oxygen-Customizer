@@ -14,7 +14,7 @@
   limitations under the License.
   -->
 
-<it.dhd.oxygencustomizer.appcompat.cardlist.CardListSelectedItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<it.dhd.oneplusui.appcompat.cardlist.CardListSelectedItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/preference_background_center"
@@ -60,4 +60,4 @@
             android:visibility="gone" />
     </FrameLayout>
 
-</it.dhd.oxygencustomizer.appcompat.cardlist.CardListSelectedItemLayout>
+</it.dhd.oneplusui.appcompat.cardlist.CardListSelectedItemLayout>
