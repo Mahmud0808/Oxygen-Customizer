@@ -599,7 +599,6 @@ public class QsTileCustomization extends XposedMods {
     private Bitmap getFilteredArt(Bitmap art) {
         Bitmap finalArt;
         switch (mMediaQsArtFilter) {
-            default -> finalArt = art;
             case 1 -> finalArt = DrawableConverter.toGrayscale(art);
             case 2 ->
                     finalArt = DrawableConverter.getColoredBitmap(new BitmapDrawable(mContext.getResources(), art),
@@ -611,6 +610,7 @@ public class QsTileCustomization extends XposedMods {
             case 5 ->
                     finalArt = DrawableConverter.getColoredBitmap(new BitmapDrawable(mContext.getResources(), art),
                             mMediaQsTintColor, mMediaQsTintAmount);
+            default -> finalArt = art;
         }
         return finalArt;
     }
