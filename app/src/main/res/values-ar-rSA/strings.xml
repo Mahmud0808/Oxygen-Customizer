@@ -1092,9 +1092,6 @@
     <string name="notification_corner_radius_title">نصف قطر زاوية الإشعار</string>
     <string name="notification_corner_radius_summary">حدد نصف قطر الزاوية المخصص للإشعارات.</string>
     <string name="notif_roundness_preview_desc">معاينة الإشعار.</string>
-    <!-- USB Dialog -->
-    <string name="theme_customization_usb_dialog_title">أنماط حوار USB</string>
-    <string name="theme_customization_usb_dialog_summary">حدد نمط مخصص لحوار USB.</string>
     <!-- Toast Styles -->
     <string name="toast_styles">أنماط التوست</string>
     <string name="toast_message">رسالة التوست</string>

@@ -1098,9 +1098,6 @@
     <string name="notification_corner_radius_title">Радиус скругления уведомлений</string>
     <string name="notification_corner_radius_summary">Смена угла скруглений уведомлений.</string>
     <string name="notif_roundness_preview_desc">Предварительный просмотр уведомлений.</string>
-    <!-- USB Dialog -->
-    <string name="theme_customization_usb_dialog_title">Стиль диалогового окна USB</string>
-    <string name="theme_customization_usb_dialog_summary">Смена стиля диалогового окна USB.</string>
     <!-- Toast Styles -->
     <string name="toast_styles">Стили всплывающих уведомлений</string>
     <string name="toast_message">Всплывающее сообщение</string>
