@@ -100,8 +100,8 @@ public class BackgroundChipPreference extends DialogPreference {
     }
 
     private void initResources() {
-        setLayoutResource(R.layout.custom_preference);
-        setWidgetLayoutResource(R.layout.custom_preference_widget_jump);
+        setLayoutResource(R.layout.oplus_preference);
+        setWidgetLayoutResource(R.layout.oplus_preference_widget_jump);
     }
 
     @Override

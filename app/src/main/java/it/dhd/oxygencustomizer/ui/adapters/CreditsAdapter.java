@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.OplusRecyclerView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -15,6 +16,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 
 import java.util.List;
 
+import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.databinding.CreditsHeaderViewBinding;
 import it.dhd.oxygencustomizer.databinding.CreditsItemViewBinding;
 import it.dhd.oxygencustomizer.ui.models.CreditsModel;
@@ -52,9 +54,43 @@ public class CreditsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (getItemViewType(position) == VIEW_TYPE_ITEM) {
             CreditsModel model = items.get(position);
             ((ItemViewHolder) holder).bind(model);
+            boolean shouldDrawDivider = position < items.size() - 1
+                    && getItemViewType(position + 1) != VIEW_TYPE_HEADER;
+            ((ItemViewHolder) holder).setDrawDivider(shouldDrawDivider);
+
+            int backgroundResId;
+            boolean isLastItem = position == items.size() - 1;
+            if (position > 0 && getItemViewType(position - 1) == VIEW_TYPE_HEADER) {
+                backgroundResId = R.drawable.preference_background_top;
+            }
+            else if (position > 0
+                    && !isLastItem
+                    && getItemViewType(position - 1) == VIEW_TYPE_HEADER
+                    && getItemViewType(position + 1) == VIEW_TYPE_HEADER) {
+                backgroundResId = R.drawable.preference_background_center;
+            }
+            else if (position > 1 && getItemViewType(position - 2) == VIEW_TYPE_HEADER) {
+                if (!isLastItem && getItemViewType(position + 1) == VIEW_TYPE_ITEM) {
+                    backgroundResId = R.drawable.preference_background_middle;
+                } else {
+                    backgroundResId = R.drawable.preference_background_bottom;
+                }
+            }
+            else if (!isLastItem && getItemViewType(position + 1) == VIEW_TYPE_HEADER) {
+                backgroundResId = R.drawable.preference_background_bottom;
+            }
+            else if (isLastItem) {
+                backgroundResId = R.drawable.preference_background_bottom;
+            }
+            else {
+                backgroundResId = R.drawable.preference_background_middle;
+            }
+
+            holder.itemView.setBackgroundResource(backgroundResId);
         } else if (getItemViewType(position) == VIEW_TYPE_HEADER) {
             CreditsModel model = items.get(position);
             ((HeaderViewHolder) holder).bind(model);
+            holder.itemView.setBackgroundResource(android.R.color.transparent);
         }
     }
 
@@ -63,9 +99,11 @@ public class CreditsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return items.size();
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder implements OplusRecyclerView.IOplusDividerDecorationInterface {
 
         private final CreditsItemViewBinding binding;
+        private boolean drawDivider = true;
+        private int mDefaultDividerPadding;
 
         public ItemViewHolder(@NonNull CreditsItemViewBinding binding) {
             super(binding.getRoot());
@@ -73,6 +111,7 @@ public class CreditsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
 
         public void bind(CreditsModel model) {
+            mDefaultDividerPadding = binding.getRoot().getContext().getResources().getDimensionPixelSize(R.dimen.preference_divider_default_horizontal_padding);
             binding.title.setText(model.getTitle());
             if (!TextUtils.isEmpty(model.getSummary())) {
                 binding.desc.setVisibility(View.VISIBLE);
@@ -93,9 +132,32 @@ public class CreditsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 binding.listInfoItem.setOnClickListener(null);
             }
         }
+
+        public void setDrawDivider(boolean drawDivider) {
+            if (this.drawDivider != drawDivider) {
+                this.drawDivider = drawDivider;
+                binding.getRoot().invalidate();
+            }
+        }
+
+        @Override
+        public boolean drawDivider() {
+            return drawDivider;
+        }
+
+        @Override
+        public View getDividerStartAlignView() {
+            return binding.title;
+        }
+
+        @Override
+        public int getDividerEndInset() {
+            return mDefaultDividerPadding;
+        }
+
     }
 
-    public static class HeaderViewHolder extends RecyclerView.ViewHolder {
+    public static class HeaderViewHolder extends RecyclerView.ViewHolder implements OplusRecyclerView.IOplusDividerDecorationInterface {
 
         private final CreditsHeaderViewBinding binding;
 
@@ -107,5 +169,11 @@ public class CreditsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void bind(CreditsModel creditsModel) {
             binding.headerText.setText(creditsModel.getTitle());
         }
+
+        @Override
+        public boolean drawDivider() {
+            return false;
+        }
+
     }
 }

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OplusRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +31,7 @@ public class Credits extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentRecyclerBinding.inflate(inflater, container, false);
+        binding.recyclerViewFragment.addItemDecoration(new OplusRecyclerView.OplusRecyclerViewItemDecoration(requireContext()));
         return binding.getRoot();
 
     }
