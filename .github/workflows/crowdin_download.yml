@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         
-      - name: Generate Crowdin Contributors table
+      - name: Generate Crowdin Translators table
         id: "contributors"
         uses: andrii-bodnar/action-crowdin-contributors@v2
         with:
@@ -28,13 +28,15 @@ jobs:
           max_contributors: 50
           image_size: 32
           min_words_contributed: 1
+          files: ./docs/translators.md
+          crowdin_project_link: 'https://crowdin.com/project/oxygen-customizer/'
         env:
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
      
-      - name: Save contributors
+      - name: Save translators
         run:
-          printf '%s\n' '${{ steps.contributors.outputs.json_report }}' > contributors.json
+          printf '%s\n' '${{ steps.contributors.outputs.json_report }}' > ./app/src/main/assets/Misc/translators.json
           
       - name: Download translations
         uses: crowdin/github-action@v2
