@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.List;
 
@@ -122,8 +123,10 @@ public class CreditsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 binding.icon.setImageResource(model.getIcon());
             } else {
                 Glide.with(binding.icon.getContext())
-                        .load(model.getDrawable())
+                        .load(model.getDrawable() != null ? model.getDrawable() : model.getOnlineIcon().replace("http://", "https://"))
                         .transform(new CircleCrop())
+                        .placeholder(R.drawable.ic_default_person)
+                        .transition(DrawableTransitionOptions.withCrossFade())
                         .into(binding.icon);
             }
             if (!TextUtils.isEmpty(model.getUrl())) {
