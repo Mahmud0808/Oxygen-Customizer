@@ -171,6 +171,9 @@ We highly appreciate and welcome all forms of contributions, ranging from code, 
 - [SuperiorExtended](https://github.com/SuperiorExtended) for some tweaks and layouts.
 - And everyone who [contributed](https://github.com/DHD2280/Oxygen-Customizer/graphs/contributors) and [translated](https://crowdin.com/project/oxygen-customizer/members)... :)
 
+<!-- CROWDIN-CONTRIBUTORS-START -->
+
+<!-- CROWDIN-CONTRIBUTORS-END -->
 
 # © License
 
