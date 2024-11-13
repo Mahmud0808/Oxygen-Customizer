@@ -27,6 +27,7 @@ jobs:
         with:
           image_size: 32
           readme_path: "docs/contributors.md"
+          collaborators: all
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
