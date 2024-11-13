@@ -8,29 +8,42 @@ on:
     - cron: '0 0 * * 0'
   workflow_dispatch: # This will run the workflow on manual trigger
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
-
-  contrib-readme-job:
-    name: A job to automate contrib in readme
+  manually-update-contributors-list:
     runs-on: ubuntu-latest
-
+    name: A job to automatically update the contributors list in the README.md
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Contribute List
         uses: akhilmhdh/contributors-readme-action@v2.3.10
-        with:
-          image_size: 32
-          readme_path: ./docs/contributors.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit changes
-        if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
-        run: |
-          printf '%s\n' '$(curl "https://api.github.com/repos/Mahmud0808/Iconify/contributors")' > ./app/src/main/assets/Misc/contributors.json
+#permissions:
+#  contents: write
+#  pull-requests: write
+#
+#jobs:
+#
+#  contrib-readme-job:
+#    name: A job to automate contrib in readme
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v4
+#
+#      - name: Contribute List
+#        uses: akhilmhdh/contributors-readme-action@v2.3.10
+#        with:
+#          image_size: 32
+#          readme_path: ./docs/contributors.md
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Commit changes
+#        if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+#        run: |
+#          printf '%s\n' '$(curl "https://api.github.com/repos/Mahmud0808/Iconify/contributors")' > ./app/src/main/assets/Misc/contributors.json
