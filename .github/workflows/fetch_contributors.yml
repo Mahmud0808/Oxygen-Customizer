@@ -1,0 +1,30 @@
+name: Fetch Contributors
+
+on:
+  pull_request: # This will run the workflow on pull request events
+    types:
+      - closed
+  schedule: # This will run the workflow on a schedule
+    - cron: '0 0 * * 0'
+  workflow_dispatch: # This will run the workflow on manual trigger
+
+jobs:
+  contrib-readme-job:
+    runs-on: ubuntu-latest
+    name: A job to automate contrib in readme
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Contribute List
+        uses: akhilmhdh/contributors-readme-action@v2.3.10
+        with:
+          image_size: 32
+          readme_path: ./docs/contributors.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit changes
+        if: github.event_name == 'workflow_dispatch' || github.event.pull_request.merged == true
+        run: |
+          printf '%s\n' '$(curl "https://api.github.com/repos/Mahmud0808/Iconify/contributors")' > ./app/src/main/assets/Misc/contributors.json
