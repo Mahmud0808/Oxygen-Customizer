@@ -169,7 +169,7 @@ We highly appreciate and welcome all forms of contributions, ranging from code, 
 - [OmniROM](https://github.com/omnirom) for the Weather Providers.
 - [Project Matrixx](https://github.com/ProjectMatrixx) for some illustrations.
 - [SuperiorExtended](https://github.com/SuperiorExtended) for some tweaks and layouts.
-- And everyone who [contributed](https://github.com/DHD2280/Oxygen-Customizer/graphs/contributors) and [translated](./docs/translators.md)... :)
+- And everyone who [contributed](./docs/contributors.md) and [translated](./docs/translators.md)... :)
 
 # © License
 
