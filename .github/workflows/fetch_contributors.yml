@@ -13,7 +13,6 @@ permissions:
   pull-requests: write
 
 jobs:
-
   contrib-readme-job:
     name: A job to automate contrib in readme
     runs-on: ubuntu-latest
