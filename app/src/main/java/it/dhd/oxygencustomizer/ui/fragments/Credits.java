@@ -14,6 +14,8 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.OplusRecyclerView;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import it.dhd.oxygencustomizer.databinding.FragmentRecyclerBinding;
 import it.dhd.oxygencustomizer.ui.adapters.CreditsAdapter;
 import it.dhd.oxygencustomizer.ui.base.BaseFragment;
 import it.dhd.oxygencustomizer.ui.models.CreditsModel;
+import it.dhd.oxygencustomizer.utils.ContributorParser;
 import it.dhd.oxygencustomizer.utils.TranslatorParser;
 
 public class Credits extends BaseFragment {
@@ -72,7 +75,12 @@ public class Credits extends BaseFragment {
         credits.add(new CreditsModel(VIEW_TYPE_ITEM, "thecubed", """
         Recognized Developer
         For finding a fix to lag issue from recents""", "https://github.com/thecubed", R.drawable.ic_default_person));
-                                     
+        try {
+            credits.addAll(new ContributorParser().parseContributors());
+        } catch (JSONException e) {
+            Log.e("Credits", "Error parsing contributors", e);
+        }
+
         credits.add(new CreditsModel("Testers"));
         credits.add(new CreditsModel(VIEW_TYPE_ITEM, "Max", "", "", R.drawable.ic_default_person));
         credits.add(new CreditsModel(VIEW_TYPE_ITEM, "Siri00", "", "", R.drawable.ic_default_person));
