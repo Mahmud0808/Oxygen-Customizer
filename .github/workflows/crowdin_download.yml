@@ -34,7 +34,7 @@ jobs:
      
       - name: Save contributors
         run:
-          printf "%s" "${{ steps.contributors.outputs.json_report }}" | tee contributors.json
+          echo "${{ steps.contributors.outputs.json_report }}" | jq '.' > contributors.json
           
       - name: Download translations
         uses: crowdin/github-action@v2
