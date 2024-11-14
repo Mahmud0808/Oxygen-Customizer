@@ -41,8 +41,8 @@ import androidx.preference.PreferenceViewHolder;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import it.dhd.oneplusui.appcompat.cardlist.CardListHelper;
 import it.dhd.oxygencustomizer.R;
-import it.dhd.oxygencustomizer.appcompat.cardlist.CardListHelper;
 import it.dhd.oxygencustomizer.databinding.QsChipLayoutBinding;
 import it.dhd.oxygencustomizer.utils.ThemeUtils;
 

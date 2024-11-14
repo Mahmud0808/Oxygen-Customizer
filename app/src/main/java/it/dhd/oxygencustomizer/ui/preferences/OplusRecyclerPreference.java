@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SnapHelper;
 
+import it.dhd.oneplusui.appcompat.cardlist.CardListHelper;
 import it.dhd.oneplusui.preference.OplusPreference;
 import it.dhd.oxygencustomizer.R;
-import it.dhd.oxygencustomizer.appcompat.cardlist.CardListHelper;
 import it.dhd.oxygencustomizer.ui.adapters.SnapOnScrollListener;
 import it.dhd.oxygencustomizer.utils.CarouselLayoutManager;
 import it.dhd.oxygencustomizer.utils.PreferenceHelper;
