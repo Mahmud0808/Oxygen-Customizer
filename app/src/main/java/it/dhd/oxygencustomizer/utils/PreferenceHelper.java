@@ -1120,7 +1120,8 @@ public class PreferenceHelper {
 
             // Buttons
             case "volbtn_torch_timeout" ->
-                    instance.mPreferences.getSliderInt("volbtn_torch_timeout", 5) + fragmentCompat.getString(R.string.seconds);
+                    instance.mPreferences.getSliderInt("volbtn_torch_timeout", 5) + " " +
+                            fragmentCompat.getString(R.string.seconds);
 
             default -> null;
         };
