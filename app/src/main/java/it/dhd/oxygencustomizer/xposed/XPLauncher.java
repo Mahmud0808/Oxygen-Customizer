@@ -15,6 +15,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.RemoteException;
 
@@ -63,47 +64,55 @@ public class XPLauncher implements ServiceConnection {
 
 
         if (lpparam.packageName.equals(Constants.Packages.FRAMEWORK)) {
-            Class<?> PhoneWindowManagerExtImpl = findClass("com.android.server.policy.PhoneWindowManagerExtImpl", lpparam.classLoader);
-            hookAllMethods(PhoneWindowManagerExtImpl, "overrideInit", new XC_MethodHook() {
+            log("[ Oxygen Customizer - XPLauncher ] packageName Framework: " + lpparam.packageName);
+            Class<?> PhoneWindowManager = findClass("com.android.server.policy.PhoneWindowManager", lpparam.classLoader);
+            hookAllMethods(PhoneWindowManager, "init", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    log("packageName Framework: PhoneWindowManagerExtImpl overrideInit ");
+                    log("[ Oxygen Customizer - XPLauncher ] packageName Framework: PhoneWindowManager init ");
                     try {
-                            log("PhoneWindowManagerExtImpl " + (mContext != null));
-                            mContext = (Context) param.args[1];
+                        log("[ Oxygen Customizer - XPLauncher ] mContext null? " + (mContext == null));
+                        if (param.args[0] instanceof Context && mContext == null) {
+                            log("[ Oxygen Customizer - XPLauncher ] PhoneWindowManager param.args[0] instanceof Context");
+                            mContext = (Context) param.args[0];
+                            log("[ Oxygen Customizer - XPLauncher ] PhoneWindowManager Context null? " + (mContext == null));
 
                             ResourceManager.modRes = mContext.createPackageContext(APPLICATION_ID, Context.CONTEXT_IGNORE_SECURITY)
                                     .getResources();
 
                             XPrefs.init(mContext);
-
-                            CompletableFuture.runAsync(() -> waitForXprefsLoad(lpparam));
+                        }
+                        CompletableFuture.runAsync(() -> waitForXprefsLoad(lpparam));
                     } catch (Throwable t) {
-                        log("fault in PhoneWindowManagerExtImpl: " + t);
+                        log("[ Oxygen Customizer - XPLauncher ] fault in PhoneWindowManager: " + t);
                     }
                 }
             });
         } else {
-            findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    try {
-                        if ((mContext == null || lpparam.packageName.equals(Constants.Packages.TELECOM_SERVER_PACKAGE)) && param.args[2] != null) { //telecom service launches as a secondary process in framework, but has its own package name. context is not null when it loads
-                            mContext = (Context) param.args[2];
+            if (Build.VERSION.SDK_INT <= 34) {
+                findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        try {
+                            if ((mContext == null || lpparam.packageName.equals(Constants.Packages.TELECOM_SERVER_PACKAGE))) { //telecom service launches as a secondary process in framework, but has its own package name. context is not null when it loads
+                                if (param.args[2] == null) return;
+                                if (!(param.args[2] instanceof Context)) return;
+                                mContext = (Context) param.args[2];
 
-                            ResourceManager.modRes = mContext.createPackageContext(APPLICATION_ID, Context.CONTEXT_IGNORE_SECURITY)
-                                    .getResources();
+                                ResourceManager.modRes = mContext.createPackageContext(APPLICATION_ID, Context.CONTEXT_IGNORE_SECURITY)
+                                        .getResources();
 
-                            XPrefs.init(mContext);
+                                XPrefs.init(mContext);
 
-                            waitForXprefsLoad(lpparam);
+                                waitForXprefsLoad(lpparam);
+                            }
+                        } catch (Throwable t) {
+                            // Context is null
+                            log("[ Oxygen Customizer - XPLauncher ] Instrumentation error in newApplication: " + t);
                         }
-                    } catch (Throwable t) {
-                        // Context is null
-                        log("Instrumentation newApplication: " + t);
                     }
-                }
-            });
+                });
+            }
         }
     }
 
@@ -149,8 +158,7 @@ public class XPLauncher implements ServiceConnection {
                 try {
                     //noinspection BusyWait
                     Thread.sleep(1000);
-                } catch (Throwable ignored1) {
-                }
+                } catch (Throwable ignored1) {}
             }
         }
 
@@ -159,8 +167,7 @@ public class XPLauncher implements ServiceConnection {
         onXPrefsReady(lpparam);
     }
 
-    private void forceConnectRootService()
-    {
+    private void forceConnectRootService() {
         new Thread(() -> {
             while(SystemUtils.UserManager() == null
                     || !SystemUtils.UserManager().isUserUnlocked()) //device is still CE encrypted
@@ -201,7 +208,7 @@ public class XPLauncher implements ServiceConnection {
                 {
                     Objects.requireNonNull(proxyQueue.poll()).run(rootProxyIPC);
                 }
-                catch (Throwable ignored){}
+                catch (Throwable ignored) {}
             }
         }
     }
