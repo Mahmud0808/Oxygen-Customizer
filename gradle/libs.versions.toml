@@ -5,7 +5,7 @@ kotlin = "2.0.21"
 kapt = "2.0.0"
 
 # Magisk libsu
-libsu = "6.0.0"
+libsu = "5.2.2"
 
 # AndroidX Libraries
 appcompat = "1.7.0"
