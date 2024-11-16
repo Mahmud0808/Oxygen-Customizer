@@ -4,9 +4,11 @@ import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.getStaticIntField;
+import static it.dhd.oxygencustomizer.xposed.utils.ReflectionTools.findClassInArray;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 
 import androidx.core.content.res.ResourcesCompat;
 
@@ -41,7 +43,7 @@ public class OpUtils extends XposedMods {
     public static boolean isMediaIconNeedUseLightColor(Context context) {
         if (QsColorUtil == null) return false;
         try {
-            return (boolean) callStaticMethod(QsColorUtil, "isMediaIconNeedUseLightColor", context);
+            return (boolean) callStaticMethod(QsColorUtil, Build.VERSION.SDK_INT >= 35 ? "isIconNeedUseLightColor" : "isMediaIconNeedUseLightColor", context);
         } catch (Throwable t) {
             return false;
         }
@@ -80,11 +82,9 @@ public class OpUtils extends XposedMods {
             OpUtils = null;
         }
 
-        try {
-            QsColorUtil = findClass("com.oplus.systemui.qs.util.QsColorUtil", lpparam.classLoader);
-        } catch (Throwable t) {
-            QsColorUtil = null;
-        }
+        QsColorUtil = findClassInArray(lpparam,
+                "com.oplus.systemui.qs.base.util.QsColorUtil" /* OOS15 */,
+                "com.oplus.systemui.qs.util.QsColorUtil" /* OOS13-14 */);
 
         try {
             QSFragmentHelper = findClass("com.oplus.systemui.qs.helper.QSFragmentHelper", lpparam.classLoader);
