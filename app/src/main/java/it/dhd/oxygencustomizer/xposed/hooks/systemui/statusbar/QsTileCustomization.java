@@ -5,8 +5,8 @@ import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
-import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
 import static de.robv.android.xposed.XposedHelpers.getBooleanField;
+import static de.robv.android.xposed.XposedHelpers.getIntField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.QsTilesCustomization.QS_BRIGHTNESS_SLIDER_BACKGROUND_COLOR;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.QsTilesCustomization.QS_BRIGHTNESS_SLIDER_BACKGROUND_ENABLED;
@@ -55,6 +55,8 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -152,8 +154,6 @@ public class QsTileCustomization extends XposedMods {
     private Bitmap mArt = null;
     private int mColorOnAlbum = Color.WHITE;
 
-    private Class<?> QsColorUtil = null;
-
     public QsTileCustomization(Context context) {
         super(context);
     }
@@ -234,139 +234,29 @@ public class QsTileCustomization extends XposedMods {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
         if (!lpparam.packageName.equals(listenerPackage)) return;
 
-        try {
-            Class<?> PersonalityManager;
-            try {
-                PersonalityManager = findClass("com.oplus.systemui.qs.personality.PersonalityManager", lpparam.classLoader);
-            } catch (Throwable ignored) {
-                PersonalityManager = findClass("com.oplusos.systemui.qs.personality.PersonalityManager", lpparam.classLoader);
-            }
+        Class<?> PersonalityManager = findClassInArray(lpparam,
+                "com.oplus.systemui.qs.personality.PersonalityManager" /* OOS14-15 */,
+                "com.oplusos.systemui.qs.personality.PersonalityManager" /* OOS13 */);
+        if (PersonalityManager != null) {
             hookAllConstructors(PersonalityManager, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     mPersonalityManager = param.thisObject;
                 }
             });
-        } catch (Throwable t) {
-            log("PersonalityManager error: " + t.getMessage());
-        }
+        } else log("PersonalityManager not found");
 
-        try {
-            QsColorUtil = findClassIfExists("com.oplus.systemui.qs.util.QsColorUtil", lpparam.classLoader);
-        } catch (Throwable ignored) {
-        }
+        // Color Hooker
+        hookQsColors(lpparam);
 
-        Class<?> OplusQSTileBaseView = findClassInArray(lpparam,
-                "com.oplus.systemui.qs.base.tile.OplusQSTileBaseView" /* OOS15 */,
-                "com.oplus.systemui.qs.qstileimpl.OplusQSTileBaseView" /* OOS14 */,
-                "com.oplusos.systemui.qs.qstileimpl.OplusQSTileBaseView" /* OOS13 */);
-        if (OplusQSTileBaseView == null) {
-            log(new Throwable("OplusQSTileBaseView not found"));
-        }
+        // Animation Hooker
+        hookQsTileAnimation(lpparam);
+        // End Animation Hooker
 
-        /*if (QsColorUtil != null) {
-            setStaticIntField(QsColorUtil, "BRIGHTNESS_ICON_BG_LIGHT_COLOR", Color.WHITE);
-            setStaticIntField(QsColorUtil, "BRIGHTNESS_ICON_BG_DARK_COLOR", Color.WHITE);
-        }*/
-        /*hookAllMethods(QsColorUtil, "isLightColor", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                setStaticIntField(QsColorUtil, "BRIGHTNESS_ICON_BG_LIGHT_COLOR", Color.WHITE);
-                setStaticIntField(QsColorUtil, "BRIGHTNESS_ICON_BG_DARK_COLOR", Color.WHITE);
+        // Media Panel Album Art
+        hookMediaPanel(lpparam);
 
-            }
-        });*/
-
-        final XC_MethodHook colorHook = new XC_MethodHook() {
-
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                int state = (int) param.args[0];
-                ShapeDrawable mPersonalityDrawable = (ShapeDrawable) param.getResult();
-
-                Shape mPersonalityDrawable2 = new RoundRectShape(
-                        new float[]{
-                                dp2px(mContext, 10), dp2px(mContext, 10),
-                                dp2px(mContext, 28), dp2px(mContext, 28),
-                                dp2px(mContext, 10), dp2px(mContext, 10),
-                                dp2px(mContext, 28), dp2px(mContext, 28)}, null, null);
-                mPersonalityDrawable.setShape(mPersonalityDrawable2);
-                if (state == STATE_INACTIVE && qsInactiveColorEnabled) // Inactive State
-                {
-                    mPersonalityDrawable.getPaint().setColor(qsInactiveColor);
-                } else if (state == STATE_ACTIVE && qsActiveColorEnabled) // Active State
-                {
-                    mPersonalityDrawable.getPaint().setColor(qsActiveColor);
-                } else if (qsDisabledColorEnabled && state != 1 && state != 2) // Disabled State
-                {
-                    mPersonalityDrawable.getPaint().setColor(qsDisabledColor);
-                }
-                if (qsInactiveColorEnabled || qsActiveColorEnabled || qsDisabledColorEnabled)
-                    mPersonalityDrawable.invalidateSelf();
-            }
-        };
-
-        final XC_MethodHook animationHook = new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                View qsTile = (View) param.thisObject;
-                qsTile.post(() -> getTileAnimation(qsTile));
-            }
-        };
-
-        hookAllMethods(OplusQSTileBaseView, "generateDrawable", getColorHook(false));
-
-        hookAllMethods(OplusQSTileBaseView, "performClick", animationHook);
-
-        Class<?> OplusQSHighlightTileView = findClassInArray(lpparam,
-                "com.oplus.systemui.qs.base.tile.OplusQSHighlightTileView" /* OOS15 */,
-                "com.oplus.systemui.qs.qstileimpl.OplusQSHighlightTileView" /* OOS14 */,
-                "com.oplusos.systemui.qs.qstileimpl.OplusQSHighlightTileView" /* OOS13 */);
-        if (OplusQSHighlightTileView == null) {
-            log(new Throwable("OplusQSHighlightTileView not found"));
-        }
-        hookAllMethods(OplusQSHighlightTileView, "generateDrawable", getColorHook(true));
-        hookAllMethods(OplusQSHighlightTileView, "performClick", animationHook);
-
-
-        Class<?> OplusQsMediaPanelView = findClass("com.oplus.systemui.qs.media.OplusQsMediaPanelView", lpparam.classLoader);
-        hookAllMethods(OplusQsMediaPanelView, "onFinishInflate", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                mOplusQsMediaView = (View) param.thisObject;
-                if (mQsWidgetsEnabled) return;
-                mOplusQsMediaDefaultBackground = mOplusQsMediaView.getBackground();
-                if (mOplusQsMediaDefaultBackground != null) {
-                    mOplusQsMediaDrawable = mOplusQsMediaDefaultBackground.getConstantState().newDrawable().mutate();
-                }
-                if (qsInactiveColorEnabled) {
-                    mOplusQsMediaDrawable.setTint(qsInactiveColor);
-                    mOplusQsMediaDrawable.invalidateSelf();
-                    mOplusQsMediaView.setBackground(mOplusQsMediaDrawable);
-                } else mOplusQsMediaView.setBackground(mOplusQsMediaDefaultBackground);
-
-                // Get OOS15 cover
-                if (Build.VERSION.SDK_INT >= 35) {
-                    mCoverImg = (ImageView) getObjectField(param.thisObject, "mCoverImg");
-                }
-
-                // Listen for default tip change
-                View mDefaultTip = (View) getObjectField(param.thisObject, "mDefaultTip");
-                mDefaultTip.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
-                    if (v.getVisibility() == View.VISIBLE) {
-                        hideMediaQsBackground();
-                    }
-                });
-            }
-        });
-
-        hookAllMethods(OplusQsMediaPanelView, "bindTitleAndText", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                updateMediaQsBackground();
-            }
-        });
-
+        // Qs Labels
         Class<?> OplusQSTileView = findClassInArray(lpparam,
                 "com.oplus.systemui.plugins.qs.tile.OplusQSTileView" /* OOS15 */,
                 "com.oplus.systemui.qs.qstileimpl.OplusQSTileView" /* OOS14 */,
@@ -377,7 +267,6 @@ public class QsTileCustomization extends XposedMods {
         hookAllMethods(OplusQSTileView, "createLabel", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
                 mLabelContainer = (ViewGroup) getObjectField(param.thisObject, "mLabelContainer");
                 mTitle = (TextView) getObjectField(param.thisObject, "mLabel");
                 mSubtitle = (TextView) getObjectField(param.thisObject, "mSecondLine");
@@ -534,6 +423,92 @@ public class QsTileCustomization extends XposedMods {
 
     }
 
+
+    public void hookQsColors(XC_LoadPackage.LoadPackageParam lpparam) {
+        Class<?> OplusQSTileBaseView = findClassInArray(lpparam,
+                "com.oplus.systemui.qs.base.tile.OplusQSTileBaseView" /* OOS15 */,
+                "com.oplus.systemui.qs.qstileimpl.OplusQSTileBaseView" /* OOS14 */,
+                "com.oplusos.systemui.qs.qstileimpl.OplusQSTileBaseView" /* OOS13 */);
+        hookAllMethods(OplusQSTileBaseView, "generateDrawable", getColorHook(false));
+
+
+        Class<?> OplusQSHighlightTileView = findClassInArray(lpparam,
+                "com.oplus.systemui.qs.base.tile.OplusQSHighlightTileView" /* OOS15 */,
+                "com.oplus.systemui.qs.qstileimpl.OplusQSHighlightTileView" /* OOS14 */,
+                "com.oplusos.systemui.qs.qstileimpl.OplusQSHighlightTileView" /* OOS13 */);
+        hookAllMethods(OplusQSHighlightTileView, "generateDrawable", getColorHook(true));
+
+    }
+
+    public void hookQsTileAnimation(XC_LoadPackage.LoadPackageParam lpparam) {
+        Class<?> OplusQSTileBaseView = findClassInArray(lpparam,
+                "com.oplus.systemui.qs.base.tile.OplusQSTileBaseView" /* OOS15 */,
+                "com.oplus.systemui.qs.qstileimpl.OplusQSTileBaseView" /* OOS14 */,
+                "com.oplusos.systemui.qs.qstileimpl.OplusQSTileBaseView" /* OOS13 */);
+        if (OplusQSTileBaseView == null) {
+            log(new Throwable("OplusQSTileBaseView not found"));
+        }
+        final XC_MethodHook animationHook = new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                View qsTile = (View) param.thisObject;
+                qsTile.post(() -> getTileAnimation(qsTile));
+            }
+        };
+
+        hookAllMethods(OplusQSTileBaseView, "performClick", animationHook);
+
+        Class<?> OplusQSHighlightTileView = findClassInArray(lpparam,
+                "com.oplus.systemui.qs.base.tile.OplusQSHighlightTileView" /* OOS15 */,
+                "com.oplus.systemui.qs.qstileimpl.OplusQSHighlightTileView" /* OOS14 */,
+                "com.oplusos.systemui.qs.qstileimpl.OplusQSHighlightTileView" /* OOS13 */);
+        if (OplusQSHighlightTileView == null) {
+            log(new Throwable("OplusQSHighlightTileView not found"));
+        }
+
+        hookAllMethods(OplusQSHighlightTileView, "performClick", animationHook);
+    }
+
+    public void hookMediaPanel(XC_LoadPackage.LoadPackageParam lpparam) {
+        Class<?> OplusQsMediaPanelView = findClass("com.oplus.systemui.qs.media.OplusQsMediaPanelView", lpparam.classLoader);
+        hookAllMethods(OplusQsMediaPanelView, "onFinishInflate", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                mOplusQsMediaView = (View) param.thisObject;
+                if (mQsWidgetsEnabled) return;
+                mOplusQsMediaDefaultBackground = mOplusQsMediaView.getBackground();
+                if (mOplusQsMediaDefaultBackground != null) {
+                    mOplusQsMediaDrawable = mOplusQsMediaDefaultBackground.getConstantState().newDrawable().mutate();
+                }
+                if (qsInactiveColorEnabled) {
+                    mOplusQsMediaDrawable.setTint(qsInactiveColor);
+                    mOplusQsMediaDrawable.invalidateSelf();
+                    mOplusQsMediaView.setBackground(mOplusQsMediaDrawable);
+                } else mOplusQsMediaView.setBackground(mOplusQsMediaDefaultBackground);
+
+                // Get OOS15 cover
+                if (Build.VERSION.SDK_INT >= 35) {
+                    mCoverImg = (ImageView) getObjectField(param.thisObject, "mCoverImg");
+                }
+
+                // Listen for default tip change
+                View mDefaultTip = (View) getObjectField(param.thisObject, "mDefaultTip");
+                mDefaultTip.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+                    if (v.getVisibility() == View.VISIBLE) {
+                        hideMediaQsBackground();
+                    }
+                });
+            }
+        });
+
+        hookAllMethods(OplusQsMediaPanelView, "bindTitleAndText", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                updateMediaQsBackground();
+            }
+        });
+    }
+
     private void setSliderProgressColor(Object mSlider, ColorStateList colorStateList) {
         try {
             callMethod(mSlider, "setProgressColor", colorStateList);
@@ -553,7 +528,7 @@ public class QsTileCustomization extends XposedMods {
     private void updateMediaQsBackground() {
         if (!showMediaArtMediaQs || mOplusQsMediaView == null) return;
         if (mQsWidgetsEnabled) return;
-        mCoverImg.setVisibility(View.GONE);
+        if (mCoverImg != null) mCoverImg.setVisibility(View.GONE);
         Bitmap oldArt = mArt;
         Bitmap tempArt = getArt();
         if (tempArt == null) {
@@ -572,7 +547,7 @@ public class QsTileCustomization extends XposedMods {
         Bitmap oldArtRounded = DrawableConverter.getRoundedCornerBitmap(oldArt, radius);
         Palette.Builder builder = new Palette.Builder(artRounded);
         builder.generate(palette -> {
-            int dominantColor = palette.getDominantColor(Color.WHITE);
+            int dominantColor = palette != null ? palette.getDominantColor(Color.WHITE) : Color.WHITE;
             mColorOnAlbum =
                     isColorDark(dominantColor) ?
                             DrawableConverter.findContrastColorAgainstDark(Color.WHITE, dominantColor, true, 2) :
@@ -792,6 +767,31 @@ public class QsTileCustomization extends XposedMods {
                     mPersonalityDrawable.invalidateSelf();
             }
         };
+    }
+
+    private Drawable getCustomizedTile(Object tile, Object state, boolean isHighlight) {
+        if (tile == null || state == null) return null;
+        int intState = getIntField(state, "state");
+        Shape mCustomShape = null;
+        if (customHighlightTileRadius && isHighlight) {
+            mCustomShape = getTileShape(true);
+        } else if (customTileRadius && !isHighlight) {
+            mCustomShape = getTileShape(false);
+        }
+        Drawable mPersonalityDrawable = (Drawable) callMethod(tile, "getBackgroundDrawable");
+        if (intState == STATE_INACTIVE && qsInactiveColorEnabled) // Inactive State
+        {
+            mPersonalityDrawable.setColorFilter(new PorterDuffColorFilter(qsInactiveColor, PorterDuff.Mode.SRC_IN));
+        } else if (intState == STATE_ACTIVE && qsActiveColorEnabled) // Active State
+        {
+            mPersonalityDrawable.setColorFilter(new PorterDuffColorFilter(qsActiveColor, PorterDuff.Mode.SRC_IN));
+        } else if (qsDisabledColorEnabled && intState != STATE_INACTIVE && intState != STATE_ACTIVE) // Disabled State
+        {
+            mPersonalityDrawable.setColorFilter(new PorterDuffColorFilter(qsDisabledColor, PorterDuff.Mode.SRC_IN));
+        }
+        if (qsInactiveColorEnabled || qsActiveColorEnabled || qsDisabledColorEnabled || customHighlightTileRadius || customTileRadius)
+            mPersonalityDrawable.invalidateSelf();
+        return mPersonalityDrawable;
     }
 
     private Shape getTileShape(boolean isHighlight) {
