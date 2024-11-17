@@ -303,8 +303,8 @@ public class Lockscreen extends ControlledPreferenceFragmentCompat {
                     if (DepthEffectEnabled) {
                         new MaterialAlertDialogBuilder(getContext())
                                 .setTitle(R.string.depth_effect_alert_title)
-                                .setMessage(getString(R.string.depth_effect_alert_body, getString(R.string.sysui_restart_needed)))
-                                .setPositiveButton(R.string.depth_effect_ok_btn, (dialog, which) -> AppUtils.restartScope("systemui"))
+                                .setMessage(getString(R.string.depth_effect_alert_body))
+                                .setPositiveButton(R.string.depth_effect_ok_btn, (dialog, which) -> dialog.dismiss())
                                 .setCancelable(false)
                                 .show();
                     }

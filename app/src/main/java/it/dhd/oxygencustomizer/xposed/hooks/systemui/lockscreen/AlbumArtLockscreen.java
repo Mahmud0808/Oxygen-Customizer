@@ -101,7 +101,7 @@ public class AlbumArtLockscreen extends XposedMods {
                 albumArtView.setVisibility(View.GONE);
                 albumArtContainer.addView(albumArtView);
 
-                rootView.addView(albumArtContainer, mDepthWallpaperEnabled ? 3 : 2);
+                rootView.addView(albumArtContainer, 3);
 
             }
         });

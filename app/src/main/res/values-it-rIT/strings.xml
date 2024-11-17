@@ -698,7 +698,7 @@
     <string name="albumart_tint_intensity_title">Intensità del colore personalizzata</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">Attenzione</string>
-    <string name="depth_effect_alert_body">Usa uno sfondo adatto alla schermata di blocco in cui gli elementi di primo piano non ostacolano l\'intero orologio sulla schermata di blocco, garantendo sia il fascino visivo che la chiarezza funzionale sulla schermata di blocco.\nDopo l\'abilitazione, imposta uno sfondo della schermata di blocco, il modello AI proverà automaticamente ad estrarre l\'oggetto dallo sfondo.\n\nNota: %s.</string>
+    <string name="depth_effect_alert_body">Usa uno sfondo adatto alla schermata di blocco in cui gli elementi di primo piano non ostacolano l\'intero orologio sulla schermata di blocco, garantendo sia il fascino visivo che la chiarezza funzionale sulla schermata di blocco.\nDopo l\'abilitazione, imposta uno sfondo della schermata di blocco, il modello AI proverà automaticamente ad estrarre l\'oggetto dallo sfondo.</string>
     <string name="depth_effect_ok_btn">Ok</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">Orologio schermata di blocco</string>

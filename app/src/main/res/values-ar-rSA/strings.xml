@@ -694,7 +694,7 @@
     <string name="albumart_tint_intensity_title">شدة اللون المخصص</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">تنبيه</string>
-    <string name="depth_effect_alert_body">استخدم خلفية شاشة قفل مناسبة حيث لا تعوق العناصر الأمامية الساعة بالكامل، مما يضمن جاذبية بصرية ووضوح وظيفي على شاشة القفل.\nبعد التمكين، قم بتعيين خلفية شاشة قفل، سيحاول نموذج الذكاء الاصطناعي تلقائيًا استخراج الموضوع من الخلفية.\n\nملاحظة: %s.</string>
+    <string name="depth_effect_alert_body">استخدم خلفية شاشة قفل مناسبة حيث لا تعوق العناصر الأمامية الساعة بالكامل، مما يضمن جاذبية بصرية ووضوح وظيفي على شاشة القفل.\nبعد التمكين، قم بتعيين خلفية شاشة قفل، سيحاول نموذج الذكاء الاصطناعي تلقائيًا استخراج الموضوع من الخلفية.</string>
     <string name="depth_effect_ok_btn">حسنا</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">ساعة شاشة القفل</string>

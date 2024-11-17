@@ -6,9 +6,7 @@ import static android.view.View.VISIBLE;
 import static de.robv.android.xposed.XposedBridge.hookAllConstructors;
 import static de.robv.android.xposed.XposedBridge.hookAllMethods;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
-import static de.robv.android.xposed.XposedHelpers.getBooleanField;
 import static de.robv.android.xposed.XposedHelpers.getFloatField;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static it.dhd.oxygencustomizer.utils.Constants.ACTIONS_AOD_INVALIDATE_DEPTH;
@@ -17,6 +15,8 @@ import static it.dhd.oxygencustomizer.utils.Constants.ACTION_DEPTH_SUBJECT_CHANG
 import static it.dhd.oxygencustomizer.utils.Constants.ACTION_EXTRACT_FAILURE;
 import static it.dhd.oxygencustomizer.utils.Constants.ACTION_EXTRACT_SUBJECT;
 import static it.dhd.oxygencustomizer.utils.Constants.ACTION_EXTRACT_SUCCESS;
+import static it.dhd.oxygencustomizer.utils.Constants.DEPTH_BG_TAG;
+import static it.dhd.oxygencustomizer.utils.Constants.DEPTH_SUBJECT_TAG;
 import static it.dhd.oxygencustomizer.utils.Constants.Packages.SYSTEM_UI;
 import static it.dhd.oxygencustomizer.utils.Constants.getLockScreenBitmapCachePath;
 import static it.dhd.oxygencustomizer.utils.Constants.getLockScreenSubjectCachePath;
@@ -56,11 +56,10 @@ import java.util.concurrent.TimeUnit;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import it.dhd.oxygencustomizer.utils.Constants;
 import it.dhd.oxygencustomizer.xposed.XPLauncher;
 import it.dhd.oxygencustomizer.xposed.XposedMods;
+import it.dhd.oxygencustomizer.xposed.hooks.systemui.SuperPowerSaveObserver;
 import it.dhd.oxygencustomizer.xposed.utils.DrawableConverter;
 
 /**
@@ -128,7 +127,9 @@ public class DepthWallpaper extends XposedMods {
         DWMode = Integer.parseInt(Xprefs.getString("DWMode", "0"));
 
         if (Key.length > 0) {
-            if (Key[0].equals("DWMode")) {
+            if (Key[0].equals("DWallpaperEnabled")) {
+                setupViews();
+            } else if (Key[0].equals("DWMode")) {
                 cleanFiles();
             }
         }
@@ -136,6 +137,9 @@ public class DepthWallpaper extends XposedMods {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) throws Throwable {
+
+        SuperPowerSaveObserver.registerSuperPowerSaveCallback(isSuperPowerSave -> superPowerSave = isSuperPowerSave);
+
         if (Build.VERSION.SDK_INT < 34) return;
 
         if (!mBroadcastRegistered) {
@@ -158,22 +162,6 @@ public class DepthWallpaper extends XposedMods {
         } catch (Throwable ignored) {
             QSImplClass = findClass("com.android.systemui.qs.QSImpl", lpParam.classLoader); // OOS15
         }
-
-        Class<?> SuperPowerSaveSettingsObserver;
-        try {
-            SuperPowerSaveSettingsObserver = findClass("com.oplus.systemui.qs.observer.SuperPowerSaveSettingsObserver", lpParam.classLoader);
-        } catch (Throwable t) {
-            SuperPowerSaveSettingsObserver = findClass("com.oplusos.systemui.common.observer.SuperPowerSaveSettingsObserver", lpParam.classLoader);
-        }
-        findAndHookMethod(SuperPowerSaveSettingsObserver,
-                "onChange",
-                boolean.class,
-                new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        superPowerSave = getBooleanField(param.thisObject, "mIsSuperPowerSaveState");
-                    }
-                });
 
         Class<?> CentralSurfacesImplClass = findClass("com.android.systemui.statusbar.phone.CentralSurfacesImpl", lpParam.classLoader);
         Class<?> ScrimControllerClassEx = findClass("com.android.systemui.statusbar.phone.ScrimControllerEx", lpParam.classLoader);
@@ -209,8 +197,6 @@ public class DepthWallpaper extends XposedMods {
         hookAllMethods(CentralSurfacesImplClass, "start", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                if (!DWallpaperEnabled) return;
-
                 log("CentralSurfacesImpl started");
 
                 View scrimBehind = (View) getObjectField(getScrimController(), "mScrimBehind");
@@ -407,6 +393,7 @@ public class DepthWallpaper extends XposedMods {
         log("Creating Layers");
 
         mWallpaperBackground = new FrameLayout(mContext);
+        mWallpaperBackground.setTag(DEPTH_BG_TAG);
         mWallpaperDimmingOverlay = new FrameLayout(mContext);
         mWallpaperBitmapContainer = new FrameLayout(mContext);
         FrameLayout.LayoutParams lpw = new FrameLayout.LayoutParams(-1, -1);
@@ -420,6 +407,7 @@ public class DepthWallpaper extends XposedMods {
         mWallpaperBackground.setLayoutParams(lpw);
 
         mLockScreenSubject = new FrameLayout(mContext);
+        mLockScreenSubject.setTag(DEPTH_SUBJECT_TAG);
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(-1, -1);
         mLockScreenSubject.setLayoutParams(lp);
 
@@ -506,6 +494,21 @@ public class DepthWallpaper extends XposedMods {
             //noinspection ResultOfMethodCallIgnored
             new File(getLockScreenSubjectCachePath()).delete();
         } catch (Throwable ignored) {
+        }
+    }
+
+    private void setupViews() {
+        if (mLayersCreated) {
+            if (mWallpaperBackground != null) {
+                mWallpaperBackground.post(() -> {
+                    mWallpaperBackground.setVisibility(DWallpaperEnabled ? VISIBLE : GONE);
+                });
+            }
+            if (mLockScreenSubject != null) {
+                mLockScreenSubject.post(() -> {
+                    mLockScreenSubject.setVisibility(DWallpaperEnabled ? VISIBLE : GONE);
+                });
+            }
         }
     }
 

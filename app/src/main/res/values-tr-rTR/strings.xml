@@ -664,9 +664,7 @@
     <string name="albumart_tint_intensity_title">Özel Renk Yoğunluğu</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">Dikkat</string>
-    <string name="depth_effect_alert_body">Kilit ekranınızdaki saatin tamamını engellemeyen, hem görsel çekiciliği hem de işlevsel açıklığı sağlayan uygun bir kilit ekranı duvar kağıdı kullanın. Etkinleştirdikten sonra bir Kilit Ekranı Duvar Kağıdı ayarlayın, AI modeli otomatik olarak Duvar Kağıdından Konuyu çıkarmaya çalışacaktır.
-
-  Not: %s.</string>
+    <string name="depth_effect_alert_body">Kilit ekranınızdaki saatin tamamını engellemeyen, hem görsel çekiciliği hem de işlevsel açıklığı sağlayan uygun bir kilit ekranı duvar kağıdı kullanın. Etkinleştirdikten sonra bir Kilit Ekranı Duvar Kağıdı ayarlayın, AI modeli otomatik olarak Duvar Kağıdından Konuyu çıkarmaya çalışacaktır.</string>
     <string name="depth_effect_ok_btn">Tamam</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">Kilit Ekranı Saati</string>

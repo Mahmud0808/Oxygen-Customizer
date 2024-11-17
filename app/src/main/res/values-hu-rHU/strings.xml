@@ -695,7 +695,7 @@
     <string name="albumart_tint_intensity_title">Az egyéni szín erőssége</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">Figyelem</string>
-    <string name="depth_effect_alert_body">Használjon megfelelő záróképernyő-háttérképet, ahol az előtérben lévő elemek nem takarják el a lezárási képernyő teljes óráját, így biztosítva a lezárási képernyő vizuális vonzerejét és funkcionális tisztaságát.\nAz engedélyezés után állítson be egy záróképernyő-háttérképet, az AI-modell automatikusan megpróbálja kibontani a Tárgyat a háttérképről\n\nFigyelmeztetés:%s.</string>
+    <string name="depth_effect_alert_body">Használjon megfelelő záróképernyő-háttérképet, ahol az előtérben lévő elemek nem takarják el a lezárási képernyő teljes óráját, így biztosítva a lezárási képernyő vizuális vonzerejét és funkcionális tisztaságát.\nAz engedélyezés után állítson be egy záróképernyő-háttérképet, az AI-modell automatikusan megpróbálja kibontani a Tárgyat a háttérképről</string>
     <string name="depth_effect_ok_btn">OK</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">A képernyőzár órája</string>

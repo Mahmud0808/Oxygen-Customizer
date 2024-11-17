@@ -726,6 +726,9 @@ public final class Constants {
 
     public static final String CLOCK_TAG = "clock";
     public static final String DATE_TAG = "date";
+    public static final String DEPTH_BG_TAG = "depth_bg";
+    public static final String DEPTH_SUBJECT_TAG = "depth_subject";
+    public static final String ALBUM_ART_TAG = "album_art";
 
     // Chip Style
     public static String getStyle(String key) {
