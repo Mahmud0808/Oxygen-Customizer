@@ -192,7 +192,7 @@ public class PreferenceHelper {
     }};
 
     private final List<Integer> LsClockCustomImageVisible = new ArrayList<>() {{
-       addAll(Arrays.asList(25, 39, 40));
+        addAll(Arrays.asList(25, 39, 40));
     }};
 
     private final List<Integer> LsClockUserVisible = new ArrayList<>() {{
@@ -442,7 +442,6 @@ public class PreferenceHelper {
             }
 
             // Header Image
-            // Header Image
             case QS_HEADER_IMAGE_TINT,
                  QS_HEADER_IMAGE_ALPHA,
                  QS_HEADER_IMAGE_BOTTOM_FADE,
@@ -469,7 +468,10 @@ public class PreferenceHelper {
                  "qs_header_stock_clock_hide_carrier_label" -> {
                 return !instance.mPreferences.getBoolean("qs_header_clock_custom_enabled", false);
             }
-
+            case "qs_header_clock_notice_oos15" -> {
+                return Build.VERSION.SDK_INT >= 35 &
+                        instance.mPreferences.getBoolean("qs_header_clock_custom_enabled", false);
+            }
             case "qs_header_stock_clock_date_custom_color_switch" -> {
                 return !instance.mPreferences.getBoolean("qs_header_stock_clock_date_hide", false) &&
                         !instance.mPreferences.getBoolean("qs_header_clock_custom_enabled", false);
@@ -536,6 +538,7 @@ public class PreferenceHelper {
                  LOCKSCREEN_FINGERPRINT_SCALING -> {
                 return instance.mPreferences.getBoolean("lockscreen_fp_custom_icon", false);
             }
+
             case "DWCategory", "DWallpaperEnabled" -> {
                 return Build.VERSION.SDK_INT >= 34;
             }
@@ -554,6 +557,7 @@ public class PreferenceHelper {
                 return isVisible("DWShowOnAod") &&
                         instance.mPreferences.getBoolean("DWShowOnAod", false);
             }
+
             case "lockscreen_album_art_category" -> {
                 return Build.VERSION.SDK_INT >= 34;
             }
@@ -920,7 +924,7 @@ public class PreferenceHelper {
             // Padding
             case "statusbar_padding_start", "statusbar_padding_end" ->
                     fragmentCompat.getString(R.string.statusbar_padding_info) + "\n" +
-                    instance.mPreferences.getSliderFloat(key, 0);
+                            instance.mPreferences.getSliderFloat(key, 0);
 
             // Statusbar Clock
             case "status_bar_java_custom" ->
