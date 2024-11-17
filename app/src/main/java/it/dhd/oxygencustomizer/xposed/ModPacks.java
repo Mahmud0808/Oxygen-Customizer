@@ -29,6 +29,7 @@ import it.dhd.oxygencustomizer.xposed.hooks.systemui.MiscMods;
 import it.dhd.oxygencustomizer.xposed.hooks.systemui.OpUtils;
 import it.dhd.oxygencustomizer.xposed.hooks.systemui.PulseViewHook;
 import it.dhd.oxygencustomizer.xposed.hooks.systemui.SettingsLibUtilsProvider;
+import it.dhd.oxygencustomizer.xposed.hooks.systemui.SuperPowerSaveObserver;
 import it.dhd.oxygencustomizer.xposed.hooks.systemui.ThemeEnabler;
 import it.dhd.oxygencustomizer.xposed.hooks.systemui.ThermalProvider;
 import it.dhd.oxygencustomizer.xposed.hooks.systemui.VolumePanel;
@@ -76,6 +77,9 @@ public class ModPacks {
                 if (!XPLauncher.isChildProcess) {
                     // Caffeine Tile
                     modPacks.add(CaffeineTile.class);
+
+                    // Super Power Saver Observer
+                    modPacks.add(SuperPowerSaveObserver.class);
 
                     // Theme Enabler
                     modPacks.add(ThemeEnabler.class);
