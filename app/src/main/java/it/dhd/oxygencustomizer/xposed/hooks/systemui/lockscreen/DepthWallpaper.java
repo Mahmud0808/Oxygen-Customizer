@@ -173,17 +173,12 @@ public class DepthWallpaper extends XposedMods {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (!mLayersCreated) return;
 
-                @SuppressLint("DiscouragedApi") String notificationScrim =
-                        mContext.getResources().getString(mContext.getResources().getIdentifier("scrim_notification_name", "string", SYSTEM_UI));
-
-                log("ScrimViewExImp setViewAlpha " + notificationScrim + " " + getObjectField(param.thisObject, "name"));
-
                 String scrimName = (String) getObjectField(param.thisObject, "name");
 
                 log("ScrimViewExImp setViewAlpha " + scrimName + " " + param.args[0]);
 
                 if (mLayersCreated) {
-                    if (scrimName.equals(notificationScrim)) {
+                    if (scrimName.toLowerCase().contains("notification")) {
                         log("ScrimViewExImp Notification Scrim Alpha: " + param.args[0]);
                         float notificationAlpha = (float) param.args[0];
                         final float finalAlpha = calculateAlpha(notificationAlpha);// * getFloatField(getScrimController(), "mBehindAlpha");
