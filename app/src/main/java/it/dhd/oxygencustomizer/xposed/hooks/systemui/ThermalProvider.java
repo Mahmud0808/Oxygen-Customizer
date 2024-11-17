@@ -130,6 +130,10 @@ public class ThermalProvider extends XposedMods {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpParam) throws Throwable {
-        ThermalServiceNative = findClass("com.oplus.compat.os.ThermalServiceNative", lpParam.classLoader);
+        try {
+            ThermalServiceNative = findClass("com.oplus.compat.os.ThermalServiceNative", lpParam.classLoader);
+        } catch (Throwable t) {
+            log("Error in ThermalProvider: " + t);
+        }
     }
 }
