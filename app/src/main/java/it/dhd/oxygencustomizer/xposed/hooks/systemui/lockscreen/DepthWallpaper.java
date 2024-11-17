@@ -173,7 +173,14 @@ public class DepthWallpaper extends XposedMods {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 if (!mLayersCreated) return;
 
-                String scrimName = (String) getObjectField(param.thisObject, "name");
+                //TODO: get scrim name for OOS15
+                String scrimName;
+                if (Build.VERSION.SDK_INT >= 35) {
+                    Object ScrimView = callMethod(param.thisObject, "getScrimView");
+                    scrimName = (String) getObjectField(ScrimView, "mScrimName");
+                } else {
+                    scrimName = (String) getObjectField(param.thisObject, "name");
+                }
 
                 log("ScrimViewExImp setViewAlpha " + scrimName + " " + param.args[0]);
 
