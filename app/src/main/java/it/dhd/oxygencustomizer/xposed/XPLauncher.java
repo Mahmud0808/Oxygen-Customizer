@@ -89,30 +89,29 @@ public class XPLauncher implements ServiceConnection {
                 }
             });
         } else {
-            if (Build.VERSION.SDK_INT <= 34) {
-                findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        try {
-                            if ((mContext == null || lpparam.packageName.equals(Constants.Packages.TELECOM_SERVER_PACKAGE))) { //telecom service launches as a secondary process in framework, but has its own package name. context is not null when it loads
-                                if (param.args[2] == null) return;
-                                if (!(param.args[2] instanceof Context)) return;
-                                mContext = (Context) param.args[2];
+            findAndHookMethod(Instrumentation.class, "newApplication", ClassLoader.class, String.class, Context.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    try {
+                        if (mContext == null) { //telecom service launches as a secondary process in framework, but has its own package name. context is not null when it loads
+                            if (Build.VERSION.SDK_INT >= 35 && lpparam.packageName.equals(Constants.Packages.TELECOM_SERVER_PACKAGE)) return;
+                            if (param.args[2] == null) return;
+                            if (!(param.args[2] instanceof Context)) return;
+                            mContext = (Context) param.args[2];
 
-                                ResourceManager.modRes = mContext.createPackageContext(APPLICATION_ID, Context.CONTEXT_IGNORE_SECURITY)
-                                        .getResources();
+                            ResourceManager.modRes = mContext.createPackageContext(APPLICATION_ID, Context.CONTEXT_IGNORE_SECURITY)
+                                    .getResources();
 
-                                XPrefs.init(mContext);
+                            XPrefs.init(mContext);
 
-                                waitForXprefsLoad(lpparam);
-                            }
-                        } catch (Throwable t) {
-                            // Context is null
-                            log("[ Oxygen Customizer - XPLauncher ] Instrumentation error in newApplication: " + t);
+                            waitForXprefsLoad(lpparam);
                         }
+                    } catch (Throwable t) {
+                        // Context is null
+                        log("[ Oxygen Customizer - XPLauncher ] Instrumentation error in newApplication: " + t);
                     }
-                });
-            }
+                }
+            });
         }
     }
 
@@ -169,30 +168,26 @@ public class XPLauncher implements ServiceConnection {
 
     private void forceConnectRootService() {
         new Thread(() -> {
-            while(SystemUtils.UserManager() == null
+            while (SystemUtils.UserManager() == null
                     || !SystemUtils.UserManager().isUserUnlocked()) //device is still CE encrypted
             {
                 sleep(2000);
             }
             sleep(5000); //wait for the unlocked account to settle down a bit
 
-            while(rootProxyIPC == null)
-            {
+            while (rootProxyIPC == null) {
                 connectRootService();
                 sleep(5000);
             }
         }).start();
     }
 
-    private void connectRootService()
-    {
+    private void connectRootService() {
         try {
             Intent intent = new Intent();
             intent.setComponent(new ComponentName(APPLICATION_ID, APPLICATION_ID + ".services.RootProviderProxy"));
             mContext.bindService(intent, instance, Context.BIND_AUTO_CREATE | Context.BIND_ADJUST_WITH_ACTIVITY);
-        }
-        catch (Throwable t)
-        {
+        } catch (Throwable t) {
             log(t);
         }
     }
@@ -200,15 +195,12 @@ public class XPLauncher implements ServiceConnection {
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
         rootProxyIPC = IRootProviderProxy.Stub.asInterface(service);
-        synchronized (proxyQueue)
-        {
-            while(!proxyQueue.isEmpty())
-            {
-                try
-                {
+        synchronized (proxyQueue) {
+            while (!proxyQueue.isEmpty()) {
+                try {
                     Objects.requireNonNull(proxyQueue.poll()).run(rootProxyIPC);
+                } catch (Throwable ignored) {
                 }
-                catch (Throwable ignored) {}
             }
         }
     }
@@ -220,16 +212,12 @@ public class XPLauncher implements ServiceConnection {
         forceConnectRootService();
     }
 
-    public static void enqueueProxyCommand(ProxyRunnable runnable)
-    {
-        if(rootProxyIPC != null)
-        {
+    public static void enqueueProxyCommand(ProxyRunnable runnable) {
+        if (rootProxyIPC != null) {
             try {
                 runnable.run(rootProxyIPC);
             } catch (RemoteException ignored) {}
-        }
-        else
-        {
+        } else {
             synchronized (proxyQueue) {
                 proxyQueue.add(runnable);
             }
@@ -237,8 +225,7 @@ public class XPLauncher implements ServiceConnection {
         }
     }
 
-    public interface ProxyRunnable
-    {
+    public interface ProxyRunnable {
         void run(IRootProviderProxy proxy) throws RemoteException;
     }
 
