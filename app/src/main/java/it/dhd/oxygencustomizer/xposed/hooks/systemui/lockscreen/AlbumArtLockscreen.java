@@ -44,7 +44,6 @@ public class AlbumArtLockscreen extends XposedMods {
     private ImageView albumArtView;
     private Object mScrimController;
     private boolean shouldShowArt = false;
-    private boolean mDepthWallpaperEnabled = false;
 
     public AlbumArtLockscreen(Context context) {
         super(context);
@@ -57,7 +56,6 @@ public class AlbumArtLockscreen extends XposedMods {
         showAlbumArt = Xprefs.getBoolean("lockscreen_album_art", false);
         albumArtFilter = Integer.parseInt(Xprefs.getString("lockscreen_album_art_filter", "0"));
         albumArtBlurAmount = (Xprefs.getSliderInt("lockscreen_media_blur", 30) / 100f) * 25f;
-        mDepthWallpaperEnabled = Xprefs.getBoolean("DWallpaperEnabled", false);
     }
 
     @Override
