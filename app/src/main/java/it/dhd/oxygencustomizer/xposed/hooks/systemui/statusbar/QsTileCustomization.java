@@ -380,6 +380,16 @@ public class QsTileCustomization extends XposedMods {
             }
         };
 
+        Class <?> OplusQsBaseToggleSliderLayout;
+        if (Build.VERSION.SDK_INT >= 35) {
+            try {
+                OplusQsBaseToggleSliderLayout = findClass("com.oplus.systemui.qs.base.seek.OplusQsBaseToggleSliderLayout", lpparam.classLoader);
+                hookAllConstructors(OplusQsBaseToggleSliderLayout, newUiHook);
+            } catch (Throwable t) {
+                log(t);
+            }
+        }
+
         try {
             Class<?> OplusQsToggleSliderLayout = findClass("com.oplus.systemui.qs.widget.OplusQsToggleSliderLayout", lpparam.classLoader);
             hookAllConstructors(OplusQsToggleSliderLayout, newUiHook);
@@ -769,6 +779,7 @@ public class QsTileCustomization extends XposedMods {
         };
     }
 
+    // TODO: Custom qs tile shape for OOS15
     private Drawable getCustomizedTile(Object tile, Object state, boolean isHighlight) {
         if (tile == null || state == null) return null;
         int intState = getIntField(state, "state");
