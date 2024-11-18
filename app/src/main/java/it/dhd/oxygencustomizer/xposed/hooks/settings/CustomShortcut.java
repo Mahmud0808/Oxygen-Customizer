@@ -12,6 +12,7 @@ import static it.dhd.oxygencustomizer.xposed.XPrefs.Xprefs;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 
 import androidx.core.content.res.ResourcesCompat;
@@ -82,10 +83,16 @@ public class CustomShortcut extends XposedMods {
                 Object OCPreference = TopHomePreferenceClass.getConstructor(Context.class)
                         .newInstance(c);
 
-                Object mWallpaperCategory = callMethod(param.args[0], "findPreference", "notification_settings_category");
+                Object mPersonalizationCategory = null;
+                try {
+                    mPersonalizationCategory = callMethod(param.args[0], "findPreference", "personality_settings_category");
+                } catch (Throwable ignored) {}
+                Object mNotificationCategory = callMethod(param.args[0], "findPreference", "notification_settings_category");
 
                 Drawable OCIcon = ResourcesCompat.getDrawable(ResourceManager.modRes,
-                        R.drawable.pref_icon,
+                        Build.VERSION.SDK_INT >= 35 ?
+                                R.drawable.ic_navbar_mods_unchecked :
+                                R.drawable.pref_icon,
                         mContext.getTheme());
                 Drawable tinted;
                 if (ThemeUtils == null) {
@@ -97,13 +104,14 @@ public class CustomShortcut extends XposedMods {
                         tinted = OCIcon;
                     }
                 }
-
                 callMethod(OCPreference, "setIcon",
                         tinted);
                 callMethod(OCPreference, "setTitle", "Oxygen Customizer");
-                callMethod(OCPreference, "setOrder", 1);
+                callMethod(OCPreference, "setOrder", Integer.MIN_VALUE);
                 callMethod(OCPreference, "setKey", "oxygen_customizer");
-                callMethod(mWallpaperCategory, "addPreference", OCPreference);
+                callMethod(mPersonalizationCategory != null ?
+                        mPersonalizationCategory :
+                        mNotificationCategory, "addPreference", OCPreference);
             }
         });
     }
