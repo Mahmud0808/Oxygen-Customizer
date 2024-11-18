@@ -9,14 +9,14 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
-
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import it.dhd.oneplusui.appcompat.dialog.adapter.ChoiceListAdapter;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.xposed.utils.SystemUtils;
 
@@ -26,7 +26,6 @@ public class ListWidget extends RelativeLayout {
     private TextView titleTextView;
     private TextView summaryTextView;
     private ImageView iconImageView;
-    private AlertDialog mListDialog;
     private CharSequence[] mEntries;
     private CharSequence[] mEntryValues;
     private OnSelectedListener mOnSelectedListener;
@@ -204,13 +203,33 @@ public class ListWidget extends RelativeLayout {
 
     private void showDialog() {
 
+        boolean[] checkedValue = new boolean[mEntries.length];
+        for (int i = 0; i < mEntries.length; i++) {
+            checkedValue[i] = i == selectedPosition;
+        }
+
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext());
         builder.setTitle(titleTextView.getText());
-        builder.setSingleChoiceItems(mEntries, selectedPosition, (dialog, which) -> {
+        builder.setAdapter(new ChoiceListAdapter(getContext(), it.dhd.oneplusui.R.layout.oplus_select_dialog_singlechoice, this.mEntries, null, checkedValue, false) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view3 = super.getView(position, convertView, parent);
+                View findViewById = view3.findViewById(it.dhd.oneplusui.R.id.item_divider);
+                int count = getCount();
+                if (findViewById != null) {
+                    if (count != 1 && position != count - 1) {
+                        findViewById.setVisibility(View.VISIBLE);
+                    } else {
+                        findViewById.setVisibility(View.GONE);
+                    }
+                }
+                return view3;
+            }
+        }, (dialogInterface, which) -> {
             if (mOnSelectedListener != null) {
                 mOnSelectedListener.onSelected(mEntries[which], mEntryValues[which]);
             }
-            dialog.dismiss();
+            dialogInterface.dismiss();
         });
         builder.show();
     }
