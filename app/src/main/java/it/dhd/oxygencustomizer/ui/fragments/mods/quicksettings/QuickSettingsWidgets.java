@@ -42,6 +42,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import it.dhd.oneplusui.appcompat.dialog.adapter.SummaryAdapter;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.databinding.FragmentQsWidgetsBinding;
 import it.dhd.oxygencustomizer.ui.adapters.PackageListAdapter;
@@ -208,18 +209,32 @@ public class QuickSettingsWidgets extends BaseFragment {
         String[] filteredArray = widgetValues.toArray(new String[0]);
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireContext());
         builder.setTitle(R.string.add_widget);
-        builder.setItems(filteredArray, (dialog, which) -> {
-            if (mSelectableWidgets.get(which).startsWith("ca")) {
-                // Custom App Widget
-                pickApp(mSelectableWidgets.get(which));
+        SummaryAdapter adapter = new SummaryAdapter(requireContext(), filteredArray);
+        adapter.setTextCentered(false);
+        builder.setAdapter(adapter, (dialog, which) -> {
+            String widget = mSelectableWidgets.get(which);
+            if (widget.startsWith("ca")) {
+                pickApp(widget);
                 return;
             }
-            checkWeather(mSelectableWidgets.get(which));
-            mWidgetsList.add(mSelectableWidgets.get(which));
+            checkWeather(widget);
+            mWidgetsList.add(widget);
             mSelectableWidgets.remove(which);
             mWidgetAdapter.notifyDataSetChanged();
             savePrefs();
         });
+//        builder.setItems(filteredArray, (dialog, which) -> {
+//            if (mSelectableWidgets.get(which).startsWith("ca")) {
+//                // Custom App Widget
+//                pickApp(mSelectableWidgets.get(which));
+//                return;
+//            }
+//            checkWeather(mSelectableWidgets.get(which));
+//            mWidgetsList.add(mSelectableWidgets.get(which));
+//            mSelectableWidgets.remove(which);
+//            mWidgetAdapter.notifyDataSetChanged();
+//            savePrefs();
+//        });
         builder.show();
 
     }
