@@ -93,10 +93,11 @@ public class AlbumArtLockscreen extends XposedMods {
 
                 albumArtContainer = new FrameLayout(mContext);
                 albumArtContainer.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                albumArtContainer.setVisibility(View.GONE);
                 albumArtView = new ImageView(mContext);
                 albumArtView.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
                 albumArtView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                albumArtView.setVisibility(View.GONE);
+                albumArtView.setVisibility(View.VISIBLE);
                 albumArtContainer.addView(albumArtView);
 
                 rootView.addView(albumArtContainer, 3);
@@ -126,22 +127,17 @@ public class AlbumArtLockscreen extends XposedMods {
     private void updateAlbumArt() {
         if (showAlbumArt && shouldShowArt && canShowArt) {
             // Keyguard so we can show album art
-            albumArtView.post(() -> albumArtView.setVisibility(View.VISIBLE));
+            albumArtContainer.post(() -> albumArtContainer.setVisibility(View.VISIBLE));
         } else {
             // Not Keyguard so we must hide album art
-            albumArtView.post(() -> albumArtView.setVisibility(View.GONE));
+            albumArtContainer.post(() -> albumArtContainer.setVisibility(View.GONE));
         }
     }
 
     private void onPrimaryMetadataOrStateChanged(int state) {
-        boolean isMusicActive = false;
-        if (SystemUtils.AudioManager() != null) {
-            isMusicActive = SystemUtils.AudioManager().isMusicActive();
-        }
         canShowArt = (getMediaMetadata() != null &&
-                (isMusicActive ||
-                        state == PlaybackState.STATE_PLAYING ||
-                        state == PlaybackState.STATE_PAUSED) && getArt() != null);
+                (state == PlaybackState.STATE_PLAYING ||
+                        state == PlaybackState.STATE_BUFFERING) && getArt() != null);
         if (showAlbumArt && canShowArt) {
             Bitmap oldArt = mArt;
             mArt = getArtFilter(getArt());
@@ -153,7 +149,6 @@ public class AlbumArtLockscreen extends XposedMods {
             transitionDrawable.startTransition(250);
         } else {
             albumArtView.setImageBitmap(null);
-            albumArtView.post(() -> albumArtView.setVisibility(View.GONE));
         }
         updateAlbumArt();
     }
