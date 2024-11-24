@@ -664,7 +664,6 @@
     <string name="albumart_tint_intensity_title">Intensidad del color personalizado</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">Atención</string>
-    <string name="depth_effect_alert_body">Usa una pantalla de bloqueo adecuada cuando los elementos del primer plano no obstruyen el reloj completo en tu pantalla de bloqueo, asegurando tanto atractivo visual como claridad funcional en tu pantalla de bloqueo.\nDespués de habilitar, establece un fondo de pantalla de la pantalla de bloqueo. El modelo de IA automáticamente intentará extraer el sujeto del fondo de pantalla.</string>
     <string name="depth_effect_ok_btn">Ok</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">Reloj de pantalla de bloqueo</string>

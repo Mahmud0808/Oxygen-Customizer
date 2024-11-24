@@ -685,7 +685,6 @@
     <string name="albumart_tint_intensity_title">自定义颜色亮度</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">注意</string>
-    <string name="depth_effect_alert_body">使用合适的锁屏壁纸，前进元素不会遮挡锁屏屏幕上的整个时钟，确保锁屏屏幕的视觉效果和功能清晰度。\n启用并设置锁屏壁纸后，AI模型会自动尝试从壁纸中提取主题。</string>
     <string name="depth_effect_ok_btn">确定</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">锁屏时钟</string>
