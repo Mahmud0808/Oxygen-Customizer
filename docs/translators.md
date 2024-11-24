@@ -11,24 +11,24 @@ Thanks to these translators and proofreaders, this project exists:
           <br />
           <sub><b>Luigi Conte (lc98)</b></sub></a>
         <br />
-        <sub><b>43114 words</b></sub>
+        <sub><b>43210 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/If.you.know.better.than.me.do.it.If.not.shut.up"><img alt="logo" style="width: 32px" src="https://crowdin-static.downloads.crowdin.com/avatar/13525964/medium/22265802c0ad24a0a71f1abfc4776771.jpg" />
           <br />
           <sub><b>MKAdam (If.you.know.better.than.me.do.it.If.not.shut.up)</b></sub></a>
         <br />
-        <sub><b>3966 words</b></sub>
+        <sub><b>4033 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/muhammadbahaa2001"><img alt="logo" style="width: 32px" src="https://crowdin-static.downloads.crowdin.com/avatar/15231004/medium/1f277872da157dce11a9a6d1fc9120b6.png" />
           <br />
           <sub><b>Muhammad Bahaa (muhammadbahaa2001)</b></sub></a>
         <br />
-        <sub><b>3729 words</b></sub>
+        <sub><b>3771 words</b></sub>
       </td>
       <td align="center" valign="top">
-        <a href="https://crowdin.com/profile/mikropsoft"><img alt="logo" style="width: 32px" src="https://crowdin-static.downloads.crowdin.com/avatar/15972315/medium/4ce5cb2cc203e18840b955f71a9b9da7.png" />
+        <a href="https://crowdin.com/profile/mikropsoft"><img alt="logo" style="width: 32px" src="https://crowdin-static.downloads.crowdin.com/avatar/15972315/medium/a6a73deed2dd57fe1eea14f3d79c5ae1.jpg" />
           <br />
           <sub><b>𝗦𝗵𝗟𝗲𝗿𝗣 (mikropsoft)</b></sub></a>
         <br />
@@ -69,7 +69,7 @@ Thanks to these translators and proofreaders, this project exists:
           <br />
           <sub><b>tugaia56</b></sub></a>
         <br />
-        <sub><b>3173 words</b></sub>
+        <sub><b>3240 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/carlosrobertow"><img alt="logo" style="width: 32px" src="https://crowdin-static.downloads.crowdin.com/avatar/16560677/medium/bd5c8e4bd49f74b0da1710010b71eadd.jpg" />
@@ -99,7 +99,7 @@ Thanks to these translators and proofreaders, this project exists:
           <br />
           <sub><b>Andfi</b></sub></a>
         <br />
-        <sub><b>760 words</b></sub>
+        <sub><b>782 words</b></sub>
       </td>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/senpai4ek"><img alt="logo" style="width: 32px" src="https://crowdin-static.downloads.crowdin.com/avatar/14493092/medium/52c9f6b7343f364ccd8d63d1dbc3b1f7.jpeg" />
@@ -197,6 +197,13 @@ Thanks to these translators and proofreaders, this project exists:
         <sub><b>6 words</b></sub>
       </td>
       <td align="center" valign="top">
+        <a href="https://crowdin.com/profile/Shukurjon"><img alt="logo" style="width: 32px" src="https://crowdin-static.downloads.crowdin.com/avatar/16677795/medium/4f90e4e3e87f55178210c594d2b22744.jpeg" />
+          <br />
+          <sub><b>Шукурджон «Regalis» Абдуллаев (Shukurjon)</b></sub></a>
+        <br />
+        <sub><b>5 words</b></sub>
+      </td>
+      <td align="center" valign="top">
         <a href="https://crowdin.com/profile/a7medhamada76"><img alt="logo" style="width: 32px" src="https://crowdin-static.downloads.crowdin.com/avatar/16444713/medium/82e16292326f152222d5154686626630.jpeg" />
           <br />
           <sub><b>Ahmed Hamada (a7medhamada76)</b></sub></a>
@@ -217,6 +224,8 @@ Thanks to these translators and proofreaders, this project exists:
         <br />
         <sub><b>2 words</b></sub>
       </td>
+    </tr>
+    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/Kirrillak"><img alt="logo" style="width: 32px" src="https://crowdin-static.downloads.crowdin.com/avatar/16446461/medium/d37b1ee9ce34b8fb2afdec3ee7eb7a4e_default.png" />
           <br />
@@ -224,8 +233,6 @@ Thanks to these translators and proofreaders, this project exists:
         <br />
         <sub><b>2 words</b></sub>
       </td>
-    </tr>
-    <tr>
       <td align="center" valign="top">
         <a href="https://crowdin.com/profile/mirroxin_meow"><img alt="logo" style="width: 32px" src="https://crowdin-static.downloads.crowdin.com/avatar/16622307/medium/7d69e335f364b543922d759dece3dfc4.jpeg" />
           <br />

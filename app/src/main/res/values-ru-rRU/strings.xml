@@ -656,6 +656,7 @@
     <string name="lockscreen_fingerprint">Значок отпечатка пальца</string>
     <string name="lockscreen_fp_remove_icon">Удалить значок отпечатка пальца</string>
     <string name="lockscreen_fp_custom_icon">Кастомный отпечаток пальца</string>
+    <string name="lockscreen_fp_style">Отпечаток %d</string>
     <string name="lockscreen_fp_icon_title">Предустановленные значки отпечатков пальцев</string>
     <string name="lockscreen_fp_icon_picker_title">Выберите пользовательский значок</string>
     <string name="lockscreen_fp_icon_picker_summary">Выберите свой собственный значок.
@@ -677,6 +678,9 @@
     <string name="depth_wallpaper_mode_custom_images">Пользовательские изображения</string>
     <string name="depth_wallpaper_mode_ai_plugin">ИИ (локальный)</string>
     <string name="depth_wallpaper_opacity_title">Непрозрачность обоев на переднем плане</string>
+    <string name="depth_wallpaper_aod_title">Также на АОД</string>
+    <string name="depth_wallpaper_aod_summary">Показать тему на AOD</string>
+    <string name="depth_wallpaper_aod_opacity_title">Непрозрачность темы AOD</string>
     <string name="depth_wallpaper_pick_background_title">Выбрать фон</string>
     <string name="depth_wallpaper_pick_background_summary">Выбрать фоновое изображение</string>
     <string name="depth_wallpaper_pick_subject_title">Выбрать передний план</string>
@@ -699,7 +703,6 @@
     <string name="albumart_tint_intensity_title">Пользовательская интенсивность цвета</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">Внимание</string>
-    <string name="depth_effect_alert_body">Используйте подходящие обои для экрана блокировки, элементы переднего плана не загораживают часы на экране блокировки, обеспечивая как визуальную привлекательность, так и функциональную ясность на экране блокировки.\nПосле включения и установки обоев экрана блокировки модель AI автоматически попытается извлечь  Объект с обоев.</string>
     <string name="depth_effect_ok_btn">ОК</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">Часы на экране блокировки</string>
@@ -717,6 +720,7 @@
     <string name="lockscreen_clock_custom_format_dmessage">Для документации найдите \"Формат даты Java\"</string>
     <string name="lockscreen_clock_custom_user">Используйте свое имя пользователя</string>
     <string name="lockscreen_clock_custom_user_title">Имя пользователя</string>
+    <string name="lockscreen_clock_custom_user_summary">Задайте имя пользователя.\nОставьте пустым, чтобы отключить</string>
     <string name="lockscreen_clock_custom_user_image">Используйте свое изображение пользователя</string>
     <string name="lockscreen_clock_custom_user_image_title">Изображение пользователя</string>
     <string name="lockscreen_clock_custom_user_image_summary">Нажмите, чтобы выбрать изображение.</string>
@@ -1104,6 +1108,8 @@
     <!-- Style List -->
     <string name="style_0">Нет</string>
     <string name="style">Стиль %d</string>
+    <string name="clock_none">Без часов</string>
+    <string name="clock_style_name">Стиль часов %d</string>
     <!-- Dark Mode -->
     <string name="menu_show_system_apps">Показать системные процессы</string>
     <string name="dark_mode">Темный режим</string>
