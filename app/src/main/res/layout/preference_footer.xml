@@ -56,8 +56,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp"
             android:textColor="@color/text_color_secondary" />
 
         <it.dhd.oxygencustomizer.ui.preferences.LinkTextView
@@ -66,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
-            android:paddingBottom="8dp"
+            android:paddingTop="8dp"
             android:text="@string/settingslib_learn_more_text"
             android:visibility="gone" />
     </LinearLayout>
