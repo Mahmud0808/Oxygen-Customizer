@@ -95,6 +95,7 @@
     <string name="reset">إعادة تعيين</string>
     <string name="lang_follow_system">اتبع النظام</string>
     <string name="pick_font_title">اختر خطاً</string>
+    <string name="pick_font_summary">اختر الخط الخاص بك.\nلا تحدد ملفًا من الملفات الحديثة.</string>
     <!-- Image Crop Strings -->
     <string name="pick_image">اختر صورة</string>
     <string name="pick_image_summary">اضغط لاختيار صورة</string>
@@ -652,6 +653,7 @@
     <string name="lockscreen_fingerprint">رمز بصمة الإصبع</string>
     <string name="lockscreen_fp_remove_icon">إزالة رمز بصمة الإصبع</string>
     <string name="lockscreen_fp_custom_icon">رمز بصمة إصبع مخصص</string>
+    <string name="lockscreen_fp_style">البصمة %d</string>
     <string name="lockscreen_fp_icon_title">إعدادات رموز بصمة الإصبع</string>
     <string name="lockscreen_fp_icon_picker_title">اختر رمز مخصص</string>
     <string name="lockscreen_fp_icon_picker_summary">اختر الرمز المخصص الخاص بك.\nالدقة الموصى بها للصورة حوالي 216 × 216.</string>
@@ -667,6 +669,7 @@
     <string name="depth_wallpaper_mode_title">وضع خلفية العمق</string>
     <string name="depth_wallpaper_ai_status">حالة الذكاء الاصطناعي</string>
     <string name="depth_wallpaper_plugin_installed">تم تثبيت إضافة الذكاء الإصطناعي</string>
+    <string name="depth_wallpaper_plugin_not_installed">إضافة الذكاءالاصطناعي غير مثبتة\nانقر هنا للتنزيل.</string>
     <string name="depth_wallpaper_mode_ai">الذكاء الإصطناعي</string>
     <string name="depth_wallpaper_mode_custom_images">صورة مخصصة</string>
     <string name="depth_wallpaper_mode_ai_plugin">ذكاء اصطناعي (محلي)</string>
@@ -694,7 +697,6 @@
     <string name="albumart_tint_intensity_title">شدة اللون المخصص</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">تنبيه</string>
-    <string name="depth_effect_alert_body">استخدم خلفية شاشة قفل مناسبة حيث لا تعوق العناصر الأمامية الساعة بالكامل، مما يضمن جاذبية بصرية ووضوح وظيفي على شاشة القفل.\nبعد التمكين، قم بتعيين خلفية شاشة قفل، سيحاول نموذج الذكاء الاصطناعي تلقائيًا استخراج الموضوع من الخلفية.</string>
     <string name="depth_effect_ok_btn">حسنا</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">ساعة شاشة القفل</string>
@@ -712,6 +714,7 @@
     <string name="lockscreen_clock_custom_format_dmessage">لنسق الوثائق، ابحث عن \"تنسيق تاريخ الجافا\"</string>
     <string name="lockscreen_clock_custom_user">استخدام اسم مستخدم مخصص</string>
     <string name="lockscreen_clock_custom_user_title">اسم المستخدم</string>
+    <string name="lockscreen_clock_custom_user_summary">حدد اسم مستخدم مخصص.\nاتركه فارغًا للتعطيل</string>
     <string name="lockscreen_clock_custom_user_image">استخدام صورة مستخدم مخصصة</string>
     <string name="lockscreen_clock_custom_user_image_title">صورة المستخدم</string>
     <string name="lockscreen_clock_custom_user_image_summary">انقر لاختيار صورة.</string>
@@ -933,6 +936,7 @@
     <string name="import_success">تم الاستيراد بنجاح</string>
     <string name="import_failed">فشل الاستيراد</string>
     <string name="more_logging_title">المزيد من التسجيل</string>
+    <string name="more_logging_summary">تمكين المزيد من التسجيل.\nيمكن أن يساعد هذا عند إرسال تقارير الأخطاء.</string>
     <string name="settings_about_section_title">حول</string>
     <string name="github_repo_title">مستودع GitHub</string>
     <string name="support_group_title">مجموعة الدعم</string>
@@ -1099,6 +1103,8 @@
     <!-- Style List -->
     <string name="style_0">لا شيء</string>
     <string name="style">نمط %d</string>
+    <string name="clock_none">لا توجد ساعة</string>
+    <string name="clock_style_name">نمط الساعة %d</string>
     <!-- Dark Mode -->
     <string name="menu_show_system_apps">عرض النظام</string>
     <string name="dark_mode">الوضع المظلم</string>

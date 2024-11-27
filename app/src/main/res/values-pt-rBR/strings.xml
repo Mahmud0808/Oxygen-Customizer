@@ -672,7 +672,6 @@
     <string name="albumart_tint_intensity_title">Intensidade de Cores Personalizada</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">Atenção</string>
-    <string name="depth_effect_alert_body">Use um papel de parede adequado para a tela de bloqueio em que os elementos em primeiro plano não obstruam todo o relógio da tela de bloqueio, garantindo o apelo visual e a clareza funcional da tela de bloqueio.\nDepois de ativar, defina um papel de parede da tela de bloqueio, o modelo de IA tentará automaticamente extrair o assunto do papel de parede.</string>
     <string name="depth_effect_ok_btn">OK</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">Relógio da tela de Bloqueio</string>

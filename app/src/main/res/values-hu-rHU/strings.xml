@@ -653,6 +653,7 @@
     <string name="lockscreen_fingerprint">Ujjlenyomat-ikon</string>
     <string name="lockscreen_fp_remove_icon">Az ujjlenyomat-ikon kikapcsolása</string>
     <string name="lockscreen_fp_custom_icon">Egyéni ujjlenyomat-ikon</string>
+    <string name="lockscreen_fp_style">%d-ujjlenyomat</string>
     <string name="lockscreen_fp_icon_title">Előre telepített ujjlenyomat-ikonok</string>
     <string name="lockscreen_fp_icon_picker_title">Válasszon egyéni ikont</string>
     <string name="lockscreen_fp_icon_picker_summary">Szabály az ikonválasztáshoz\nAz ikonkép ajánlott felbontása körülbelül 216 x 216.</string>
@@ -673,6 +674,9 @@
     <string name="depth_wallpaper_mode_custom_images">Egyedi képek</string>
     <string name="depth_wallpaper_mode_ai_plugin">AI (helyi)</string>
     <string name="depth_wallpaper_opacity_title">Háttérkép előtérbeni áttetszősége</string>
+    <string name="depth_wallpaper_aod_title">AOD-on is</string>
+    <string name="depth_wallpaper_aod_summary">Téma megjelenítése a \'Mindig bekapcsolva\' képernyőn</string>
+    <string name="depth_wallpaper_aod_opacity_title">Átlátszóság az AOD-ban</string>
     <string name="depth_wallpaper_pick_background_title">Háttérválasztó</string>
     <string name="depth_wallpaper_pick_background_summary">Jelölje ki a háttér-képet</string>
     <string name="depth_wallpaper_pick_subject_title">Előtérválasztó</string>
@@ -695,7 +699,6 @@
     <string name="albumart_tint_intensity_title">Az egyéni szín erőssége</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">Figyelem</string>
-    <string name="depth_effect_alert_body">Használjon megfelelő záróképernyő-háttérképet, ahol az előtérben lévő elemek nem takarják el a lezárási képernyő teljes óráját, így biztosítva a lezárási képernyő vizuális vonzerejét és funkcionális tisztaságát.\nAz engedélyezés után állítson be egy záróképernyő-háttérképet, az AI-modell automatikusan megpróbálja kibontani a Tárgyat a háttérképről</string>
     <string name="depth_effect_ok_btn">OK</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">A képernyőzár órája</string>
@@ -713,6 +716,7 @@
     <string name="lockscreen_clock_custom_format_dmessage">A formátum leírásához keressen rá a „Java Date Format” kifejezésre</string>
     <string name="lockscreen_clock_custom_user">Egyéni felhasználónév</string>
     <string name="lockscreen_clock_custom_user_title">Felhasználónév</string>
+    <string name="lockscreen_clock_custom_user_summary">Beállíthat egyedi nevet.\nHagyja üresen a kikapcsoláshoz</string>
     <string name="lockscreen_clock_custom_user_image">Egyéni felhasználókép</string>
     <string name="lockscreen_clock_custom_user_image_title">Felhasználókép</string>
     <string name="lockscreen_clock_custom_user_image_summary">Klikkeljen egy képre</string>
@@ -1101,6 +1105,8 @@
     <!-- Style List -->
     <string name="style_0">Nincs</string>
     <string name="style">%d stílus</string>
+    <string name="clock_none">Nincs Óra</string>
+    <string name="clock_style_name">%d-órastílus</string>
     <!-- Dark Mode -->
     <string name="menu_show_system_apps">Rendszeralkalmazások megjelenítése</string>
     <string name="dark_mode">Sötét mód</string>
