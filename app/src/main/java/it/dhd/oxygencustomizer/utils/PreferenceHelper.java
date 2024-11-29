@@ -169,6 +169,8 @@ import java.util.Collections;
 import java.util.List;
 
 import it.dhd.oneplusui.preference.OplusSliderPreference;
+import it.dhd.oneplusui.preference.OplusSwitchPreference;
+import it.dhd.oxygencustomizer.BuildConfig;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.xposed.utils.ExtendedSharedPreferences;
 
@@ -894,6 +896,8 @@ public class PreferenceHelper {
                     instance.mPreferences.getBoolean("fix_lag_switch", false) &&
                             !instance.mPreferences.getBoolean("fix_lag_force_all_apps", false);
 
+            case "moreLogging" -> !BuildConfig.VERSION_NAME.contains("nightly");
+
             default -> true;
         };
     }
@@ -1169,6 +1173,11 @@ public class PreferenceHelper {
                 // Quick Settings
                 case "QSLabelScaleFactor", "QSSecondaryLabelScaleFactor" ->
                         ((OplusSliderPreference) preference).slider.setLabelFormatter(value -> (value + 100) + "%");
+                case "moreLogging" -> {
+                    if (BuildConfig.VERSION_NAME.contains("nightly")) {
+                        ((OplusSwitchPreference) preference).setChecked(true);
+                    }
+                }
             }
         } catch (Throwable ignored) {
         }
