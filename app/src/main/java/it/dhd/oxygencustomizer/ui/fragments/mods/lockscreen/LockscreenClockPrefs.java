@@ -5,13 +5,10 @@ import static it.dhd.oxygencustomizer.ui.activity.MainActivity.replaceFragment;
 import static it.dhd.oxygencustomizer.ui.fragments.FragmentCropImage.DATA_CROP_KEY;
 import static it.dhd.oxygencustomizer.ui.fragments.FragmentCropImage.DATA_FILE_URI;
 import static it.dhd.oxygencustomizer.utils.Constants.LOCKSCREEN_CLOCK_FONT_DIR;
-import static it.dhd.oxygencustomizer.utils.Constants.LOCKSCREEN_CLOCK_LAYOUT;
 import static it.dhd.oxygencustomizer.utils.Constants.LOCKSCREEN_CUSTOM_IMAGE;
 import static it.dhd.oxygencustomizer.utils.Constants.LOCKSCREEN_USER_IMAGE;
 import static it.dhd.oxygencustomizer.utils.Constants.Packages.SYSTEM_UI;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_CUSTOM_FONT;
-import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_STYLE;
-import static it.dhd.oxygencustomizer.utils.Constants.SETTINGS_OTA_CARD_DIR;
 import static it.dhd.oxygencustomizer.utils.FileUtil.getRealPath;
 import static it.dhd.oxygencustomizer.utils.FileUtil.launchFilePicker;
 import static it.dhd.oxygencustomizer.utils.FileUtil.moveToOCHiddenDir;
@@ -19,10 +16,6 @@ import static it.dhd.oxygencustomizer.utils.FileUtil.moveToOCHiddenDir;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -32,18 +25,12 @@ import androidx.preference.Preference;
 import com.canhub.cropper.CropImage;
 import com.canhub.cropper.CropImageOptions;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
-import it.dhd.oxygencustomizer.BuildConfig;
 import it.dhd.oxygencustomizer.R;
 import it.dhd.oxygencustomizer.ui.base.ControlledPreferenceFragmentCompat;
 import it.dhd.oxygencustomizer.ui.fragments.FragmentCropImage;
-import it.dhd.oxygencustomizer.ui.views.ClockCarouselItemViewModel;
 import it.dhd.oxygencustomizer.utils.AppUtils;
-import it.dhd.oxygencustomizer.utils.PreferenceHelper;
-import it.dhd.oxygencustomizer.xposed.utils.ViewHelper;
 
 public class LockscreenClockPrefs extends ControlledPreferenceFragmentCompat {
 
@@ -169,59 +156,6 @@ public class LockscreenClockPrefs extends ControlledPreferenceFragmentCompat {
         FragmentCropImage fragmentCropImage = new FragmentCropImage();
         fragmentCropImage.setArguments(bundle);
         replaceFragment(fragmentCropImage);
-    }
-
-    private List<ClockCarouselItemViewModel> initLockscreenClockStyles() {
-        List<ClockCarouselItemViewModel> ls_clock = new ArrayList<>();
-
-        int maxIndex = 0;
-        while (requireContext()
-                .getResources()
-                .getIdentifier(
-                        "preview_lockscreen_clock_" + maxIndex,
-                        "layout",
-                        BuildConfig.APPLICATION_ID
-                ) != 0) {
-            maxIndex++;
-        }
-
-        for (int i = 0; i < maxIndex; i++) {
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.MATCH_PARENT,
-                    FrameLayout.LayoutParams.WRAP_CONTENT
-            );
-            params.gravity = Gravity.CENTER;
-            View v = LayoutInflater.from(requireContext()).inflate(
-                    this
-                            .getResources()
-                            .getIdentifier(
-                                    LOCKSCREEN_CLOCK_LAYOUT + i,
-                                    "layout",
-                                    BuildConfig.APPLICATION_ID
-                            ),
-                    null
-            );
-            v.setLayoutParams(params);
-            ViewHelper.loadLottieAnimationView(
-                    requireContext(),
-                    null,
-                    v,
-                    i
-            );
-            ls_clock.add(new ClockCarouselItemViewModel(
-                    i == 0 ?
-                            "No Clock" :
-                            "Clock Style " + i,
-                    i,
-                    PreferenceHelper.getModulePrefs().getInt(LOCKSCREEN_CLOCK_STYLE, 0) == i,
-                    i == 0 ?
-                            "No Clock" :
-                            "Clock Style " + i,
-                    v
-            ));
-        }
-
-        return ls_clock;
     }
 
 }
