@@ -169,7 +169,6 @@ public class QsMediaTile extends LinearLayout {
     }
 
     private void setSemanticButton(ImageView imageView, Drawable image, Object mediaAction, final int keycode) {
-        log("QsMediaTile setSemanticButton " + mediaAction);
         if (imageView == null) {
             return;
         }
@@ -184,8 +183,6 @@ public class QsMediaTile extends LinearLayout {
         }
 
         imageView.setOnClickListener(view -> {
-            // Handle button click here
-            // You can access 'imageButton', 'mediaData', 'mediaAction', and 'view' in this lambda
             handleSemanticButtonClick(mediaAction);
         });
     }
@@ -440,7 +437,8 @@ public class QsMediaTile extends LinearLayout {
     }
 
     private void setupOtherViews(int color) {
-        mDeviceIcon.setImageTintList(ColorStateList.valueOf(color));
+        mDeviceIcon.clearColorFilter();
+        mDeviceIcon.setColorFilter(color, PorterDuff.Mode.SRC_IN);
         mTitle.setTextColor(color);
         mText.setTextColor(color);
         mPrev.setImageTintList(ColorStateList.valueOf(color));
