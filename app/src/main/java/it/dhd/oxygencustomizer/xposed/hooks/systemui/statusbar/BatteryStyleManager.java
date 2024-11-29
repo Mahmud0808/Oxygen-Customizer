@@ -194,7 +194,6 @@ public class BatteryStyleManager extends XposedMods {
     private int mBatteryPercSize = 12;
     private Class<?> DarkIconDispatcher = null;
     private Class<?> DualToneHandler = null;
-    private View mQsBattery = null;
     private final List<String> batteryCharging = new ArrayList<>() {{
         add("battery_dash_charge_view");
         add("battery_charge_icon");
@@ -295,16 +294,16 @@ public class BatteryStyleManager extends XposedMods {
             QuickStatusBarHeader = findClass("com.android.systemui.qs.QuickStatusBarHeader", lpparam.classLoader);
         }
 
-        hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                try {
-                    mQsBattery = (View) getObjectField(param.thisObject, "mBatteryView");
-                } catch (Throwable t) {
-                    mQsBattery = null;
-                }
-            }
-        });
+//        hookAllMethods(QuickStatusBarHeader, "onFinishInflate", new XC_MethodHook() {
+//            @Override
+//            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//                try {
+//                    mQsBattery = (View) getObjectField(param.thisObject, "mBatteryView");
+//                } catch (Throwable t) {
+//                    mQsBattery = null;
+//                }
+//            }
+//        });
 
         if (Build.VERSION.SDK_INT >= 34) {
             hookBattery(lpparam); // OOS 14
@@ -408,16 +407,7 @@ public class BatteryStyleManager extends XposedMods {
                 int foregroundColor = (int) callMethod(dualToneHandler, "getFillColor", darkIntensity);
                 int backgroundColor = (int) callMethod(dualToneHandler, "getBackgroundColor", darkIntensity);
 
-                boolean isOS = (BatteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_15 || BatteryStyle == BATTERY_STYLE_LANDSCAPE_IOS_16);
-                boolean nightMode = (c.getResources().getConfiguration().uiMode
-                        & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-                int iosColorForeground = nightMode ? Color.WHITE : Color.BLACK;
-
-                if (mQsBattery != null && v == mQsBattery) {
-                    updateIconColor(v, singleToneColor, isOS ? iosColorForeground : foregroundColor, isOS ? Color.parseColor("#ff4c4c4c") : backgroundColor);
-                } else {
-                    updateIconColor(v, singleToneColor, foregroundColor, backgroundColor);
-                }
+                updateIconColor(v, singleToneColor, foregroundColor, backgroundColor);
                 updateBatteryViewValues(v);
 
             }
