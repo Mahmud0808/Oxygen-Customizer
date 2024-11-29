@@ -201,9 +201,7 @@ public class AodDepthSubject extends XposedMods {
         try {
             ViewGroup v = (ViewGroup) mLockScreenSubject.getParent();
             v.removeView(mLockScreenSubject);
-        } catch (Throwable t) {
-            log(t);
-        }
+        } catch (Throwable ignored) {}
         mAodRootLayout.addView(mLockScreenSubject, 0);
     }
 
