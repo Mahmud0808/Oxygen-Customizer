@@ -493,6 +493,7 @@
     <!-- QS Header Clock Strings -->
     <string name="qs_header_clock">Orologio Intestazione QS</string>
     <string name="qs_header_clock_intro_title">Abilitando e disabilitando l\'Orologio Personalizzato è necessario riavviare SystemUI.\nTocca il menu per riavviare.</string>
+    <string name="qs_header_clock_notice_oos15">L\'orologio personalizzato dell\'intestazione QS funzionerà solo con il vecchio stile QS.</string>
     <string name="qs_header_clock_enabled">Orologio Intestazione Personalizzato</string>
     <string name="qs_header_clock_enabled_summary">Aggiungi un orologio personalizzato al pannello impostazioni rapide</string>
     <string name="qs_header_clock_custom">Stile Orologio</string>
@@ -653,6 +654,7 @@
     <string name="lockscreen_fingerprint">Icona Impronta digitale</string>
     <string name="lockscreen_fp_remove_icon">Rimuovi Icona Impronta Digitale</string>
     <string name="lockscreen_fp_custom_icon">Icona Impronta Digitale Personalizzata</string>
+    <string name="lockscreen_fp_style">Impronta digitale %d</string>
     <string name="lockscreen_fp_icon_title">Icone Impronta Digitale Predefinite</string>
     <string name="lockscreen_fp_icon_picker_title">Scegli Icona personalizzata</string>
     <string name="lockscreen_fp_icon_picker_summary">Scegli la tua icona personalizzata.\nLa risoluzione dell\'immagine consigliata è di circa 216 x 216.</string>
@@ -698,6 +700,7 @@
     <string name="albumart_tint_intensity_title">Intensità del colore personalizzata</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">Attenzione</string>
+    <string name="depth_effect_alert_body">Usa uno sfondo adatto alla schermata di blocco in cui gli elementi di primo piano non ostacolano l\'intero orologio sulla schermata di blocco, garantendo sia il fascino visivo che la chiarezza funzionale sulla schermata di blocco.\nDopo l\'abilitazione, imposta uno sfondo della schermata di blocco, il modello AI proverà automaticamente ad estrarre l\'oggetto dallo sfondo.</string>
     <string name="depth_effect_ok_btn">Ok</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">Orologio schermata di blocco</string>
@@ -1104,6 +1107,8 @@
     <!-- Style List -->
     <string name="style_0">Nessuno</string>
     <string name="style">Stile %d</string>
+    <string name="clock_none">Nessun Orologio</string>
+    <string name="clock_style_name">Stile Orologio %d</string>
     <!-- Dark Mode -->
     <string name="menu_show_system_apps">Mostra Sistema</string>
     <string name="dark_mode">Modalità scura</string>

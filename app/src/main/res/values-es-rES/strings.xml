@@ -90,6 +90,7 @@
     <string name="top">Parte de Arriba</string>
     <string name="bottom">Parte de Abajo</string>
     <string name="reset">Restablecer</string>
+    <string name="lang_follow_system">Igual que el sistema</string>
     <string name="pick_font_title">Elegir fuente</string>
     <string name="pick_font_summary">Elija su fuente.\nNo seleccione un archivo de Reciente.</string>
     <!-- Image Crop Strings -->
@@ -971,6 +972,7 @@
     <string name="omnijaws_service_last_update">Última actualización:</string>
     <string name="omnijaws_service_error_location">Sin ubicación disponible</string>
     <string name="omnijaws_service_error_network">No se encontró una red</string>
+    <string name="omnijaws_service_error_permissions">Permiso de ubicación no otorgado</string>
     <string name="omnijaws_today">Hoy</string>
     <string name="omnijaws_tomorrow">Mañana</string>
     <string name="weather_widget_desc">"Clima actual y pronóstico de 4 días"</string>
@@ -1080,9 +1082,11 @@
     <!-- Pocket Studio -->
     <!-- OTA Card -->
     <!-- MEMC Strings -->
+    <string name="memc_refresh_rate">Tasa de actualización: %s</string>
     <string name="applications">Aplicaciones</string>
     <string name="activities">Actividades</string>
     <string name="add_activity">Añadir actividad</string>
     <string name="add_app">Añadir aplicación</string>
+    <string name="select_app">Seleccionar aplicación</string>
     <string name="memc_footer">Si tu dispositivo no tiene el chip Pixelwork o no soporta Memc, no toques esos ajustes.</string>
 </resources>
