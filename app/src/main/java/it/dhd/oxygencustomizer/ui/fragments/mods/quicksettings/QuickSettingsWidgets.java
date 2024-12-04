@@ -237,6 +237,7 @@ public class QuickSettingsWidgets extends BaseFragment {
             mWidgetAdapter.notifyDataSetChanged();
             savePrefs();
         });
+        builder.setCancelable(false);
         builder.setTitle(R.string.qs_widget_custom_app);
         builder.show();
     }
