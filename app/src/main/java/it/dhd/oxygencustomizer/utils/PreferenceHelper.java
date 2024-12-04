@@ -76,6 +76,10 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenCloc
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_SWITCH;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_TEXT_SCALING;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenClock.LOCKSCREEN_CLOCK_TOP_MARGIN;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.EXTRA_WIDGET_1_KEY;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.EXTRA_WIDGET_2_KEY;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.EXTRA_WIDGET_3_KEY;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.EXTRA_WIDGET_4_KEY;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.LOCKSCREEN_WIDGETS;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.LOCKSCREEN_WIDGETS_BIG_ACTIVE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.LOCKSCREEN_WIDGETS_BIG_ICON_ACTIVE;
@@ -96,6 +100,8 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidg
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.LOCKSCREEN_WIDGETS_SMALL_ICON_INACTIVE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.LOCKSCREEN_WIDGETS_SMALL_INACTIVE;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.LOCKSCREEN_WIDGETS_WEATHER_SETTINGS;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.MAIN_WIDGET_1_KEY;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.MAIN_WIDGET_2_KEY;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.QsHeaderClock.QS_HEADER_CLOCK_COLOR_CODE_ACCENT1;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.QsHeaderClock.QS_HEADER_CLOCK_COLOR_CODE_ACCENT2;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.QsHeaderClock.QS_HEADER_CLOCK_COLOR_CODE_ACCENT3;
@@ -1156,8 +1162,21 @@ public class PreferenceHelper {
             preference.setEnabled(isEnabled(key));
 
             String summary = getSummary(preference.getContext(), key);
-            if (summary != null && !preference.getKey().equals("sb_illustration")) {
+            if (summary != null && !key.equals("sb_illustration")) {
                 preference.setSummary(summary);
+            }
+
+            if (key.equals(MAIN_WIDGET_1_KEY) ||
+                    key.equals(MAIN_WIDGET_2_KEY) ||
+                    key.equals(EXTRA_WIDGET_1_KEY) ||
+                    key.equals(EXTRA_WIDGET_2_KEY) ||
+                    key.equals(EXTRA_WIDGET_3_KEY) ||
+                    key.equals(EXTRA_WIDGET_4_KEY)) {
+                String prefValue = instance.mPreferences.getString(key, "none");
+                if (prefValue.contains("customapp:")) {
+                    preference.setSummaryProvider(preference1 -> preference1.getContext().getString(R.string.qs_widget_custom_app) + "\n" +
+                            AppUtils.getAppName(preference1.getContext(), prefValue.replace("customapp:", "")));
+                }
             }
 
             if (preference instanceof OplusSliderPreference) {

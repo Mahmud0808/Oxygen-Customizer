@@ -97,10 +97,12 @@ import java.util.Objects;
 
 import it.dhd.oxygencustomizer.BuildConfig;
 import it.dhd.oxygencustomizer.R;
+import it.dhd.oxygencustomizer.utils.AppUtils;
 import it.dhd.oxygencustomizer.weather.OmniJawsClient;
 import it.dhd.oxygencustomizer.xposed.hooks.systemui.ControllersProvider;
 import it.dhd.oxygencustomizer.xposed.hooks.systemui.ThemeEnabler;
 import it.dhd.oxygencustomizer.xposed.utils.ActivityLauncherUtils;
+import it.dhd.oxygencustomizer.xposed.utils.DrawableConverter;
 import it.dhd.oxygencustomizer.xposed.utils.ExtendedFAB;
 import it.dhd.oxygencustomizer.xposed.utils.SystemUtils;
 
@@ -754,6 +756,27 @@ public class LockscreenWidgetsView extends LinearLayout implements OmniJawsClien
     }
 
     private void setUpWidgetWiews(ImageView iv, ExtendedFAB efab, String type) {
+        if (type.contains("customapp") && type.contains(":")) {
+            String[] split = type.split(":");
+            if (split.length == 2) {
+                String packageName = split[1];
+                Drawable appIcon = AppUtils.getAppIcon(mContext, packageName);
+                if (iv != null) {
+                    iv.setTag("app");
+                    iv.setImageDrawable(appIcon);
+                }
+                if (efab != null) {
+                    efab.setTag("app");
+                    efab.setIcon(DrawableConverter.scaleDrawable(mContext,
+                            appIcon,
+                            0.3f));
+                }
+                setUpWidgetResources(iv, efab, v -> {
+                    mActivityLauncherUtils.launchApp(packageName, false);
+                    vibrate(1);
+                }, null, AppUtils.getAppName(mContext, packageName));
+            }
+        }
         switch (type) {
             case "none":
                 if (iv != null) {
@@ -918,11 +941,18 @@ public class LockscreenWidgetsView extends LinearLayout implements OmniJawsClien
         }
     }
 
+    private void launchApp(String packageName) {
+        Intent launchIntent = mContext.getPackageManager().getLaunchIntentForPackage(packageName);
+        if (launchIntent == null) return;
+        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+        mActivityLauncherUtils.launchApp(launchIntent);
+    }
+
     private void setUpWidgetResources(ImageView iv, ExtendedFAB efab,
                                       OnClickListener cl, Drawable icon, String text) {
         if (efab != null) {
             efab.setOnClickListener(cl);
-            efab.setIcon(icon);
+            if (icon != null) efab.setIcon(icon);
             efab.setText(text);
             if (mediaButtonFab == efab) {
                 attachSwipeGesture(efab);
@@ -930,7 +960,7 @@ public class LockscreenWidgetsView extends LinearLayout implements OmniJawsClien
         }
         if (iv != null) {
             iv.setOnClickListener(cl);
-            iv.setImageDrawable(icon);
+            if (icon != null) iv.setImageDrawable(icon);
             if (mediaButton == iv) {
                 attachSwipeGesture(iv);
             }
@@ -998,10 +1028,14 @@ public class LockscreenWidgetsView extends LinearLayout implements OmniJawsClien
             }
             if (efab != null) {
                 efab.setBackgroundTintList(ColorStateList.valueOf(bgTint));
-                if (efab != weatherButtonFab) {
-                    efab.setIconTint(ColorStateList.valueOf(tintColor));
-                } else {
+                if (efab.getTag() != null && efab.getTag().equals("app")) {
                     efab.setIconTint(null);
+                } else {
+                    if (efab != weatherButtonFab) {
+                        efab.setIconTint(ColorStateList.valueOf(tintColor));
+                    } else {
+                        efab.setIconTint(null);
+                    }
                 }
                 efab.setTextColor(tintColor);
             }

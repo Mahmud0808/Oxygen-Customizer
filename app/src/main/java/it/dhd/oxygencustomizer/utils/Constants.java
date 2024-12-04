@@ -451,6 +451,14 @@ public final class Constants {
             };
         }
         public static class LockscreenWidgets {
+            // UI
+            public static final String MAIN_WIDGET_1_KEY = "main_custom_widgets1";
+            public static final String MAIN_WIDGET_2_KEY = "main_custom_widgets2";
+            public static final String EXTRA_WIDGET_1_KEY = "custom_widgets1";
+            public static final String EXTRA_WIDGET_2_KEY = "custom_widgets2";
+            public static final String EXTRA_WIDGET_3_KEY = "custom_widgets3";
+            public static final String EXTRA_WIDGET_4_KEY = "custom_widgets4";
+
             public static final String LOCKSCREEN_WIDGETS_ENABLED = "lockscreen_widgets_enabled";
             public static final String LOCKSCREEN_WIDGETS_DEVICE_WIDGET = "lockscreen_device_widget";
             public static final String LOCKSCREEN_WIDGETS = "lockscreen_widgets";

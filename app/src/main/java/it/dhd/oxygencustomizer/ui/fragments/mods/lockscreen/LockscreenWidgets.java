@@ -1,13 +1,23 @@
 package it.dhd.oxygencustomizer.ui.fragments.mods.lockscreen;
 
 import static it.dhd.oxygencustomizer.utils.Constants.Packages.SYSTEM_UI;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.EXTRA_WIDGET_1_KEY;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.EXTRA_WIDGET_2_KEY;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.EXTRA_WIDGET_3_KEY;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.EXTRA_WIDGET_4_KEY;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.LOCKSCREEN_WIDGETS;
 import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.LOCKSCREEN_WIDGETS_EXTRAS;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.MAIN_WIDGET_1_KEY;
+import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidgets.MAIN_WIDGET_2_KEY;
 
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,34 +26,29 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import it.dhd.oxygencustomizer.R;
+import it.dhd.oxygencustomizer.ui.adapters.PackageListAdapter;
 import it.dhd.oxygencustomizer.ui.base.ControlledPreferenceFragmentCompat;
 import it.dhd.oxygencustomizer.utils.WeatherScheduler;
 import it.dhd.oxygencustomizer.weather.OmniJawsClient;
 import it.dhd.oxygencustomizer.weather.WeatherConfig;
 
-public class LockscreenWidgets extends ControlledPreferenceFragmentCompat {
+public class LockscreenWidgets extends ControlledPreferenceFragmentCompat implements Preference.OnPreferenceChangeListener{
 
     private OmniJawsClient mWeatherClient;
-
-    private static final String MAIN_WIDGET_1_KEY = "main_custom_widgets1";
-    private static final String MAIN_WIDGET_2_KEY = "main_custom_widgets2";
-    private static final String EXTRA_WIDGET_1_KEY = "custom_widgets1";
-    private static final String EXTRA_WIDGET_2_KEY = "custom_widgets2";
-    private static final String EXTRA_WIDGET_3_KEY = "custom_widgets3";
-    private static final String EXTRA_WIDGET_4_KEY = "custom_widgets4";
+    private PackageListAdapter mPackageAdapter;
 
     private Map<Preference, String> widgetKeysMap = new HashMap<>();
     private Map<Preference, String> initialWidgetKeysMap = new HashMap<>();
 
-    private Preference mMainWidget1;
-    private Preference mMainWidget2;
-    private Preference mExtraWidget1;
-    private Preference mExtraWidget2;
-    private Preference mExtraWidget3;
-    private Preference mExtraWidget4;
-    private Preference mDeviceInfoWidgetPref;
+    private ListPreference mMainWidget1;
+    private ListPreference mMainWidget2;
+    private ListPreference mExtraWidget1;
+    private ListPreference mExtraWidget2;
+    private ListPreference mExtraWidget3;
+    private ListPreference mExtraWidget4;
+    private ListPreference mDeviceInfoWidgetPref;
 
-    private List<Preference> mWidgetPreferences;
+    private List<ListPreference> mWidgetPreferences;
 
     @Override
     public String getTitle() {
@@ -77,6 +82,10 @@ public class LockscreenWidgets extends ControlledPreferenceFragmentCompat {
         mWeatherClient = new OmniJawsClient(getContext());
         mWeatherClient.queryWeather();
 
+        new Thread(() -> {
+            mPackageAdapter = new PackageListAdapter(requireActivity());
+        }).start();
+
         mMainWidget1 = findPreference(MAIN_WIDGET_1_KEY);
         mMainWidget2 = findPreference(MAIN_WIDGET_2_KEY);
         mExtraWidget1 = findPreference(EXTRA_WIDGET_1_KEY);
@@ -93,6 +102,13 @@ public class LockscreenWidgets extends ControlledPreferenceFragmentCompat {
                 mExtraWidget3,
                 mExtraWidget4,
                 mDeviceInfoWidgetPref);
+
+        for (Preference widgetPref : mWidgetPreferences) {
+            if (widgetPref != null) {
+                widgetPref.setOnPreferenceChangeListener(this);
+            }
+        }
+
     }
 
     private List<String> replaceEmptyWithNone(List<String> inputList) {
@@ -109,12 +125,28 @@ public class LockscreenWidgets extends ControlledPreferenceFragmentCompat {
         }
     }
 
+    private void pickApp(String preferenceKey) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity());
+        builder.setAdapter(mPackageAdapter, (dialog, which) -> {
+            PackageListAdapter.PackageItem info = mPackageAdapter.getItem(which);
+            mPreferences.putString(preferenceKey, "customapp:" + info.packageName);
+            savePrefs();
+        });
+        builder.setCancelable(false);
+        builder.setTitle(R.string.qs_widget_custom_app);
+        builder.show();
+    }
+
     @Override
     public void updateScreen(String key) {
         super.updateScreen(key);
 
         if (key == null) return;
 
+        savePrefs();
+    }
+
+    private void savePrefs() {
         saveInitialPreferences();
 
         List<String> mainWidgetsList = Arrays.asList(
@@ -150,7 +182,14 @@ public class LockscreenWidgets extends ControlledPreferenceFragmentCompat {
             WeatherScheduler.scheduleUpdates(getContext());
             WeatherScheduler.scheduleUpdateNow(getContext());
         }
-
     }
 
+    @Override
+    public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+        if (newValue.equals("customapp")) {
+            pickApp(preference.getKey());
+            return true;
+        }
+        return false;
+    }
 }

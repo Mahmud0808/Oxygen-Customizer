@@ -667,6 +667,7 @@
         <item>@string/camera</item>
         <item>@string/wallet</item>
         <item>@string/hotspot</item>
+        <item>@string/qs_widget_custom_app</item>
     </string-array>
 
     <string-array name="widget_values" translatable="false">
@@ -684,6 +685,7 @@
         <item>camera</item>
         <item>wallet</item>
         <item>hotspot</item>
+        <item>customapp</item>
     </string-array>
 
 </resources>
