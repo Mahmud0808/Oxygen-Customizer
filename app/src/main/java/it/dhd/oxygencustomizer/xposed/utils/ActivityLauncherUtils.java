@@ -13,6 +13,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import it.dhd.oxygencustomizer.BuildConfig;
 import it.dhd.oxygencustomizer.R;
+import it.dhd.oxygencustomizer.utils.AppUtils;
 
 public class ActivityLauncherUtils {
 
@@ -53,6 +55,19 @@ public class ActivityLauncherUtils {
         }
     }
 
+    public void launchAppIfAvailable(Intent launchIntent, String appName, boolean fromQs) {
+        final List<ResolveInfo> apps = mPackageManager.queryIntentActivities(launchIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        if (mActivityStarter == null) {
+            log("ActivityStarter is null");
+            return;
+        }
+        if (!apps.isEmpty()) {
+            callMethod(mActivityStarter, fromQs ? "postStartActivityDismissingKeyguard" : "startActivity", launchIntent, fromQs ? 0 : false);
+        } else {
+            if (!TextUtils.isEmpty(appName)) showNoDefaultAppFoundToast(appName);
+        }
+    }
+
     /**
      * Launches an app using the ActivityStarter
      * dismissing the shade.
@@ -65,6 +80,26 @@ public class ActivityLauncherUtils {
             return;
         }
         callMethod(mActivityStarter, "postStartActivityDismissingKeyguard", launchIntent, 0 /* dismissShade */);
+    }
+
+    /**
+     * Launches an app using the ActivityStarter
+     * dismissing the shade.
+     * Used for launching apps from Quick Settings.
+     * @param packageName The package name of the app
+     */
+    public void launchApp(String packageName, boolean fromQs) {
+        if (mActivityStarter == null) {
+            log("ActivityStarter is null");
+            return;
+        }
+        final Intent launchIntent = mPackageManager.getLaunchIntentForPackage(packageName);
+        if (launchIntent == null) {
+            log("Launch intent is null for package: " + packageName);
+            return;
+        }
+        launchIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP + Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        launchAppIfAvailable(launchIntent, AppUtils.getAppName(mContext, packageName), fromQs);
     }
 
     /**
@@ -190,5 +225,9 @@ public class ActivityLauncherUtils {
 
     private void showNoDefaultAppFoundToast(@StringRes int appTypeResId) {
         Toast.makeText(mContext, modRes.getString(appTypeResId) + " not found", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showNoDefaultAppFoundToast(String appName) {
+        Toast.makeText(mContext, appName + " not found", Toast.LENGTH_SHORT).show();
     }
 }

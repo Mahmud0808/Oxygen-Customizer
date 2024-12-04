@@ -954,7 +954,7 @@ public class QsControlsView extends LinearLayout implements OmniJawsClient.OmniJ
                             0.3f));
                 }
                 setUpWidgetResources(iv, efab,
-                        v -> launchApp(parts[1]), null, AppUtils.getAppName(mContext, parts[1]));
+                        v -> mActivityLauncherUtils.launchApp(parts[1], true), null, AppUtils.getAppName(mContext, parts[1]));
                 return;
             }
         }
@@ -1284,13 +1284,6 @@ public class QsControlsView extends LinearLayout implements OmniJawsClient.OmniJ
         updateHotspotButtonState(0);
         postDelayed(() -> updateHotspotButtonState(0), 350L);
         vibrate(1);
-    }
-
-    private void launchApp(String packageName) {
-        Intent launchIntent = mContext.getPackageManager().getLaunchIntentForPackage(packageName);
-        if (launchIntent == null) return;
-        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-        mActivityLauncherUtils.launchApp(launchIntent);
     }
 
     private boolean isWidgetEnabled(String widget) {
