@@ -493,6 +493,7 @@
     <!-- QS Header Clock Strings -->
     <string name="qs_header_clock">A QS-feljéckép órája</string>
     <string name="qs_header_clock_intro_title">Az egyéni óra engedélyezéséhez és letiltásához rendszerfelület-újraindítás szükséges.\nÉrintse meg a menüt az újraindításhoz.</string>
+    <string name="qs_header_clock_notice_oos15">A Gyorsbeállítások egyéni fejléc-órája csak a régi gyorsbeállítás-stíluson működik.</string>
     <string name="qs_header_clock_enabled">Egyéni fejléc-óra</string>
     <string name="qs_header_clock_enabled_summary">Adjon hozzá egyéni órát a QS panelhez</string>
     <string name="qs_header_clock_custom">Az óra stílusa</string>
@@ -699,6 +700,7 @@
     <string name="albumart_tint_intensity_title">Az egyéni szín erőssége</string>
     <!-- Depth Effect Alert -->
     <string name="depth_effect_alert_title">Figyelem</string>
+    <string name="depth_effect_alert_body">Használjon megfelelő záróképernyő-háttérképet, ahol az előtérben lévő elemek nem takarják el a lezárási képernyő teljes óráját, így biztosítva a lezárási képernyő vonzó kinézetét és funkcionális tisztaságát.\nAz engedélyezés után állítson be egy záróképernyő-háttérképet, az AI-modell automatikusan megpróbálja kibontani a Tárgyat a háttérképről.</string>
     <string name="depth_effect_ok_btn">OK</string>
     <!-- Lockscreen Clock Strings -->
     <string name="lockscreen_clock">A képernyőzár órája</string>
