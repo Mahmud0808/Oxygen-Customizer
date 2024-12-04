@@ -223,18 +223,6 @@ public class QuickSettingsWidgets extends BaseFragment {
             mWidgetAdapter.notifyDataSetChanged();
             savePrefs();
         });
-//        builder.setItems(filteredArray, (dialog, which) -> {
-//            if (mSelectableWidgets.get(which).startsWith("ca")) {
-//                // Custom App Widget
-//                pickApp(mSelectableWidgets.get(which));
-//                return;
-//            }
-//            checkWeather(mSelectableWidgets.get(which));
-//            mWidgetsList.add(mSelectableWidgets.get(which));
-//            mSelectableWidgets.remove(which);
-//            mWidgetAdapter.notifyDataSetChanged();
-//            savePrefs();
-//        });
         builder.show();
 
     }
