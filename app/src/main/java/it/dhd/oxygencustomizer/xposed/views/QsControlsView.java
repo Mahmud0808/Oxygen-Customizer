@@ -395,7 +395,6 @@ public class QsControlsView extends LinearLayout implements OmniJawsClient.OmniJ
             @Override
             public Object instantiateItem(@NonNull ViewGroup container, int position) {
                 View view = mPages.get(position);
-                Log.d("QsControlsView", "instantiateItem: " + position + " " + (view != null));
                 container.addView(view);
                 return view;
             }
