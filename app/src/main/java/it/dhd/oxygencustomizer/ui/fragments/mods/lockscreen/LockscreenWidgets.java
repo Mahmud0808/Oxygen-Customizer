@@ -12,6 +12,7 @@ import static it.dhd.oxygencustomizer.utils.Constants.Preferences.LockscreenWidg
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.preference.ListPreference;
@@ -32,7 +33,7 @@ import it.dhd.oxygencustomizer.utils.WeatherScheduler;
 import it.dhd.oxygencustomizer.weather.OmniJawsClient;
 import it.dhd.oxygencustomizer.weather.WeatherConfig;
 
-public class LockscreenWidgets extends ControlledPreferenceFragmentCompat implements Preference.OnPreferenceChangeListener{
+public class LockscreenWidgets extends ControlledPreferenceFragmentCompat{
 
     private OmniJawsClient mWeatherClient;
     private PackageListAdapter mPackageAdapter;
@@ -103,12 +104,6 @@ public class LockscreenWidgets extends ControlledPreferenceFragmentCompat implem
                 mExtraWidget4,
                 mDeviceInfoWidgetPref);
 
-        for (Preference widgetPref : mWidgetPreferences) {
-            if (widgetPref != null) {
-                widgetPref.setOnPreferenceChangeListener(this);
-            }
-        }
-
     }
 
     private List<String> replaceEmptyWithNone(List<String> inputList) {
@@ -142,6 +137,15 @@ public class LockscreenWidgets extends ControlledPreferenceFragmentCompat implem
         super.updateScreen(key);
 
         if (key == null) return;
+
+        for (Preference widgetPref : mWidgetPreferences) {
+            if (widgetPref != null && key.equals(widgetPref.getKey())) {
+                String value = mPreferences.getString(key, "none");
+                if (value.equals("customapp")) {
+                    pickApp(key);
+                }
+            }
+        }
 
         savePrefs();
     }
@@ -182,14 +186,5 @@ public class LockscreenWidgets extends ControlledPreferenceFragmentCompat implem
             WeatherScheduler.scheduleUpdates(getContext());
             WeatherScheduler.scheduleUpdateNow(getContext());
         }
-    }
-
-    @Override
-    public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
-        if (newValue.equals("customapp")) {
-            pickApp(preference.getKey());
-            return true;
-        }
-        return false;
     }
 }

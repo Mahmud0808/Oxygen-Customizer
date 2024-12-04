@@ -166,6 +166,7 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceGroup;
 
@@ -174,6 +175,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import it.dhd.oneplusui.preference.OplusListPreference;
 import it.dhd.oneplusui.preference.OplusSliderPreference;
 import it.dhd.oneplusui.preference.OplusSwitchPreference;
 import it.dhd.oxygencustomizer.BuildConfig;
@@ -1176,6 +1178,8 @@ public class PreferenceHelper {
                 if (prefValue.contains("customapp:")) {
                     preference.setSummaryProvider(preference1 -> preference1.getContext().getString(R.string.qs_widget_custom_app) + "\n" +
                             AppUtils.getAppName(preference1.getContext(), prefValue.replace("customapp:", "")));
+                } else {
+                    preference.setSummaryProvider(ListPreference.SimpleSummaryProvider.getInstance());
                 }
             }
 
