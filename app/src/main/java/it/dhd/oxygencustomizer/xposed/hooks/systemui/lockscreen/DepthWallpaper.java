@@ -431,8 +431,7 @@ public class DepthWallpaper extends XposedMods {
                         state.contains("KEYGUARD") // OOS 13
                 )
                 && canShow;
-        log("Setting Depth Wallpaper ScrimState: " + state + " showSubject: " + showSubject + " lockScreenSubjectCacheValid: " + lockScreenSubjectCacheValid);
-
+        
         if (showSubject) {
            log("Show Subject lockScreenSubjectCacheValid " + lockScreenSubjectCacheValid + " cacheFile exists " + new File(getLockScreenSubjectCachePath()).exists());
             if (!lockScreenSubjectCacheValid && new File(getLockScreenSubjectCachePath()).exists()) {
