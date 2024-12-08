@@ -487,6 +487,7 @@
     <!-- QS Header Clock Strings -->
     <string name="qs_header_clock">快速设置顶部时钟</string>
     <string name="qs_header_clock_intro_title">启用和禁用自定义时钟需要重启系统界面。\n点击菜单重启。</string>
+    <string name="qs_header_clock_notice_oos15">自定义顶部时钟仅在旧版快速设置样式下可用</string>
     <string name="qs_header_clock_enabled">自定义顶部时钟</string>
     <string name="qs_header_clock_enabled_summary">在控制中心上添加自定义时钟</string>
     <string name="qs_header_clock_custom">时钟样式</string>
@@ -660,6 +661,9 @@
     <string name="depth_wallpaper_title">深度效果壁纸</string>
     <string name="depth_wallpaper_summary">动态整合壁纸前景和时钟</string>
     <string name="depth_wallpaper_mode_title">深景壁纸模式</string>
+    <string name="depth_wallpaper_ai_status">AI模型状态</string>
+    <string name="depth_wallpaper_plugin_installed">AI模型已经安装</string>
+    <string name="depth_wallpaper_plugin_not_installed">AI模型未安装。\n请点击这里安装它！</string>
     <string name="depth_wallpaper_mode_ai">AI</string>
     <string name="depth_wallpaper_mode_custom_images">自定义图像</string>
     <string name="depth_wallpaper_opacity_title">壁纸前景透明度</string>
@@ -921,6 +925,8 @@
     <string name="export_failed">导出失败</string>
     <string name="import_success">导入成功</string>
     <string name="import_failed">导入失败</string>
+    <string name="more_logging_summary">记录更详细的日志\n
+这将有助于进行问题上报</string>
     <string name="settings_about_section_title">关于</string>
     <string name="github_repo_title">GitHub储存库</string>
     <string name="support_group_title">支持团队</string>
@@ -1156,6 +1162,21 @@
     <string name="primary_color">主要颜色</string>
     <string name="apply_color">应用颜色</string>
     <!-- Pocket Studio -->
+    <string name="pocket_studio_title">启用Pocket Studio</string>
+    <string name="pocket_studio_summary">在你的设备上启用Pocket Studio\n需要重启你的设备</string>
+    <string name="pocket_studio_info">Pocket Studio将允许你同时打开2个以上的应用。修改此选项仅会尝试强制启用这项功能，并不保证其在你的设备上可用</string>
     <!-- OTA Card -->
+    <string name="ota_card_category">OTA卡片</string>
+    <string name="ota_card_title">自定义OTA卡片背景</string>
     <!-- MEMC Strings -->
+    <string name="memc_feature_on">MEMC功能开启</string>
+    <string name="pwx7_enabled">PWX7可用性</string>
+    <string name="memc_enabled">MEMC可用性</string>
+    <string name="sdr2hdr_enabled">色彩增强可用性</string>
+    <string name="video_osie_support">Osie超清增强支持</string>
+    <string name="memc_mode">MEMC模式</string>
+    <string name="force_memc_enabled">强制启用MEMC</string>
+    <string name="custom_memc_config_title">自定义MEMC配置</string>
+    <string name="custom_memc_configuration_summary">为每个应用或活动配置MEMC</string>
+    <string name="memc_footer">如果你的设备未配备视觉处理器或不支持MEMC，请不要修改这些设置</string>
 </resources>
