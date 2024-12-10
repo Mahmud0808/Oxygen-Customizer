@@ -182,9 +182,7 @@ public class DepthWallpaper extends XposedMods {
                     scrimName = (String) getObjectField(param.thisObject, "name");
                 }
 
-                log("ScrimViewExImp setViewAlpha " + scrimName + " " + param.args[0]);
-
-                if (mLayersCreated) {
+                if (mLayersCreated && DWallpaperEnabled) {
                     if (scrimName.toLowerCase().contains("notification")) {
                         log("ScrimViewExImp Notification Scrim Alpha: " + param.args[0]);
                         float notificationAlpha = (float) param.args[0];
@@ -324,9 +322,7 @@ public class DepthWallpaper extends XposedMods {
         hookAllMethods(ScrimControllerClass, "applyAndDispatchState", new XC_MethodHook() {
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                log("ScrimController applyAndDispatchState");
                 setDepthWallpaper();
-
             }
         });
 
