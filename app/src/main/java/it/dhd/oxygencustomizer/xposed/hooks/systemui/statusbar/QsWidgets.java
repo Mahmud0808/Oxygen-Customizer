@@ -248,7 +248,7 @@ public class QsWidgets extends XposedMods {
             mOplusQsMediaView.addView(qsControlsView, 0);
             qsControlsView.bringToFront();
             qsControlsView.requestLayout();
-            updateControlsBg();
+            updateControlsBg(qsControlsView);
             updateTileColors(false);
             updateTileShapes(false);
             updateWidgets();
@@ -273,8 +273,7 @@ public class QsWidgets extends XposedMods {
         }
     }
 
-    private void updateControlsBg() {
-        QsControlsView qsControlsView = QsControlsView.getInstance();
+    private void updateControlsBg(QsControlsView qsControlsView) {
         if (qsControlsView != null) {
             qsControlsView.updateDefaultMediaBg(mDefaultMediaBg);
         }
