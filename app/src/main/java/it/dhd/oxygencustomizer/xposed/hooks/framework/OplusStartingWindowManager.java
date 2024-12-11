@@ -6,6 +6,7 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 import static it.dhd.oxygencustomizer.utils.Constants.Packages.FRAMEWORK;
 import static it.dhd.oxygencustomizer.xposed.XPrefs.Xprefs;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import it.dhd.oxygencustomizer.utils.Constants;
 import it.dhd.oxygencustomizer.xposed.XPLauncher;
@@ -30,7 +32,6 @@ public class OplusStartingWindowManager extends XposedMods {
 
     private final static String listenPackage = FRAMEWORK;
 
-    private final static String TAG = "Oxygen Customizer - OplusStartingWindowManager: ";
     private final String LOG_FILE = Environment.getExternalStorageDirectory() + "/.oxygen_customizer/OplusStartingWindowManager_fix.log";
     private boolean mEnableLagFix = false;
     private boolean mForceAllApps = false;
@@ -44,14 +45,14 @@ public class OplusStartingWindowManager extends XposedMods {
                 if (action == null) return;
                 String className = intent.getStringExtra("class");
                 if (action.equals(Constants.ACTION_SETTINGS_CHANGED)) {
-                    if (!TextUtils.isEmpty(className) && className.equals(OplusStartingWindowManager.class.getSimpleName())) {
-                        log("OplusStartingWindowManager: Intent received - will update preferences");
+                    if (!TextUtils.isEmpty(className) && className.equals(this.getClass().getSimpleName())) {
+                        log("Intent received - will update preferences");
                         settingsUpdated = false;
                         updatePrefs();
                     }
                 }
             } catch (Throwable t) {
-                log("OplusStartingWindowManager: " + t.getMessage());
+                log(t);
             }
         }
     };
@@ -63,7 +64,6 @@ public class OplusStartingWindowManager extends XposedMods {
 
     @Override
     public void updatePrefs(String... Key) {
-        if (Xprefs == null) return;
 
         if (settingsUpdated) return;
 
@@ -71,11 +71,11 @@ public class OplusStartingWindowManager extends XposedMods {
         mForceAllApps = Xprefs.getBoolean("fix_lag_force_all_apps", false);
         mLagFixApps = Xprefs.getStringSet("lag_fix_apps", null);
 
-        XPLauncher.enqueueProxyCommand((proxy) -> {
-            proxy.runCommand("echo " + getFormattedDate() + " - updatePrefs: Enabled Lag Fix: " + mEnableLagFix + " Force All Apps: " + mForceAllApps + " Lag Fix Apps: " + mLagFixApps + " >> " + LOG_FILE);
-        });
-
-        settingsUpdated = true;
+        log("Enabled Lag Fix: " + mEnableLagFix + " Force All Apps: " + mForceAllApps + " Lag Fix Apps: " + mLagFixApps);
+        try {
+            XPLauncher.enqueueProxyCommand((proxy) -> proxy.runCommand("echo " + getFormattedDate() + " - updatePrefs: Enabled Lag Fix: " + mEnableLagFix + " Force All Apps: " + mForceAllApps + " Lag Fix Apps: " + mLagFixApps + " >> " + LOG_FILE));
+        } catch (Throwable ignored) {
+        }
     }
 
     @Override
@@ -116,7 +116,7 @@ public class OplusStartingWindowManager extends XposedMods {
                             String layer = (String) param.args[0];
                             if (TextUtils.isEmpty(layer)) {
                                 XPLauncher.enqueueProxyCommand((proxy) ->
-                                        proxy.runCommand("echo " + getFormattedDate() + " - layer is empty, return false >> " + LOG_FILE));
+                                        proxy.runCommand("echo " + getFormattedDate() + " - layer is empty, return >> " + LOG_FILE));
                                 return;
                             }
                             if (mLagFixApps != null) {
@@ -136,14 +136,13 @@ public class OplusStartingWindowManager extends XposedMods {
                 }
             });
         } catch (Throwable t) {
-            log(" error: " + t.getMessage());
+            log(t);
         }
-
 
     }
 
     private String getFormattedDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss:SSS");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-HH:mm:ss:SSS");
         Date now = new Date();
         return sdf.format(now);
     }
