@@ -8,17 +8,21 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.jaredrummler.android.colorpicker.ColorPickerDialog;
 import com.jaredrummler.android.colorpicker.ColorPickerDialogListener;
 import com.topjohnwu.superuser.Shell;
@@ -36,6 +40,7 @@ import it.dhd.oxygencustomizer.ui.base.BaseActivity;
 import it.dhd.oxygencustomizer.ui.events.ColorDismissedEvent;
 import it.dhd.oxygencustomizer.ui.events.ColorSelectedEvent;
 import it.dhd.oxygencustomizer.ui.fragments.Hooks;
+import it.dhd.oxygencustomizer.ui.fragments.mods.Misc;
 import it.dhd.oxygencustomizer.ui.fragments.Mods;
 import it.dhd.oxygencustomizer.ui.fragments.Settings;
 import it.dhd.oxygencustomizer.ui.fragments.UpdateFragment;
@@ -133,7 +138,7 @@ public class MainActivity extends BaseActivity implements PreferenceFragmentComp
         prefsList.add(new SearchPreferenceItem(R.xml.aod_weather_prefs, R.string.aod_weather, new AodWeather()));
         prefsList.add(new SearchPreferenceItem(R.xml.sound_mods, R.string.sound, new Mods.Sound()));
         prefsList.add(new SearchPreferenceItem(R.xml.package_manager_prefs, R.string.package_manager, new Mods.PackageManager()));
-        prefsList.add(new SearchPreferenceItem(R.xml.misc_prefs, R.string.misc, new Mods.Misc()));
+        prefsList.add(new SearchPreferenceItem(R.xml.misc_prefs, R.string.misc, new Misc()));
 
         PreferenceHelper.init(ExtendedSharedPreferences.from(getDefaultSharedPreferences(createDeviceProtectedStorageContext())));
 
@@ -153,9 +158,9 @@ public class MainActivity extends BaseActivity implements PreferenceFragmentComp
             Shell.cmd("mkdir -p " + Constants.XPOSED_RESOURCE_TEMP_DIR).exec();
         }
 
+//        showDonateDialog();
+
     }
-
-
 
     @SuppressLint("NonConstantResourceId")
     private void setupBottomNavigationView() {
