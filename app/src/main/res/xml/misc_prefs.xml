@@ -74,6 +74,7 @@
         <it.dhd.oneplusui.preference.OplusJumpPreference
             android:key="dark_mode_prefs"
             android:title="@string/dark_mode_pref"
+            android:fragment="it.dhd.oxygencustomizer.ui.fragments.mods.misc.DarkMode"
             app:iconSpaceReserved="false" />
 
     </it.dhd.oneplusui.preference.OplusPreferenceCategory>
@@ -101,6 +102,7 @@
             android:key="fix_lag_app_chooser"
             android:summary="@string/fix_lag_apps_summary"
             android:title="@string/fix_lag_apps_title"
+            android:fragment="it.dhd.oxygencustomizer.ui.fragments.mods.misc.LagFixAppChooser"
             app:iconSpaceReserved="false" />
 
     </it.dhd.oneplusui.preference.OplusPreferenceCategory>

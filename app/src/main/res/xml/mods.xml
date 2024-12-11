@@ -92,7 +92,7 @@
             android:icon="@drawable/ic_mods_misc"
             android:key="misc"
             android:title="@string/misc"
-            app:fragment="it.dhd.oxygencustomizer.ui.fragments.Mods$Misc"
+            app:fragment="it.dhd.oxygencustomizer.ui.fragments.mods.Misc"
             search:ignore="true" />
 
     </it.dhd.oneplusui.preference.OplusPreferenceCategory>
