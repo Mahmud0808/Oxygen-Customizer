@@ -93,7 +93,7 @@ public class XPLauncher implements ServiceConnection {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     try {
-                        if (mContext == null) { //telecom service launches as a secondary process in framework, but has its own package name. context is not null when it loads
+                        if (mContext == null || lpparam.packageName.equals(Constants.Packages.TELECOM_SERVER_PACKAGE)) { //telecom service launches as a secondary process in framework, but has its own package name. context is not null when it loads
                             if (Build.VERSION.SDK_INT >= 35 && lpparam.packageName.equals(Constants.Packages.TELECOM_SERVER_PACKAGE)) return;
                             if (param.args[2] == null) return;
                             if (!(param.args[2] instanceof Context)) return;
