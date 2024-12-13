@@ -189,7 +189,10 @@ public class Lockscreen extends ControlledPreferenceFragmentCompat {
                 mDateFormatDialog.show(
                         getString(R.string.lockscreen_carrier_replacement),
                         mPreferences.getString(LOCKSCREEN_CARRIER_REPLACEMENT, ""),
-                        (text) -> mPreferences.edit().putString(LOCKSCREEN_CARRIER_REPLACEMENT, text.toString()).apply());
+                        (text) -> {
+                            mPreferences.edit().putString(LOCKSCREEN_CARRIER_REPLACEMENT, text.toString()).apply();
+                            setJumps();
+                        });
                 return true;
             });
         }
@@ -230,6 +233,7 @@ public class Lockscreen extends ControlledPreferenceFragmentCompat {
         OplusJumpPreference mLockscreenClock = findPreference("lockscreen_clock_main");
         OplusJumpPreference mLockscreenWeather = findPreference("lockscreen_weather");
         OplusJumpPreference mLockscreenWidgets = findPreference("lockscreen_widgets");
+        OplusJumpPreference mLsCarrierText = findPreference("ls_carrier_replacement");
 
         if (mLockscreenClock != null) {
             mLockscreenClock.setJumpText(mPreferences.getBoolean(LOCKSCREEN_CLOCK_SWITCH, false) ?
@@ -243,6 +247,11 @@ public class Lockscreen extends ControlledPreferenceFragmentCompat {
 
         if (mLockscreenWidgets != null) {
             mLockscreenWidgets.setJumpText(mPreferences.getBoolean(LOCKSCREEN_WIDGETS_ENABLED, false) ? getString(R.string.general_on) : getString(R.string.general_off));
+        }
+
+        if (mLsCarrierText != null) {
+            mLsCarrierText.setJumpText(mPreferences.getString(LOCKSCREEN_CARRIER_REPLACEMENT, "").isEmpty() ?
+                    getString(R.string.general_off) : getString(R.string.general_on));
         }
     }
 
